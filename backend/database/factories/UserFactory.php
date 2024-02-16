@@ -22,13 +22,29 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
+    {   
+        $roleList = config('constants.USER_STATUS');
+        $role = array_rand($roleList);
+        $randomNumber = random_int(0, 99);
+        $createdAt = fake()->dateTimeBetween('-3 year', 'now');
+        $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
+        if ($randomNumber <= 29 && $role = 'user') {
+            $deletedAt = fake()->dateTimeBetween($createdAt, 'now'); // 70% tỉ lệ, gán giá trị null
+        } else {
+            $deletedAt = null;
+        }
+        
         return [
-            'name' => fake()->name(),
+            'name' => fake('vi_VN')->middleName() . ' ' .fake('vi_VN')->firstName(),
             'email' => fake()->unique()->safeEmail(),
+            'avatar' => fake()->imageUrl(360, 360, 'animals', true),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('12345678'),
+            'role' => $role,
             'remember_token' => Str::random(10),
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
+            'deleted_at' => $deletedAt
         ];
     }
 
