@@ -19,7 +19,7 @@ function AuthService() {
                 localStorage.setItem("userName", response.data.user.name);
 
                 const role = response.data.user.role;
-                role && navigate(`/${role === "admin" ? "admin" : "dashboad"}`);
+                role && navigate(`/${role === "admin" ? "admin" : "dashboard"}`);
             }
         } catch (error) {
             if (error.response) {
