@@ -5,7 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontFamily: {
+    extend: {
       poppins: ["Poppins", "sans-serif"],
     },
   },
