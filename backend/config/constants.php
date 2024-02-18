@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ROLE' => [
         "admin",
@@ -15,5 +16,40 @@ return [
         'CPA'
     ],
 
+    'HUMAN_OBJECT' => [
+        'man',
+        'woman'
+    ],
+
+    'WEEKDAYS' => [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+    ],
+
+    'ADS_TYPES' => [
+        'Banner',
+        'Image',
+        'Text',
+        'Video',
+        'Native',
+        'Interactive'
+    ],
+
+    'PLATFORM' => [
+        'Google Ads',
+        'Facebook',
+        'Instagram',
+        'Twitter',
+        'LinkedIn',
+        'YouTube',
+        'Pinterest'
+    ],
+
     'DEFAULT_PHOTO_PATH' => env('DEFAULT_PHOTO_PATH', 'users/default.jpg'),
+
 ];

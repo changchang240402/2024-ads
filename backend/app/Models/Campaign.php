@@ -26,7 +26,7 @@ class Campaign extends Model
     ];
 
     protected $casts = [
-        'start_date'=> 'datetime',
+        'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
 

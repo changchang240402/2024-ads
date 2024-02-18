@@ -22,20 +22,25 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {   
-        $roleList = config('constants.USER_STATUS');
-        $role = array_rand($roleList);
+    {
+        $roleList = config('constants.ROLE');
         $randomNumber = random_int(0, 99);
         $createdAt = fake()->dateTimeBetween('-3 year', 'now');
         $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
-        if ($randomNumber <= 29 && $role = 'user') {
-            $deletedAt = fake()->dateTimeBetween($createdAt, 'now'); // 70% tỉ lệ, gán giá trị null
+
+        if ($randomNumber < 90) {
+            $role = $roleList[1]; // Vai trò 'user'
+        } else {
+            $role = $roleList[0]; // Vai trò 'admin'
+        }
+
+        if ($randomNumber < 30) {
+            $deletedAt = fake()->dateTimeBetween($createdAt, 'now');
         } else {
             $deletedAt = null;
         }
-        
         return [
-            'name' => fake('vi_VN')->middleName() . ' ' .fake('vi_VN')->firstName(),
+            'name' => fake('vi_VN')->middleName() . ' ' . fake('vi_VN')->firstName(),
             'email' => fake()->unique()->safeEmail(),
             'avatar' => fake()->imageUrl(360, 360, 'animals', true),
             'email_verified_at' => now(),
