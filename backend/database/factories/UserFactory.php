@@ -29,9 +29,9 @@ class UserFactory extends Factory
         $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
 
         if ($randomNumber < 90) {
-            $role = $roleList[1]; // Vai trò 'user'
+            $role = $roleList[1]; // 'user'
         } else {
-            $role = $roleList[0]; // Vai trò 'admin'
+            $role = $roleList[0]; // 'admin'
         }
 
         if ($randomNumber < 30) {
