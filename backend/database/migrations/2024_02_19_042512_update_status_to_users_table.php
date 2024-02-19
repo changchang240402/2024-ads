@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('advertisements', function (Blueprint $table) {
-            if (!Schema::hasColumn('advertisements', 'user_id')) {
-                $table->unsignedBigInteger('user_id');
-                $table->foreign('user_id')->references('id')->on('users');
+            if (Schema::hasColumn('advertisements', 'status')){
+                $table->tinyInteger('status')->default('0')->change();
             }
         });
     }
@@ -25,9 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('advertisements', function (Blueprint $table) {
-            if (Schema::hasColumn('advertisements', 'user_id')) {
-                $table->dropForeign(['user_id']);
-                $table->dropColumn('user_id');
+            if (Schema::hasColumn('advertisements', 'status')){
+                $table->string('status', 15)->default('active')->change();
             }
         });
     }
