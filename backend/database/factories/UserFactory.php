@@ -24,6 +24,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $roleList = config('constants.ROLE');
+        $statusList =  config('constants.STATUS_USER');
         $randomNumber = random_int(0, 99);
         $createdAt = fake()->dateTimeBetween('-3 year', 'now');
         $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
@@ -36,8 +37,10 @@ class UserFactory extends Factory
 
         if ($randomNumber < 30) {
             $deletedAt = fake()->dateTimeBetween($createdAt, 'now');
+            $status = $statusList['deleted'];
         } else {
             $deletedAt = null;
+            $status = random_int(0, 1);
         }
         return [
             'name' => fake('vi_VN')->middleName() . ' ' . fake('vi_VN')->firstName(),

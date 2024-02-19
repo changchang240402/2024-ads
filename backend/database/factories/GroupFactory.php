@@ -29,7 +29,7 @@ class GroupFactory extends Factory
             'bidding_strategy' => $biddings[$bidding],
             'target_keywords' => fake()->unique()->lexify('????') . ', ' . fake()->unique()->lexify('????'),
             'ad_schedule' => $schedule,
-            'status' => $status
+            'status' => $statusList[$status]
         ];
     }
 }

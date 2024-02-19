@@ -34,7 +34,7 @@ class AdvertisementFactory extends Factory
             'ad_content' => fake('en_US')->text(100),
             'destination_url' => fake()->unique()->url(),
             'kpi' => fake()->randomFloat(2, 0, 99.99),
-            'status' => $status
+            'status' => $statusList[$status]
         ];
     }
 }

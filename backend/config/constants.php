@@ -7,8 +7,14 @@ return [
     ],
 
     'STATUS' => [
-        "active" => "Active",
-        "paused" => "Paused",
+        "active" => 0,
+        "paused" => 1,
+    ],
+
+    'STATUS_USER' => [
+        "in use" => 0,
+        "archived" => 1,
+        "deleted"=> 2
     ],
 
     'BIDDING_STRATEGY' => [
