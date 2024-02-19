@@ -13,7 +13,7 @@ class UpdateCampaignRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,6 +36,13 @@ class UpdateCampaignRequest extends FormRequest
             'ad_message' => 'required|string|max:255',
             'target_audience' => 'required|string|max:255',
             'distribution_strategy' => 'required|string|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'end_date.gte' => 'End date must be some time after start date.',
         ];
     }
 }

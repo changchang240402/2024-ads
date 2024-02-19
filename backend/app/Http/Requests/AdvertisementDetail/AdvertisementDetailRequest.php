@@ -11,7 +11,7 @@ class AdvertisementDetailRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,8 +29,16 @@ class AdvertisementDetailRequest extends FormRequest
             'ctr' => 'required|numeric|between:0.00,99.99',
             'cpc'=> 'required|numeric|between:0.00,99999999.99',
             'cpa'=> 'required|numeric|between:0.00,99999999.99',,
-            'conversions' => 'required|integer|lte:click',
+            'conversions' => 'required|integer|lte:clicks',
             'conversion_rate' => 'required|numeric|between:0.00,99.99'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'clicks.lte' => 'The number of clicks cannot be greater than impressions .',
+            'conversions.lte' => 'The number of conversions cannot be greater than clicks .',
         ];
     }
 }
