@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'LIMIT_SIZE_IMAGE' => 1024,
+    
     'ROLE' => [
         "admin",
         "user"

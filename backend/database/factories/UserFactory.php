@@ -50,6 +50,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('12345678'),
             'role' => $role,
             'remember_token' => Str::random(10),
+            'status' => $status,
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,
             'deleted_at' => $deletedAt
