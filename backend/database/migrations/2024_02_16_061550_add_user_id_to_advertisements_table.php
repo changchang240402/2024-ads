@@ -26,6 +26,7 @@ return new class extends Migration
     {
         Schema::table('advertisements', function (Blueprint $table) {
             if (Schema::hasColumn('advertisements', 'user_id')) {
+                $table->dropForeign(['user_id']);
                 $table->dropColumn('user_id');
             }
         });

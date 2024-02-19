@@ -26,9 +26,10 @@ class CampaignFactory extends Factory
             $ageEnd = random_int($ageStart, 60);
         } while ($ageStart === $ageEnd);
         $target = $humans[$human] . ' aged ' . $ageStart . '-' . $ageEnd . ' ' . fake('en_US')->text(50) . ' activities.';
+        $userId = User::where('role', config('constants.ROLE')[1])->inRandomOrder()->get()->random()->id;
         return [
             'campaign_name' => fake('en_US')->text(25),
-            'user_id' => User::where('role', config('constants.ROLE')[1])->inRandomOrder()->get()->random()->id,
+            'user_id' => $userId,
             'campaign_goal' => fake('en_US')->text(100),
             'budget' => fake()->numberBetween(10, 99999) * 1000,
             'start_date' => $startDate,

@@ -32,12 +32,12 @@ return [
     ],
 
     'ADS_TYPES' => [
-        'Banner',
-        'Image',
-        'Text',
-        'Video',
-        'Native',
-        'Interactive'
+        "banner",
+        "image",
+        "text",
+        "video",
+        "native",
+        "interactive"
     ],
 
     'PLATFORM' => [
