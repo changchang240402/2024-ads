@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('campaign_goal');
             $table->decimal('budget', 10, 2);
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->string('ad_message');
             $table->string('target_audience');
             $table->string('distribution_strategy');

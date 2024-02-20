@@ -1,7 +1,6 @@
 <?php
-namespace App\Interfaces;
 
-use App\Http\Requests\LoginRequest;
+namespace App\Interfaces;
 
 interface AuthInterface
 {
@@ -9,4 +8,5 @@ interface AuthInterface
     public function createAccesstoken($validated);
     public function createRefreshToken($user);
     public function login($token, $refreshToken);
+    public function logout();
 }
