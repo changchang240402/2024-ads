@@ -16,10 +16,10 @@ class CampaignService
     }
 
     /**
-     * @param int $userId id of user login
-     * @return LengthAwarePaginator
+     * @param int $userId
+     * @return mixed
     */
-    public function getCampaignsByUserId(int $userId): LengthAwarePaginator
+    public function getCampaignsByUserId(int $userId)
     {
         $campaigns = $this->campaignRepository->getCampaignsByUserId($userId);
 

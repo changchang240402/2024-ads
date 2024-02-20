@@ -8,11 +8,6 @@ use App\Repositories\CampaignRepository;
 
 class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 {
-    protected CampaignRepository $campaignRepository;
-
-    public function __construct(CampaignRepository $campaignRepository) {
-        $this->campaignRepository = $campaignRepository;
-    }
 
     public function getModel()
     {

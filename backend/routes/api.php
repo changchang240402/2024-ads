@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CampaignController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,18 +18,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post("login", [AuthController::class, "login"])->name('login');
+   
 });
 
 Route::group([
     'middleware' => 'auth.admin',
     'prefix' => 'admin'
 ], function () {
-    // route admin
+   // route admin
 });
 
 Route::group([
-    'middleware' => 'auth.user',
-    'prefix' => 'user'
+    'middleware' => ['auth', 'auth.user'],
+    'prefix' => 'campaigns'
 ], function () {
-    // route user
+    Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
+    // Route::get("end", [CampaignController::class, "getCampaign"]);
 });

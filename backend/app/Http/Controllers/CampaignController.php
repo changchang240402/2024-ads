@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CampaignService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CampaignController extends Controller
 {
@@ -19,20 +20,23 @@ class CampaignController extends Controller
         $this->campaignService = $campaignService;
     }
 
-        /**
-     * Display a listing of the resource.
-     *
-     * @param string $key
-     *
-     * @return mixed
+    /**
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function index()
+    public function getCampaignsByUserId()
     {
-        $userId = (int) auth()->id();
+        $userId = auth()->id();
+
         try {
+
             $campaign = $this->campaignService->getCampaignsByUserId($userId);
+
         } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 401);
         }
 
         return response()->json(
@@ -40,4 +44,5 @@ class CampaignController extends Controller
             200
         );
     }
+
 }

@@ -16,20 +16,20 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     }
 
      /**
-     * @param int $userId id of user login
-     * @return LengthAwarePaginator
+     * @param int $userId 
+     * @return mixed
     */
-    public function getCampaignsByUserId($userId): LengthAwarePaginator
-    {
+    public function getCampaignsByUserId($userId)
+    {   
         return $this->model->with('groups.advertisements') 
-                           ->withCount("groups")
+                           ->withCount(['groups as total_group'])
                            ->where('user_id', $userId) 
-                           ->orderBy('created_at', 'desc')
+                           ->orderByDesc('created_at')
+                           ->get()
                            ->map(function ($campaign) {
                                $totalAds = $campaign->groups->flatMap(function ($group) {
                                    return $group->advertisements;
                                })->count();
-        
                                return [
                                    'campaign_id' => $campaign->id,
                                    'campaign_name' => $campaign->campaign_name,
@@ -39,8 +39,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                                    'total_group'=> $campaign->total_group,
                                    'total_ads' => $totalAds,
                                ];
-                           })
-                           ->paginate(config('constants.PAGINATE_PER_PAGE'));
+                           });
     }
 
 }
