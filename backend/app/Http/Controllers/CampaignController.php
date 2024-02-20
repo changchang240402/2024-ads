@@ -13,7 +13,7 @@ class CampaignController extends Controller
      * @var CampaignService
      */
     protected $campaignService;
-    
+
     public function __construct(
         CampaignService $campaignService,
     ) {
@@ -25,24 +25,16 @@ class CampaignController extends Controller
      */
     public function getCampaignsByUserId()
     {
-        $userId = auth()->id();
-
+        $userId = 3;
+        $page = request()->get('page', 1);
         try {
-
-            $campaign = $this->campaignService->getCampaignsByUserId($userId);
-
+            $campaign = $this->campaignService->getCampaignsByUserId($userId, $page);
         } catch (Exception $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 401);
         }
-
-        return response()->json(
-            $campaign,
-            200
-        );
+        return response()->json($campaign, 200);
     }
-
 }

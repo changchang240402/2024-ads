@@ -9,21 +9,20 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
 {
-
     public function getModel()
     {
         return Campaign::class;
     }
 
-     /**
-     * @param int $userId 
+    /**
+     * @param int $userId
      * @return mixed
     */
     public function getCampaignsByUserId($userId)
-    {   
-        return $this->model->with('groups.advertisements') 
+    {
+        return $this->model->with('groups.advertisements')
                            ->withCount(['groups as total_group'])
-                           ->where('user_id', $userId) 
+                           ->where('user_id', $userId)
                            ->orderByDesc('created_at')
                            ->get()
                            ->map(function ($campaign) {
@@ -34,12 +33,11 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                                    'campaign_id' => $campaign->id,
                                    'campaign_name' => $campaign->campaign_name,
                                    'start_date' => $campaign->start_date,
-                                   'end_date'=> $campaign->end_date,
+                                   'end_date' => $campaign->end_date,
                                    'budget' => $campaign->budget,
-                                   'total_group'=> $campaign->total_group,
+                                   'total_group' => $campaign->total_group,
                                    'total_ads' => $totalAds,
                                ];
                            });
     }
-
 }

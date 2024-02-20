@@ -11,5 +11,4 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
     {
         return Advertisement::class;
     }
-
 }

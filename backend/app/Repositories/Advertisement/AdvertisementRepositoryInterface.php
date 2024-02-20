@@ -7,5 +7,5 @@ use App\Models\Advertisement;
 
 interface AdvertisementRepositoryInterface extends RepositoryInterface
 {
-
+    //
 }

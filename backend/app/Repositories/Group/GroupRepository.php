@@ -8,7 +8,6 @@ use App\Repositories\CampaignRepository;
 
 class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 {
-
     public function getModel()
     {
         return Group::class;

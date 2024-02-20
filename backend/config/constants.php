@@ -4,8 +4,6 @@ return [
 
     'LIMIT_SIZE_IMAGE' => 1024,
 
-    'PAGINATE_PER_PAGE' => 15,
-    
     'ROLE' => [
         "admin",
         "user"
@@ -19,7 +17,7 @@ return [
     'STATUS_USER' => [
         "in use" => 0,
         "archived" => 1,
-        "deleted"=> 2
+        "deleted" => 2
     ],
 
     'BIDDING_STRATEGY' => [
