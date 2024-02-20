@@ -3,6 +3,8 @@
 return [
 
     'LIMIT_SIZE_IMAGE' => 1024,
+
+    'PAGINATE_PER_PAGE' => 15,
     
     'ROLE' => [
         "admin",

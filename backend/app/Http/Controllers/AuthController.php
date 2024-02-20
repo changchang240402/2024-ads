@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\User\LoginRequest;
 use App\Repositories\Auth\AuthRepository;
 use Illuminate\Http\Request;
 

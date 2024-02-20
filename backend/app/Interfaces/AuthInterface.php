@@ -1,8 +1,6 @@
 <?php
 namespace App\Interfaces;
 
-use App\Http\Requests\LoginRequest;
-
 interface AuthInterface
 {
     public function findUserByEmail($email);
