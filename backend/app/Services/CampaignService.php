@@ -108,21 +108,21 @@ class CampaignService
     /**
      * @param int $userId
      * @param int $page
-     * @param array $array
+     * @param array $filter
      * @return mixed
     */
-    public function filterCampaign(int $userId, int $page, array $array){
+    public function filterCampaign(int $userId, int $page, array $filter){
         $name = null;
         $datetime = null;
         $sort = null;
-        if (isset($array['name'])) {
-            $name = $array['name'];
+        if (isset($filter['name'])) {
+            $name = $filter['name'];
         }
-        if (isset($array['datetime'])) {
-            $datetime = $array['datetime'];
+        if (isset($filter['datetime'])) {
+            $datetime = $filter['datetime'];
         }
-        if (isset($array['sort'])) {
-            $sort = $array['sort'];
+        if (isset($filter['sort'])) {
+            $sort = $filter['sort'];
         }
         return $this->getCampaignsByUserId($userId,$page,$name,$datetime,$sort);
 
