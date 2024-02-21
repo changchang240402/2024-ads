@@ -39,7 +39,7 @@ class CampaignController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ], 401);
+            ], 500);
         }
         
         return response()->json($campaign, 200);
