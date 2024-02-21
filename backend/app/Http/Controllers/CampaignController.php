@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Campaign\FilterCampaignRequest;
 use App\Services\CampaignService;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,20 +22,17 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FilterCampaignRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getCampaignsByUserId(Request $request)
+    public function getCampaignsByUserId(FilterCampaignRequest $request)
     {
         $userId = auth()->id();
         $page = request()->get('page', 1);
-        $data = [
-            'name' => $request->name,
-            'datetime' => $request->datetime,
-            'sort' => $request->sort,
-        ];
+        $validated = $request->validated();
+
         try {
-            $campaign = $this->campaignService->filterCampaign($userId, $page, $data);
+            $campaign = $this->campaignService->filterCampaign($userId, $page, $validated);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

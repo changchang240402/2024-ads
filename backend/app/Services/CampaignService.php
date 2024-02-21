@@ -100,6 +100,8 @@ class CampaignService
             return $campaigns->sortBy('budget');
         } elseif ($sort === 'desc') {
             return $campaigns->sortByDesc('budget');
+        } else {
+            return $campaigns;
         }
     }
 

@@ -20,6 +20,7 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         $user = $this->authRepository->findUserByEmail($validated['email']);
+
         if (!$user) {
             return response()->json([
                 'success' => false,
