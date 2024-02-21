@@ -11,7 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(
+            \App\Repositories\Campaign\CampaignRepositoryInterface::class,
+            \App\Repositories\Campaign\CampaignRepository::class
+        );
     }
 
     /**

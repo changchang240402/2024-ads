@@ -16,14 +16,13 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $role =User::where('id',auth()->id())
+        $role = User::where('id', auth()->id())
                     ->where('status', '=', config('constants.STATUS_USER')['in use'])
                     ->value('role');
-
-        if ($role = config('constants.ROLE')[1]){
+        if ($role === config('constants.ROLE')[1]) {
             return $next($request);
         };
-        
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 }

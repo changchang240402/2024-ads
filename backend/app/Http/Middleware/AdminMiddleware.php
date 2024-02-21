@@ -16,12 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $role = User::where('id',auth()->id())->value('role');
+        $role = User::where('id', auth()->id())->value('role');
 
-        if ($role = config('constants.ROLE')[0]){
+        if ($role === config('constants.ROLE')[0]) {
             return $next($request);
         };
-        
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 }
