@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import logo from "../../assets/ggads.png";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../assets/ggads.png";
 
 function SideBar({ MenuItems }) {
     const [isShow, setIsShow] = useState(true);
@@ -21,7 +21,7 @@ function SideBar({ MenuItems }) {
                 <div className="flex justify-center h-20 px-2 py-2 mb-3 items-center cursor-pointer bg-[#fff]">
                     {isShow && (
                         <div className="logo h-10 mr-2 flex font-bold justify-center w-full items-center text-[#387DE4] text-xl font-roboto">
-                            <img className="h-8 w-8" src={logo} alt="" />
+                            <img className="h-8 w-8" loading="lazy" src={logo} alt="" />
                             <h1 className="transition duration-700 ease-in-out mt-4">
                                 ds System
                             </h1>

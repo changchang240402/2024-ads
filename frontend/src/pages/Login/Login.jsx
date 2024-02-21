@@ -1,9 +1,9 @@
-import logo from "../../assets/ggads.png";
-import background from "../../assets/background-image.png";
-import AuthService from "../../services/AuthService";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import background from "../../assets/background-image.png";
+import logo from "../../assets/ggads.png";
+import AuthService from "../../services/AuthService";
 
 const schema = yup.object({
     email: yup.string().email().required().max(50),
@@ -31,7 +31,7 @@ const Login = () => {
                 <div className="container rounded-3xl m-10 shadow-xl bg-white w-1/2 ">
                     <div className="m-10">
                         <div className="flex justify-start my-5 items-start">
-                            <img className="w-6 h-6" src={logo} alt="logo" />
+                            <img className="w-6 h-6" loading="lazy" src={logo} alt="logo" />
                             <span className="text-[#387DE4] text-xl font-bold">
                                 ds System
                             </span>
@@ -89,7 +89,7 @@ const Login = () => {
                 </div>
             </div>
             <div className="h-screen flex items-center bg-[#A5E1F3]">
-                <img className="w-[700px] z-20" src={background} alt="" />
+                <img className="w-[700px] z-20" loading="lazy" src={background} alt="" />
             </div>
         </div>
     );
