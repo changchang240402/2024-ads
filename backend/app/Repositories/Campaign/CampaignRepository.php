@@ -4,8 +4,6 @@ namespace App\Repositories\Campaign;
 
 use App\Models\Campaign;
 use App\Repositories\BaseRepository;
-use App\Repositories\Group\GroupRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
 {
@@ -38,5 +36,24 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                                    'total_ads' => $totalAds,
                                ];
                            });
+    }
+
+    /**
+     * Total campaigns by user
+     * @param int $userId
+     * @param int $currentYear
+     * @param int $currentMonth
+     * @return mixed
+    */
+    public function totalCampaignByUserId($userId, $currentYear, $currentMonth)
+    {
+        $campagns = $this->model->where('user_id', $userId);
+        $total = $campagns->count();
+        $total_now =  $campagns->whereYear('created_at', $currentYear)
+                               ->whereMonth('created_at', $currentMonth)->count();
+        return [
+            'total_campaign' => $total,
+            'total_campaign_now' => $total_now,
+        ];
     }
 }
