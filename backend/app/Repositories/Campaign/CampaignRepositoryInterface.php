@@ -18,7 +18,9 @@ interface CampaignRepositoryInterface extends RepositoryInterface
     /**
      * Total campaigns by user
      * @param int $userId
+     * @param int $currentYear
+     * @param int $currentMonth
      * @return mixed
     */
-    public function totalCampaignByUserId($userId);
+    public function totalCampaignByUserId($userId, $currentYear, $currentMonth);
 }
