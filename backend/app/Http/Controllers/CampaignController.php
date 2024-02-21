@@ -21,20 +21,27 @@ class CampaignController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getCampaignsByUserId()
+    public function getCampaignsByUserId(Request $request)
     {
-        $userId = 3;
+        $userId = auth()->id();
         $page = request()->get('page', 1);
+        $data = [
+            'name' => $request->name,
+            'datetime' => $request->datetime,
+            'sort' => $request->sort,
+        ];
         try {
-            $campaign = $this->campaignService->getCampaignsByUserId($userId, $page);
+            $campaign = $this->campaignService->filterCampaign($userId, $page, $data);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 401);
         }
+        
         return response()->json($campaign, 200);
     }
 }

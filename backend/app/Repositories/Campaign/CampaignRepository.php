@@ -23,7 +23,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return $this->model->with('groups.advertisements')
                            ->withCount(['groups as total_group'])
                            ->where('user_id', $userId)
-                           ->orderByDesc('created_at')
                            ->get()
                            ->map(function ($campaign) {
                                $totalAds = $campaign->groups->flatMap(function ($group) {
