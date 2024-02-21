@@ -12,4 +12,11 @@ interface GroupRepositoryInterface extends RepositoryInterface
      * @return mixed
     */
     public function getGroupsByUserId($userId);
+
+    /**
+     * Total groups by user
+     * @param int $userId
+     * @return mixed
+    */
+    public function totalGroupByUserId($userId);
 }

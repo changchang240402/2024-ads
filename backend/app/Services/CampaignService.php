@@ -127,4 +127,7 @@ class CampaignService
         return $this->getCampaignsByUserId($userId,$page,$name,$datetime,$sort);
 
     }
+    public function totalCampaignByUserId(int $userId){
+        return $this->campaignRepository->totalCampaignByUserId($userId);
+    }
 }

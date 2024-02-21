@@ -5,6 +5,7 @@ namespace App\Repositories\Campaign;
 use App\Models\Campaign;
 use App\Repositories\BaseRepository;
 use App\Repositories\Group\GroupRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
@@ -38,5 +39,23 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                                    'total_ads' => $totalAds,
                                ];
                            });
+    }
+    /**
+     * Total campaigns by user
+     * @param int $userId
+     * @return mixed
+    */
+    public function totalCampaignByUserId($userId){
+        $campagns = $this->model->where('user_id', $userId);
+        $total = $campagns->count();
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+        $currentYear = $now->year;
+        $currentMonth = $now->month;
+        $total_now =  $campagns->whereYear('created_at', $currentYear)
+                               ->whereMonth('created_at', $currentMonth)->count();
+        return [
+            'total_campaign' => $total,
+            'total_campaign_now' => $total_now,
+        ];
     }
 }
