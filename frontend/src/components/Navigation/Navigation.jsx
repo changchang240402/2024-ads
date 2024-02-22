@@ -16,7 +16,7 @@ const Navigation = () => {
     return (
         <div className="flex w-full h-screen">
             <Sidebar MenuItems={MenuItems} />
-            <div className="flex bg-[#F9FAFB] flex-col flex-1 w-full">
+            <div className="flex bg-[#F9FAFB] flex-col flex-1">
                 <Navbar />
                 <Suspense fallback={<FontAwesomeIcon icon={faSpinner} />}>
                     <Routes>

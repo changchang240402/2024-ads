@@ -22,7 +22,7 @@ function SideBar({ MenuItems }) {
                     {isShow && (
                         <div className="logo h-10 mr-2 flex font-bold justify-center w-full items-center text-[#387DE4] text-xl font-roboto">
                             <img className="h-8 w-8" loading="lazy" src={logo} alt="" />
-                            <h1 className="transition duration-700 ease-in-out mt-4">
+                            <h1 className="transition duration-700 ease-in-out mt-4 text-2xl">
                                 ds System
                             </h1>
                         </div>
@@ -63,7 +63,7 @@ function SideBar({ MenuItems }) {
                                                 icon={item.icon}
                                                 size={`${isShow ? "lg" : "lg"}`}
                                             />
-                                            {isShow && <span className="pl-4">{item.title}</span>}
+                                            {isShow && <span className="pl-4 text-base">{item.title}</span>}
                                         </div>
                                         {isShow && (
                                             <div className="">
