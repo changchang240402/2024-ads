@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\TextUI\Configuration\GroupCollection;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,20 @@ Route::group([
 
 Route::group([
     'middleware' => ['auth', 'auth.user'],
-    'prefix' => 'campaigns'
 ], function () {
-    Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
-    // Route::get("end", [CampaignController::class, "getCampaign"]);
+    Route::group([
+        'prefix' => 'campaigns'
+    ], function () {
+        Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
+    });
+    Route::group([
+        'prefix' => 'groups'
+    ], function () {
+        // Route::get("", [GroupCollection::class, "getGroupsByUserId"]);
+    });
+    Route::group([
+        'prefix' => 'statistics'
+    ], function () {
+        Route::get("", [UserController::class, "getStatisticByUserId"]);
+    });
 });
