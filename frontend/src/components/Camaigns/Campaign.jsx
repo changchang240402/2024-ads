@@ -6,66 +6,63 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const Campaign = () => {
-    const handleShowSidebar = () => {
+    const handleShowSreach = () => {
     //    
     };
     const [startDate, setStartDate] = useState(new Date());
     return (
-        <div className='flex flex-col'>
-            <div className="flex flex-row">
-                <div className="flex flex-col">
-                    <p className='text-lg font-bold'>All Campaigns</p>
-                    <p style={{ color: '#16C098' }}className='text-black opacity-70 font-medium text-sm'>Your Campaigns</p>
-                </div>
-                <div className="flex flex-row">
-                    <div className="px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none focus:outline-none focus:border-[#9ECEC3] bg-white" >
-                        <input
-                            className="focus:border-[#9ECEC3] bg-white"
-                            type="text"
-                            placeholder="Search here..."
-                            id="name_campaign"
-                            name="name_campaign"
-                        />
-                        <FontAwesomeIcon
-                            icon={faMagnifyingGlass}
-                            style={{ color: '#387DE4' }}
-                            size="xl"
-                            // onClick={handleShowSreach}
-                        />
+        <div className='flex justify-center'>
+            <div className='flex flex-col rounded-3xl border-2 border-gray-300 shadow-lg w-full'>
+                <div className="flex flex-row justify-between p-4">
+                    <div className="w-1/5 flex flex-col">
+                        <p className='text-lg font-bold'>All Campaigns</p>
+                        <p style={{ color: '#16C098' }} className='text-black opacity-70 font-medium text-sm'>Your Campaigns</p>
                     </div>
-                    <div className="flex-row px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none focus:outline-none focus:border-[#9ECEC3] bg-white">
-                        <p>Date time: </p>
-                        <DatePicker
-                            showIcon
-                            toggleCalendarOnIconClick
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            
+                    <div className="w-4/5 flex flex-row justify-between">
+                        <div className="px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none focus:outline-none border-red bg-white h-auto">
+                            <input
+                                type="text"
+                                placeholder="Search here..."
+                                id="name_campaign"
+                                name="name_campaign"
+                                icon={faMagnifyingGlass}
                             />
-                    </div>
-                    <div className="px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none">
-                        <p>Date time: </p>
-                        <select class="selectpicker" data-width="10%" aria-label="None" id="milestoneSelect" name="milestone">
-                            <option value="asc">Ascending</option>
+                            <FontAwesomeIcon
+                                icon={faMagnifyingGlass}
+                                style={{ color: '#387DE4' }}
+                                size="xl"
+                                onClick={handleShowSreach}
+                            />
+                        </div>
+                        <div className="flex items-center flex-row px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none focus:outline-none focus:border-[#9ECEC3] bg-white h-25">
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                showIcon
+                                toggleCalendarOnIconClick
+                                className="ml-3"
+                            />
+                        </div>
+                        <div className="flex items-center flex-row px-4 py-3 shadow-sm rounded-3xl border-2 focus:outline-none h-auto ml-3">
+                            <p className="justify-center p-6" >Budget: </p>
+                            <select className="selectpicker" data-width="2px" aria-label="None" id="milestoneSelect" name="milestone">
+                                <option value="asc">Ascending</option>
                                 <option value="desc">Decrease</option>
-                        </select>
-                    </div>
-                    <div className="mt-16 text-center">
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            style={{ color: '#387DE4' }}
-                            size="xl"
-                            // onClick={handleShowSreach}
-                        />
-                        <button className="bg-[#387DE4] rounded-3xl px-6 py-3 font-bold text-white">
+                            </select>
+                        </div>
+                        <button className="flex items-center flex-row bg-[#9ECEC3] rounded-3xl px-6 py-3 font-bold text-white">
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                style={{ color: '#ffffff' }}
+                                size="xl"
+                                onClick={handleShowSreach}
+                            />
                             Create
                         </button>
                     </div>
                 </div>
             </div>
-            
         </div>
-        
     )
 }
 
