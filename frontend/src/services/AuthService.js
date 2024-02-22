@@ -15,7 +15,7 @@ function AuthService() {
                 Toastify.success("Login Successful");
 
                 localStorage.setItem("accessToken", response.data.access_token);
-                localStorage.setItem("refresponsehToken", response.data.refresh_token);
+                localStorage.setItem("refreshToken", response.data.refresh_token);
                 localStorage.setItem("userName", response.data.user.name);
 
                 const role = response.data.user.role;
