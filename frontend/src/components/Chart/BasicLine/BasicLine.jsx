@@ -3,7 +3,6 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import basicLineConfig from './BasicLineConfig';
 
 const BasicLine = ({ data, xLabels }) => {
-    console.log(data);
     return (
         <LineChart
             width={basicLineConfig.width}
