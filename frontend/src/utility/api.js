@@ -11,7 +11,7 @@ import { AppBaseUrl as baseURL } from "../const/config";
         ...config,
         headers: {
             ...config.headers,
-            Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
         },
     }));
 
