@@ -28,8 +28,25 @@ function AuthService() {
         }
     };
 
+    const logout = async () => {
+        try {
+            const response = await api.post("/auth/logout");
+            if (response.status === 200) {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("userName");
+                navigate("/");
+            }
+        } catch (error) {
+            if (error.response) {
+                Toastify.error(error.response.data.message);
+            }
+        }
+    }
+
     return {
         login,
+        logout,
     };
 }
 

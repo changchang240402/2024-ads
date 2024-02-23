@@ -4,6 +4,8 @@ namespace App\Repositories\Auth;
 
 use App\Interfaces\AuthInterface;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthRepository implements AuthInterface
@@ -46,5 +48,16 @@ class AuthRepository implements AuthInterface
             'expires_in' => auth()->factory()->getTTL(),
             'user' => auth()->user()
         ];
-    }    
+    }
+
+    public function logout()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            throw new Exception('User is not logged in', 401);
+        }
+
+        Auth::logout();
+    }
 }

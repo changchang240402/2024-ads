@@ -23,10 +23,19 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group([
+    'prefix' => 'auth',
+    'middleware' => [
+        'auth',
+    ],
+], function () {
+    Route::post("logout", [AuthController::class, "logout"])->name('logout');
+});
+
+Route::group([
     'middleware' => ['auth', 'auth.user'],
     'prefix' => 'admin'
 ], function () {
-   // route admin
+    // route admin
 });
 
 Route::group([
