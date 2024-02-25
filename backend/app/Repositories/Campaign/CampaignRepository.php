@@ -29,7 +29,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                                    return $group->advertisements;
                                })->count();
                                return [
-                                   'campaign_id' => $campaign->id,
+                                   'id' => $campaign->id,
                                    'campaign_name' => $campaign->campaign_name,
                                    'start_date' => $campaign->start_date,
                                    'end_date' => $campaign->end_date,

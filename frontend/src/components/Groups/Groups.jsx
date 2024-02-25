@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Groups = () => {
+const Group = () => {
     return (
-        <div>Groups</div>
+        <div>Group</div>
     )
 }
 
-export default Groups
+export default Group

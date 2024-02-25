@@ -22,12 +22,12 @@ class CampaignService
      * @param int $userId
      * @param int $page
      * @param string $name
-     * @param DateTime $datetime
+     * @param string $datetime
      * @param string $sort
      * @return mixed
     */
     public function getCampaignsByUserId(
-        int $userId, 
+        int $userId,
         int $page,
         string $name = null,
         string $datetime = null,
@@ -49,8 +49,9 @@ class CampaignService
             throw new Exception('Campaign not found');
         }
         $perPage = self::PAGINATE_PER_PAGE;
+        $campaignsPerPage = $campaigns->forPage($page, $perPage);
         $paginatedCampaigns = new LengthAwarePaginator(
-            $campaigns->forPage($page, $perPage),
+            $campaignsPerPage->values()->all(),
             $campaigns->count(),
             $perPage,
             $page,
@@ -68,7 +69,9 @@ class CampaignService
 
     private function filterByName($campaigns, $name){
          return $name ? $campaigns->filter(function ($campaign) use ($name){
-                return Str::contains($campaign['campaign_name'], $name);
+                $campaignName = strtolower($campaign['campaign_name']);
+                $searchKeyword = strtolower($name);
+                return Str::contains($campaignName, $searchKeyword);
          }) : $campaigns;
     }
 
@@ -78,7 +81,7 @@ class CampaignService
      * @return mixed
      */
 
-     private function filterByDatetime($campaigns, $datetime){
+    private function filterByDatetime($campaigns, $datetime){
         $datetime = new DateTime($datetime);
         $time = $datetime->format('Y-m-d H:i:s');
         return $time ? $campaigns->filter(function ($campaign) use ($time){
