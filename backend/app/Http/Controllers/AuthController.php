@@ -44,4 +44,20 @@ class AuthController extends Controller
             200
         );
     }
+
+    public function logout(Request $request)
+    {
+        try {
+            $this->authRepository->logout();
+            return response()->json([
+                'success' => true,
+                'message' => 'User logged out successfully'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage()
+            ], 401);
+        }
+    }
 }

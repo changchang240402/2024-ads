@@ -46,6 +46,6 @@ class Advertisement extends Model
 
     public function notifications(): HasMany
     {
-        return $this->hasMany(Notificaition::class, 'ad_id', 'id');
+        return $this->hasMany(Notification::class, 'ad_id', 'id');
     }
 }

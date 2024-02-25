@@ -1,10 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import avatar from '../../assets/avatar.png';
+import AuthService from '../../services/AuthService';
 
 const Navbar = () => {
+
+    const { logout } = AuthService();
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -17,6 +21,11 @@ const Navbar = () => {
             setIsDropdownOpen(false);
         }
     };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        logout();
+    }
 
     useEffect(() => {
         window.addEventListener('click', handleClickOutside);
@@ -45,7 +54,9 @@ const Navbar = () => {
                         <div className="absolute top-full right-4 mt-3 w-48 bg-white rounded-md rounded-t-none shadow-lg">
                             <div className="py-1">
                                 <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" to={"profile"}>Profile</Link>
-                                <form className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</form>
+                                <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={handleSubmit}>
+                                    <button type="button">Logout</button>
+                                </div>
                             </div>
                         </div>
                     )}

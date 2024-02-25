@@ -43,6 +43,7 @@ const Campaign = () => {
     };
     const handlePageClick = (selectedPage) => {
         setCurrentPage(selectedPage.selected);
+        setIsSearchClicked(true);
     };
 
     const handleSearchChange = (event) => {
@@ -51,15 +52,18 @@ const Campaign = () => {
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
+        setCurrentPage(0);
         setIsSearchClicked(true);
     };
 
     const handleBudgetSortChange = (event) => {
         setBudgetSort(event.target.value);
+        setCurrentPage(0);
         setIsSearchClicked(true);
     };
 
     const handleSearch = () => {
+        setCurrentPage(0);
         setIsSearchClicked(true);
     };
 
@@ -229,8 +233,9 @@ const Campaign = () => {
                         </button>
                     </div>
                 </div>
+                
                 <div>
-                    <Box sx={{ height: 620, width: '100%' }}>
+                    <Box sx={{ height: 670, width: '100%' }}>
                     <DataGrid
                         rows={dataCampaigns}
                         columns={columns}
@@ -239,8 +244,9 @@ const Campaign = () => {
                         />
                     </Box>
                 </div>
-                <p className='text-lg my-1 text-[#387DE4]'>Total: {totalCampaign} row</p>
-                <div className='flex items-center justify-center'>
+                <div className='flex flex-row'>
+                <p className='w-4/5 text-lg my-1 text-[#387DE4]'>Total: {totalCampaign} row</p>
+                <div className='w-1/5 flex items-center justify-end'>
                     <ReactPaginate
                         breakLabel="..."  
                         nextLabel=" >> "  
@@ -251,15 +257,13 @@ const Campaign = () => {
                         renderOnZeroPageCount={null} 
                         containerClassName="pagination"
                         pageClassName="page-item"
-                        pageLinkClassName="page-link"
                         activeClassName="active"
                         previousClassName="page-item"
                         nextClassName="page-item"
                         breakClassName="page-item"
-                        breakLinkClassName="page-link"
-                        previousLinkClassName="page-link"
                         className='flex items-center flex-row h-[50px]'  
                     />
+                </div>
                 </div>
             </div>
         </div>
