@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Campaign\FilterCampaignRequest;
+use App\Models\Campaign;
 use App\Services\CampaignService;
 use Exception;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class CampaignController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-        
+
         return response()->json($campaign, 200);
     }
 }

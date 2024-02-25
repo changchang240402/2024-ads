@@ -31,18 +31,18 @@ class CampaignService
         int $page,
         string $name = null,
         string $datetime = null,
-        string $sort = null)
-    {
+        string $sort = null
+    ) {
         $campaigns = $this->campaignRepository->getCampaignsByUserId($userId);
-        if ($campaigns->count() > 0){
+        if ($campaigns->count() > 0) {
             if ($name) {
-                $campaigns = $this->filterByName($campaigns,$name);
+                $campaigns = $this->filterByName($campaigns, $name);
             }
             if ($datetime) {
-                $campaigns = $this->filterByDatetime($campaigns,$datetime);
+                $campaigns = $this->filterByDatetime($campaigns, $datetime);
             }
             if ($sort) {
-                $campaigns = $this->filterBySort($campaigns,$sort);
+                $campaigns = $this->filterBySort($campaigns, $sort);
             }
         }
         if ($campaigns->isEmpty()) {
@@ -67,8 +67,9 @@ class CampaignService
      * @return mixed
      */
 
-    private function filterByName($campaigns, $name){
-         return $name ? $campaigns->filter(function ($campaign) use ($name){
+    private function filterByName($campaigns, $name)
+    {
+         return $name ? $campaigns->filter(function ($campaign) use ($name) {
                 $campaignName = strtolower($campaign['campaign_name']);
                 $searchKeyword = strtolower($name);
                 return Str::contains($campaignName, $searchKeyword);
@@ -81,11 +82,12 @@ class CampaignService
      * @return mixed
      */
 
-    private function filterByDatetime($campaigns, $datetime){
+    private function filterByDatetime($campaigns, $datetime)
+    {
         $datetime = new DateTime($datetime);
         $time = $datetime->format('Y-m-d H:i:s');
-        return $time ? $campaigns->filter(function ($campaign) use ($time){
-            if($campaign['start_date'] <= $time && $campaign['end_date'] >= $time){
+        return $time ? $campaigns->filter(function ($campaign) use ($time) {
+            if ($campaign['start_date'] <= $time && $campaign['end_date'] >= $time) {
                 return true;
             }
             return false;
@@ -98,7 +100,8 @@ class CampaignService
      * @return mixed
      */
 
-     private function filterBySort($campaigns, $sort){
+    private function filterBySort($campaigns, $sort)
+    {
         if ($sort === 'asc') {
             return $campaigns->sortBy('budget');
         } elseif ($sort === 'desc') {
@@ -114,7 +117,8 @@ class CampaignService
      * @param array $filter
      * @return mixed
     */
-    public function filterCampaign(int $userId, int $page, array $filter){
+    public function filterCampaign(int $userId, int $page, array $filter)
+    {
         $name = null;
         $datetime = null;
         $sort = null;
@@ -127,7 +131,6 @@ class CampaignService
         if (isset($filter['sort'])) {
             $sort = $filter['sort'];
         }
-        return $this->getCampaignsByUserId($userId,$page,$name,$datetime,$sort);
-
+        return $this->getCampaignsByUserId($userId, $page, $name, $datetime, $sort);
     }
 }

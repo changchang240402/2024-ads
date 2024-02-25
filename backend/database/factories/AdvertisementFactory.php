@@ -21,10 +21,12 @@ class AdvertisementFactory extends Factory
     public function definition(): array
     {
         $group = Group::all()->random();
-        $campaignId = $group->value('campaign_id');
+        $campaignId = $group->campaign_id;
         $userId = Campaign::where('id', $campaignId)->value('user_id');
         $statusList = config('constants.STATUS');
         $status = array_rand($statusList);
+        $createdAt = fake()->dateTimeBetween('-1 year', 'now');
+        $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
 
         return [
             'ad_name' => fake('en_US')->text(25),
@@ -34,7 +36,9 @@ class AdvertisementFactory extends Factory
             'ad_content' => fake('en_US')->text(100),
             'destination_url' => fake()->unique()->url(),
             'kpi' => fake()->randomFloat(2, 0, 99.99),
-            'status' => $statusList[$status]
+            'status' => $statusList[$status],
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
         ];
     }
 }

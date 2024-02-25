@@ -22,6 +22,8 @@ class GroupFactory extends Factory
         $hourStart = random_int(1, 12);
         $statusList = config('constants.STATUS');
         $status = array_rand($statusList);
+        $createdAt = fake()->dateTimeBetween('-1 year', 'now');
+        $updatedAt = fake()->dateTimeBetween($createdAt, 'now');
         $schedule = 'Monday to Sunday , ' . $hourStart . ':00 AM - 12:00 PM';
         return [
             'adgroup_name' => fake('en_US')->text(50),
@@ -29,7 +31,9 @@ class GroupFactory extends Factory
             'bidding_strategy' => $biddings[$bidding],
             'target_keywords' => fake()->unique()->lexify('????') . ', ' . fake()->unique()->lexify('????'),
             'ad_schedule' => $schedule,
-            'status' => $statusList[$status]
+            'status' => $statusList[$status],
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
         ];
     }
 }

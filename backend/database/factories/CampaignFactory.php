@@ -37,6 +37,8 @@ class CampaignFactory extends Factory
             'ad_message' => fake('en_US')->text(100),
             'target_audience' => $target,
             'distribution_strategy' => fake('en_US')->text(100),
+            'created_at' => $startDate,
+            'updated_at' => $endDate
         ];
     }
 }
