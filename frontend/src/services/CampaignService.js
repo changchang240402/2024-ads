@@ -1,5 +1,6 @@
 import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
+import { formatdatetime } from '../utility/formatdate';
 
 function campaignService() {
     const handleUnauthorized = () => {
@@ -15,7 +16,7 @@ function campaignService() {
                 const queryParams = new URLSearchParams({
                     page: page + 1,
                     name: searchTerm,
-                    datetime: startDate ? formatDate(startDate) : '',
+                    datetime: startDate ? formatdatetime(startDate) : '',
                     sort: budgetSort
                 });
                 const response = await api.get(`/campaigns?${queryParams}`);
@@ -23,7 +24,7 @@ function campaignService() {
                     return {
                         data: response.data.data,
                         total_pages: response.data.last_page,
-                        total : response.data.total
+                        total: response.data.total
                     };
                 }
             } catch (error) {
@@ -35,19 +36,15 @@ function campaignService() {
                 } else {
                     Toastify.error("An unexpected error occurred.");
                 }
-                
+
                 return {
                     data: [],
                     total_pages: 0,
-                    total : 0
+                    total: 0
                 };
             }
         }
     };
-
-    const formatDate = (date) => {
-        return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-      };
 
     return {
         campaigns,

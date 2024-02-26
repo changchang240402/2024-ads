@@ -25,7 +25,7 @@ class CampaignService
      * @param string $datetime
      * @param string $sort
      * @return mixed
-    */
+     */
     public function getCampaignsByUserId(
         int $userId,
         int $page,
@@ -69,11 +69,11 @@ class CampaignService
 
     private function filterByName($campaigns, $name)
     {
-         return $name ? $campaigns->filter(function ($campaign) use ($name) {
-                $campaignName = strtolower($campaign['campaign_name']);
-                $searchKeyword = strtolower($name);
-                return Str::contains($campaignName, $searchKeyword);
-         }) : $campaigns;
+        return $name ? $campaigns->filter(function ($campaign) use ($name) {
+            $campaignName = strtolower($campaign['campaign_name']);
+            $searchKeyword = strtolower($name);
+            return Str::contains($campaignName, $searchKeyword);
+        }) : $campaigns;
     }
 
     /**
@@ -116,7 +116,7 @@ class CampaignService
      * @param int $page
      * @param array $filter
      * @return mixed
-    */
+     */
     public function filterCampaign(int $userId, int $page, array $filter)
     {
         $name = null;

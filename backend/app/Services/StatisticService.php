@@ -37,7 +37,7 @@ class StatisticService
     /**
      * @param int $userId
      * @return mixed
-    */
+     */
     public function getStatisticByUserId(int $userId)
     {
         $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -69,7 +69,7 @@ class StatisticService
             'group' => $total_group,
             'ads' => $total_ads,
             'ads_paused' => $total_ads_paused,
-            'statistic_ads'=> $statistic_ads,
+            'statistic_ads' => $statistic_ads,
             'platform_ads' => $platform_ads
         ];
     }
@@ -80,7 +80,7 @@ class StatisticService
      * @param int $month
      * @param int $year
      * @return mixed
-    */
+     */
     private function getStatisticsAdsByMonnth($userId, $currentYear, $currentMonth)
     {
         $months = [];
@@ -98,7 +98,7 @@ class StatisticService
         }
         $data = [];
         foreach ($months as $month) {
-            $data[] = $this->advertisementRepository->totalAdsMonth($userId,$month['month'],$month['year']);
+            $data[] = $this->advertisementRepository->totalAdsMonth($userId, $month['month'], $month['year']);
         }
         return $data;
     }

@@ -16,13 +16,13 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
      * get list group by user
      * @param int $userId
      * @return mixed
-    */
+     */
     public function getGroupsByUserId($userId)
     {
         return $this->model::with("campaign")
-                            ->with("advertisements")
-                            ->withCount("advertisements")
-                            ->where("campaign.user_id", $userId)->get();
+            ->with("advertisements")
+            ->withCount("advertisements")
+            ->where("campaign.user_id", $userId)->get();
     }
 
     /**
@@ -31,16 +31,16 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
      * @param int $currentYear
      * @param int $currentMonth
      * @return mixed
-    */
+     */
     public function totalGroupByUserId($userId, $currentYear, $currentMonth)
     {
         $group = $this->model->with("campaign")
-                             ->whereHas('campaign', function ($query) use ($userId) {
-                                    $query->where('user_id', $userId);
-                             });
+            ->whereHas('campaign', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            });
         $total = $group->count();
         $total_now = $group->whereYear('created_at', $currentYear)
-                           ->whereMonth('created_at', $currentMonth)->count();
+            ->whereMonth('created_at', $currentMonth)->count();
         return [
             'total_group' => $total,
             'total_group_now' => $total_now,
