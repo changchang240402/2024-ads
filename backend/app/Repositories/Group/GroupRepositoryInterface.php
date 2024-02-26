@@ -10,7 +10,7 @@ interface GroupRepositoryInterface extends RepositoryInterface
     /**
      * @param int $userId id of user login
      * @return mixed
-    */
+     */
     public function getGroupsByUserId($userId);
 
     /**
@@ -19,6 +19,6 @@ interface GroupRepositoryInterface extends RepositoryInterface
      * @param int $currentYear
      * @param int $currentMonth
      * @return mixed
-    */
+     */
     public function totalGroupByUserId($userId, $currentYear, $currentMonth);
 }

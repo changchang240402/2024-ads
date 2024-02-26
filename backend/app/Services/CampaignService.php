@@ -25,7 +25,7 @@ class CampaignService
      * @param string $datetime
      * @param string $sort
      * @return mixed
-    */
+     */
     public function getCampaignsByUserId(
         int $userId,
         int $page,
@@ -49,8 +49,9 @@ class CampaignService
             throw new Exception('Campaign not found');
         }
         $perPage = self::PAGINATE_PER_PAGE;
+        $campaignsPerPage = $campaigns->forPage($page, $perPage);
         $paginatedCampaigns = new LengthAwarePaginator(
-            $campaigns->forPage($page, $perPage),
+            $campaignsPerPage->values()->all(),
             $campaigns->count(),
             $perPage,
             $page,
@@ -68,9 +69,11 @@ class CampaignService
 
     private function filterByName($campaigns, $name)
     {
-         return $name ? $campaigns->filter(function ($campaign) use ($name) {
-                return Str::contains($campaign['campaign_name'], $name);
-         }) : $campaigns;
+        return $name ? $campaigns->filter(function ($campaign) use ($name) {
+            $campaignName = strtolower($campaign['campaign_name']);
+            $searchKeyword = strtolower($name);
+            return Str::contains($campaignName, $searchKeyword);
+        }) : $campaigns;
     }
 
     /**
@@ -113,7 +116,7 @@ class CampaignService
      * @param int $page
      * @param array $filter
      * @return mixed
-    */
+     */
     public function filterCampaign(int $userId, int $page, array $filter)
     {
         $name = null;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AppBaseUrl as baseURL } from "../const/config";
 
-    function buildApi() {
+function buildApi() {
     const instance = axios.create({
         baseURL,
         withCredentials: false,

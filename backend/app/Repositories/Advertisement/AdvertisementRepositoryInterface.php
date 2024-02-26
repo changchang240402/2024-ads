@@ -13,7 +13,7 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
      * @param int $currentYear
      * @param int $currentMonth
      * @return mixed
-    */
+     */
     public function totalAdvertisementByUserId($userId, $currentYear, $currentMonth);
 
     /**
@@ -22,6 +22,6 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
      * @param int $currentYear
      * @param int $currentMonth
      * @return mixed
-    */
+     */
     public function totalAdsMonth($userId, $currentYear, $currentMonth);
 }
