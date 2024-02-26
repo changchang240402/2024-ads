@@ -23,7 +23,7 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FilterCampaignRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function getCampaignsByUserId(FilterCampaignRequest $request)

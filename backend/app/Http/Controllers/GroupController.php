@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Group\FilterGroupRequest;
 use App\Services\GroupService;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,27 +21,24 @@ class GroupController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FilterGroupRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getGroupsByUserId()
+    public function getGroupsByUserId(FilterGroupRequest $request)
     {
         $userId = auth()->id();
-        // $page = request()->get('page', 1);
-        // $data = [
-        //     'name' => $request->name,
-        //     'datetime' => $request->datetime,
-        //     'sort' => $request->sort,
-        // ];
-        // try {
-        //     $group = $this->groupService->getGroupByUserId($userId);
-        // } catch (Exception $e) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => $e->getMessage()
-        //     ], 401);
-        // }
+        $page = request()->get('page', 1);
+        $validated = $request->validated();
 
-        return response()->json(2, 200);
+        try {
+            $group = $this->groupService->filterGroup($userId, $page, $validated);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+        return response()->json($group, 200);
     }
 }
