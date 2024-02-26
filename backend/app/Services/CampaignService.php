@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Repositories\Advertisement\AdvertisementRepository;
 use App\Repositories\Campaign\CampaignRepository;
+use App\Repositories\Group\GroupRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -13,9 +15,18 @@ class CampaignService
     private const PAGINATE_PER_PAGE = 15;
     protected CampaignRepository $campaignRepository;
 
-    public function __construct(CampaignRepository $campaignRepository)
-    {
+    protected GroupRepository $groupRepository;
+
+    protected AdvertisementRepository $advertisementRepository;
+
+    public function __construct(
+        CampaignRepository $campaignRepository,
+        GroupRepository $groupRepository,
+        AdvertisementRepository $advertisementRepository
+    ) {
         $this->campaignRepository = $campaignRepository;
+        $this->groupRepository = $groupRepository;
+        $this->advertisementRepository = $advertisementRepository;
     }
 
     /**
@@ -127,5 +138,25 @@ class CampaignService
             $sort = $filter['sort'];
         }
         return $this->getCampaignsByUserId($userId, $page, $name, $datetime, $sort);
+    }
+
+    /**
+     * get detail campaign by id
+     * @param int $userId
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getCampaignsById($userId, $campaign_id)
+    {
+        $campaign = $this->campaignRepository->getCampaignsById($userId, $campaign_id);
+        $groups = $this->groupRepository->getGroupByCampaignId($campaign_id);
+        $groupIds = $groups->toArray();
+        $countGroups = $groups->count();
+        $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+        return [
+            'campaign' => $campaign,
+            'total_group' => $countGroups,
+            'ads' => $ads
+        ];
     }
 }

@@ -21,4 +21,11 @@ interface GroupRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function totalGroupByUserId($userId, $currentYear, $currentMonth);
+
+    /**
+     * array group by campaign id
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getGroupByCampaignId($campaign_id);
 }

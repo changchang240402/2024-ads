@@ -79,4 +79,19 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
             'ads_active_month' => $ads_active_month,
         ];
     }
+
+    /**
+     * show list ads by campaign id
+     * @param int $userId
+     * @param array $groupIds
+     * @return mixed
+     */
+    public function getAdsByCampaignId($userId, $groupIds)
+    {
+        return $this->model->where('user_id', $userId)
+            ->whereIn('adgroup_id', $groupIds)
+            ->with('advertisementType')
+            ->with('advertisementDetails')
+            ->with('group')->get();
+    }
 }

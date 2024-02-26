@@ -56,4 +56,18 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             'total_campaign_now' => $total_now,
         ];
     }
+
+    /**
+     * get detail campaign by id
+     * @param int $userId
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getCampaignsById($userId, $campaign_id)
+    {
+        return $this->model->where('user_id', $userId)
+        ->where('id', '=', $campaign_id)
+        ->select('id', 'campaign_name', 'campaign_goal', 'budget', 'start_date', 'end_date', 'ad_message', 'target_audience', 'distribution_strategy')
+        ->get();
+    }
 }

@@ -23,7 +23,8 @@ class FilterGroupRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'bidding_strategy' => 'nullable|in:CPC,CPA',
+            'biddingStrategy' => 'nullable|in:CPC,CPA',
+            'status' => 'nullable|in:0,1',
             'sort' => 'nullable|in:asc,desc',
         ];
     }
