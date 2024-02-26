@@ -32,4 +32,8 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getAdsByCampaignId($userId, $groupIds);
+    
+    public function getAllAds($userId, $page, $per_page);
+
+    public function getTopAdsByUsers($userId, $limit);
 }

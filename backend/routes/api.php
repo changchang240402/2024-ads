@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\UserController;
@@ -30,7 +31,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth', 'auth.user'],
+    'middleware' => ['auth.user'],
 ], function () {
     Route::group([
         'prefix' => 'campaigns'
@@ -47,5 +48,12 @@ Route::group([
         'prefix' => 'statistics'
     ], function () {
         Route::get("", [UserController::class, "getStatisticByUserId"]);
+    });
+
+    Route::group([
+        'prefix' => 'ads'
+    ], function () {
+        Route::get("", [AdsController::class, "getAllAds"]);
+        Route::get("top", [AdsController::class, "getTopAdsByUsers"]);
     });
 });
