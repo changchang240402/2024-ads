@@ -23,7 +23,7 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FilterCampaignRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function getCampaignsByUserId(FilterCampaignRequest $request)
@@ -40,7 +40,22 @@ class CampaignController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-        
+
+        return response()->json($campaign, 200);
+    }
+
+    public function showCampaignsById($id)
+    {
+        $userId = auth()->id();
+        try {
+            $campaign = $this->campaignService->getCampaignsById($userId, $id);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
         return response()->json($campaign, 200);
     }
 }

@@ -8,13 +8,6 @@ use App\Repositories\CampaignRepository;
 
 class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 {
-    protected CampaignRepository $campaignRepository;
-
-    public function __construct(CampaignRepository $campaignRepository)
-    {
-        $this->campaignRepository = $campaignRepository;
-    }
-
     public function getModel()
     {
         return Group::class;
@@ -26,14 +19,14 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
      */
     public function getGroupsByUserId($userId)
     {
-        return $this->model::with("campaign")
-            ->with("advertisements")
-            ->withCount(['advertisements as total_advertisement'])
-            ->select('id', 'adgroup_name', 'campaign_id', 'campaign.campaign_name', 'bidding_strategy', 'target_keywords', 'ad_schedule', 'total_advertisement', 'status')
+        return $this->model->withCount(['advertisements as total_advertisement'])
             ->whereHas('campaign', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
-            ->paginate(self::PAGINATE_PER_PAGE);
+            ->with(['campaign' => function ($query) {
+                $query->select('id', 'campaign_name');
+            }])
+            ->get();
     }
 
     /**
@@ -56,5 +49,15 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'total_group' => $total,
             'total_group_now' => $total_now,
         ];
+    }
+
+    /**
+     * array group by campaign id
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getGroupByCampaignId($campaign_id)
+    {
+        return $this->model->where('campaign_id', '=', $campaign_id)->get('id');
     }
 }

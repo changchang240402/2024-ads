@@ -1,10 +1,12 @@
 <?php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,7 +26,7 @@ Route::group([
     'middleware' => ['auth', 'auth.user'],
     'prefix' => 'admin'
 ], function () {
-   // route admin
+    // route admin
 });
 
 Route::group([
@@ -34,15 +36,16 @@ Route::group([
         'prefix' => 'campaigns'
     ], function () {
         Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
+        Route::get("/{id}", [CampaignController::class, "showCampaignsById"]);
     });
     Route::group([
         'prefix' => 'groups'
     ], function () {
-        // Route::get("", [GroupCollection::class, "getGroupsByUserId"]);
+        Route::get("", [GroupController::class, "getGroupsByUserId"]);
     });
     Route::group([
         'prefix' => 'statistics'
     ], function () {
         Route::get("", [UserController::class, "getStatisticByUserId"]);
-    });  
+    });
 });
