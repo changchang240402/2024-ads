@@ -62,4 +62,5 @@ return [
 
     'DEFAULT_PHOTO_PATH' => env('DEFAULT_PHOTO_PATH', 'users/default.jpg'),
 
+    'ITEMS_PER_PAGE' => 10,
 ];
