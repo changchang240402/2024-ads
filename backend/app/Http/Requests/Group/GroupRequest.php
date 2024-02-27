@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Groups;
+namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,8 +26,9 @@ class GroupRequest extends FormRequest
             'adgroup_name' => 'required|string|max:255',
             'campaign_id' => 'required|exists:campaigns,id',
             'bidding_strategy' => [
-                'required', 
-                Rule::in(config('constants.BIDDING_STRATEGY'))],
+                'required',
+                Rule::in(config('constants.BIDDING_STRATEGY'))
+            ],
             'target_keywords' => 'required|string|max:100',
             'ad_schedule' => 'required|string|max:100',
             'status' => 'required|integer|in:0,1'

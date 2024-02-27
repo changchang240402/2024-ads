@@ -1,11 +1,10 @@
 <?php
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\TextUI\Configuration\GroupCollection;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,15 +19,6 @@ use PHPUnit\TextUI\Configuration\GroupCollection;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post("login", [AuthController::class, "login"])->name('login');
-});
-
-Route::group([
-    'prefix' => 'auth',
-    'middleware' => [
-        'auth',
-    ],
-], function () {
-    Route::post("logout", [AuthController::class, "logout"])->name('logout');
 });
 
 Route::group([
@@ -49,7 +39,7 @@ Route::group([
     Route::group([
         'prefix' => 'groups'
     ], function () {
-        // Route::get("", [GroupCollection::class, "getGroupsByUserId"]);
+        Route::get("", [GroupController::class, "getGroupsByUserId"]);
     });
     Route::group([
         'prefix' => 'statistics'

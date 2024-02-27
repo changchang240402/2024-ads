@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Campaign;
+namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterCampaignRequest extends FormRequest
+class FilterGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class FilterCampaignRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'datetime' => 'nullable|date',
+            'biddingStrategy' => 'nullable|in:CPC,CPA',
+            'status' => 'nullable|in:0,1',
             'sort' => 'nullable|in:asc,desc',
         ];
     }
 }
-

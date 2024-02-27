@@ -49,9 +49,8 @@ class CampaignService
             throw new Exception('Campaign not found');
         }
         $perPage = self::PAGINATE_PER_PAGE;
-        $campaignsPerPage = $campaigns->forPage($page, $perPage);
         $paginatedCampaigns = new LengthAwarePaginator(
-            $campaignsPerPage->values()->all(),
+            $campaigns->forPage($page, $perPage),
             $campaigns->count(),
             $perPage,
             $page,
@@ -70,9 +69,7 @@ class CampaignService
     private function filterByName($campaigns, $name)
     {
         return $name ? $campaigns->filter(function ($campaign) use ($name) {
-            $campaignName = strtolower($campaign['campaign_name']);
-            $searchKeyword = strtolower($name);
-            return Str::contains($campaignName, $searchKeyword);
+            return Str::contains($campaign['campaign_name'], $name);
         }) : $campaigns;
     }
 
@@ -106,8 +103,6 @@ class CampaignService
             return $campaigns->sortBy('budget');
         } elseif ($sort === 'desc') {
             return $campaigns->sortByDesc('budget');
-        } else {
-            return $campaigns;
         }
     }
 

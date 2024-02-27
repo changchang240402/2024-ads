@@ -40,7 +40,7 @@ class CampaignController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-
+        
         return response()->json($campaign, 200);
     }
 }
