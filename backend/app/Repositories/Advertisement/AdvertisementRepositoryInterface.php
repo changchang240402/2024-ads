@@ -24,4 +24,12 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function totalAdsMonth($userId, $currentYear, $currentMonth);
+
+    /**
+     * show list ads by campaign id
+     * @param int $userId
+     * @param array $groupIds
+     * @return mixed
+     */
+    public function getAdsByCampaignId($userId, $groupIds);
 }

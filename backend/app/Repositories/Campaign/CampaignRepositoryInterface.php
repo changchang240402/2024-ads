@@ -23,4 +23,12 @@ interface CampaignRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function totalCampaignByUserId($userId, $currentYear, $currentMonth);
+
+    /**
+     * get detail campaign by id
+     * @param int $userId
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getCampaignsById($userId, $campaign_id);
 }

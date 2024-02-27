@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,7 @@ Route::group([
         'prefix' => 'campaigns'
     ], function () {
         Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
+        Route::get("/{id}", [CampaignController::class, "showCampaignsById"]);
     });
     Route::group([
         'prefix' => 'groups'

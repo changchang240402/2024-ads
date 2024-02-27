@@ -54,8 +54,9 @@ class GroupService
             throw new Exception('Group not found');
         }
         $perPage = self::PAGINATE_PER_PAGE;
+        $groupsPerPage = $groups->forPage($page, $perPage);
         $paginatedGroups = new LengthAwarePaginator(
-            $groups->forPage($page, $perPage),
+            $groupsPerPage->values()->all(),
             $groups->count(),
             $perPage,
             $page,
@@ -109,7 +110,7 @@ class GroupService
     {
         return $status ? $groups = $groups->filter(function ($group) use ($status) {
             return $group['status'] === $status;
-        }) : 0;
+        }) : $groups;
     }
 
     /**

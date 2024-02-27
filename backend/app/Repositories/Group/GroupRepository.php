@@ -50,4 +50,14 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'total_group_now' => $total_now,
         ];
     }
+
+    /**
+     * array group by campaign id
+     * @param int $campaign_id
+     * @return mixed
+     */
+    public function getGroupByCampaignId($campaign_id)
+    {
+        return $this->model->where('campaign_id', '=', $campaign_id)->get('id');
+    }
 }
