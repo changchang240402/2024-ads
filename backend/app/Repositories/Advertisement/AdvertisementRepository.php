@@ -90,8 +90,25 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
     {
         return $this->model->where('user_id', $userId)
             ->whereIn('adgroup_id', $groupIds)
-            ->with('advertisementType')
-            ->with('advertisementDetails')
-            ->with('group')->get();
+            ->with([
+                'advertisementDetails' => function ($query) {
+                    $query->select('ad_id', 'platform_id')->distinct('platform_id');
+                }
+            ])
+            ->with([
+                'advertisementType' => function ($query) {
+                    $query->select('id', 'ad_type_name');
+                },
+                'group' => function ($query) {
+                    $query->select('id', 'adgroup_name');
+                }
+            ])
+            ->get()
+            ->map(function ($ad) {
+                $platformsCount = $ad->advertisementDetails->count();
+                $ad->platforms_count = $platformsCount;
+                unset($ad->advertisementDetails);
+                return $ad;
+            });
     }
 }

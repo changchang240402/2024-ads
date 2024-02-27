@@ -60,8 +60,9 @@ class CampaignService
             throw new Exception('Campaign not found');
         }
         $perPage = self::PAGINATE_PER_PAGE;
+        $campaignsPerPage = $campaigns->forPage($page, $perPage);
         $paginatedCampaigns = new LengthAwarePaginator(
-            $campaigns->forPage($page, $perPage),
+            $campaignsPerPage->values()->all(),
             $campaigns->count(),
             $perPage,
             $page,
@@ -149,14 +150,28 @@ class CampaignService
     public function getCampaignsById($userId, $campaign_id)
     {
         $campaign = $this->campaignRepository->getCampaignsById($userId, $campaign_id);
+        if ($campaign->isEmpty()) {
+            throw new Exception('Campaign not found');
+        }
         $groups = $this->groupRepository->getGroupByCampaignId($campaign_id);
-        $groupIds = $groups->toArray();
-        $countGroups = $groups->count();
-        $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+        $totalGroups = $groups->count();
+        if ($groups) {
+            $groupIds = $groups->toArray();
+            $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+            $totalAds = $ads->count();
+            return [
+                'campaign' => $campaign,
+                'total_group' => $totalGroups,
+                'total_ads' => $totalAds,
+                'ads' => $ads
+            ];
+        }
         return [
             'campaign' => $campaign,
-            'total_group' => $countGroups,
-            'ads' => $ads
+            'total_group' => $totalGroups,
+            'total_ads' => 0,
+            'ads' => []
         ];
+
     }
 }
