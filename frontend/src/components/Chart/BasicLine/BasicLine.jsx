@@ -2,7 +2,7 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import basicLineConfig from './BasicLineConfig';
 
-const BasicLine = ({ data, xLabels }) => {
+const BasicLine = ({ data }) => {
     return (
         <LineChart
             width={basicLineConfig.width}
@@ -10,7 +10,7 @@ const BasicLine = ({ data, xLabels }) => {
             series={
                 data.map(({ label, data }) => ({ label, data }))
             }
-            xAxis={[{ scaleType: 'point', data: xLabels }]}
+            xAxis={[{ scaleType: 'point', data: basicLineConfig.xLabels }]}
             colors={basicLineConfig.colors}
         />
     )

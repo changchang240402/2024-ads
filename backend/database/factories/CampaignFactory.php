@@ -21,9 +21,8 @@ class CampaignFactory extends Factory
         $endDate = fake()->dateTimeBetween($startDate->modify('+2 months'), '+3 months');
         $humans = config('constants.HUMAN_OBJECT');
         $human = array_rand($humans);
-        $ageStart = random_int(10, 30);
-        $ageEnd = random_int(30, 60);
-        $target = $humans[$human] . ' aged ' . $ageStart . '-' . $ageEnd . ' ' . fake('en_US')->text(50) . ' activities.';
+        $grap_age = random_int(20, 40);
+        $target = $humans[$human] . ' aged ' . $grap_age . '-50 ' . fake('en_US')->text(50) . ' activities.';
         $userId = User::where('role', config('constants.ROLE')[1])->inRandomOrder()->get()->random()->id;
         return [
             'campaign_name' => fake('en_US')->text(25),

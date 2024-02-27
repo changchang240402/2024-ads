@@ -1,16 +1,29 @@
 .page-item {
-    display: inline-block;
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: 1px solid #16C098;
-    color: #16C098;
-    background-color: white;
-    border-radius: 20px; 
-  }
-  
-  /* CSS cho trang hiện tại */
-  .page-item.active {
-    background-color: #16C098;
-    color: white;
-  }
-  
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: 1px solid #16C098;
+  color: #16C098;
+  background-color: white;
+  border-radius: 20px;
+}
+
+/* CSS cho trang hiện tại */
+.page-item.active {
+  background-color: #16C098;
+  color: white;
+}
+
+.modal__close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: 70px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #3587df;
+}

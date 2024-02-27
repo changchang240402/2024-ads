@@ -12,7 +12,7 @@ use DateTime;
 
 class CampaignService
 {
-    private const PAGINATE_PER_PAGE = 15;
+    private const PAGINATE_PER_PAGE = 10;
     protected CampaignRepository $campaignRepository;
 
     protected GroupRepository $groupRepository;
@@ -150,14 +150,14 @@ class CampaignService
     public function getCampaignsById($userId, $campignId)
     {
         $campaign = $this->campaignRepository->getCampaignsById($userId, $campignId);
-        if ($campaign->isEmpty()) {
+        if (!$campaign) {
             throw new Exception('Campaign not found');
         }
         $groups = $this->groupRepository->getGroupByCampaignId($campignId);
         $totalGroups = $groups->count();
         if ($groups) {
             $groupIds = $groups->toArray();
-            $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+            $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIds);
             $totalAds = $ads->count();
             return [
                 'campaign' => $campaign,
@@ -175,7 +175,7 @@ class CampaignService
     }
 
     /**
-     * Create new campign
+     * Create new campign 
      *
      * @param mixed $campaign
      * @return mixed
@@ -192,7 +192,7 @@ class CampaignService
         return $data;
     }
     /**
-     * Update new campign
+     * Create new campign 
      *
      * @param int $id
      * @param mixed $campaign
@@ -202,7 +202,7 @@ class CampaignService
     {
         $userId = auth()->id();
         $campaignOld = $this->campaignRepository->getCampaignsById($userId, $id);
-        if ($campaignOld->isEmpty()) {
+        if (!$campaignOld) {
             throw new Exception('This campaign does not exist');
         }
         try {

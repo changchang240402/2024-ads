@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|string|min:6|max:50|email',
             'password' => 'required|min:8|max:15'
         ];
     }
@@ -35,6 +35,6 @@ class LoginRequest extends FormRequest
             'success' => false,
             'message' => 'Validation errors',
             'data' => $validator->errors()
-        ], 400));
+        ], 422));
     }
 }

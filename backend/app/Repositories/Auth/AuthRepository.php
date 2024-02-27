@@ -60,4 +60,16 @@ class AuthRepository implements AuthInterface
 
         Auth::logout();
     }
+
+    public function checkUserStatus($user)
+    {
+        if ($user->status == 1) {
+            throw new Exception('User is inactive', 401);
+        }
+    }
+
+    public function getUserProfile($userId)
+    {
+        return $this->user->find($userId);
+    }
 }

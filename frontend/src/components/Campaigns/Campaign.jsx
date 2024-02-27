@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CampaignService from '../../services/CampaignService';
 import { DataGrid } from "@mui/x-data-grid";
 import Box from '@mui/material/Box';
-import { faMagnifyingGlass, faPlus, faEye, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faPlus, faEye, faPenToSquare, faCalendar } from '@fortawesome/free-solid-svg-icons'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactPaginate from 'react-paginate';
 import '../../../src/pagination.css';
-import { formatdateString }from '../../utility/formatdate';
+import { formatDateString } from '../../utility/formatdate';
+import Popup from 'reactjs-popup';
+import CreateCampaign from '../Campaigns/CreateCampaign/CreateCampaign'
+import EditCampaign from '../Campaigns/EditCampaign/EditCampaign'
+import Loading from '../Loading/Loading'
 
 const Campaign = () => {
     const { campaigns } = CampaignService();
@@ -94,7 +98,7 @@ const Campaign = () => {
             type: 'datetime',
             // editable: true,
             renderCell: (params) => {
-                const formattedDate = formatdateString(params.row.start_date);
+                const formattedDate = formatDateString(params.row.start_date);
                 return formattedDate;
             },
         },
@@ -104,7 +108,7 @@ const Campaign = () => {
             type: 'datetime',
             width: 160,
             renderCell: (params) => {
-                const formattedDate = formatdateString(params.row.end_date);
+                const formattedDate = formatDateString(params.row.end_date);
                 return formattedDate;
             },
             sortable: true,
@@ -152,24 +156,41 @@ const Campaign = () => {
             renderCell: (params) => {
                 return (
                     <Box display="flex" borderRadius="2px" className='items-center'>
-                        <button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00B087] bg-[#98EEDA] mr-10 h-[18px] w-[85px]">
+                        <button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00E096] bg-[#DCFCE7] mr-10 h-[18px] w-[82px]">
                             <FontAwesomeIcon
                                 icon={faEye}
                                 size="xl"
                                 // onClick={() => handleShowSearch(params.row.id)}
-                                className='c-[#00B087] p-2'
+                                className='p-2'
                             />
                             View
                         </button>
-                        <button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#B9DD51] bg-[#EAF79A] mr-10 h-[18px] w-[80px]">
-                            <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                size="xl"
-                                // onClick={() => handleShowSearch(params.row.id)}
-                                className='c-[#B9DD51] p-2'
-                            />
-                            <p>Edit</p>
-                        </button>
+                        <Popup
+                            trigger={<button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] mr-10 h-[18px] w-[80px]">
+                                <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    size="xl"
+                                    className='p-2'
+                                />
+                                <p>Edit</p>
+                            </button>}
+                            modal
+                            nested
+                            style='height: 80%, width: 85%'
+                            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                        >
+                            {close => (
+                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                    <button className="modal__close" onClick={close}>
+                                        &times;
+                                    </button>
+                                    <div className='h-[85%] w-[1200px]'>
+                                        <EditCampaign
+                                            id={params.row.id} />
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
                     </Box>
                 );
             }
@@ -177,7 +198,7 @@ const Campaign = () => {
     ];
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center p-6 h-[90%]'>
             <div className='flex flex-col rounded-3xl border-2 border-gray-300 shadow-lg w-full'>
                 <div className="flex flex-row items-center justify-between p-4 h-[150px]">
                     <div className="w-1/5 flex flex-col">
@@ -201,16 +222,19 @@ const Campaign = () => {
                                 className='c-[#387DE4]'
                             />
                         </button>
-                        <button className="flex items-center flex-row px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] bg-white h-25">
+                        <div className="flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] bg-white h-auto">
                             <DatePicker
                                 selected={filter.startDate}
                                 onChange={handleStartDateChange}
-                                showIcon
-                                toggleCalendarOnIconClick
-                                className="ml-3 py-3 w-[120px] focus:outline-none focus:border-none"
+                                className="focus:outline-none focus:border-none"
                                 placeholderText="24/02/2023"
                             />
-                        </button>
+                            <FontAwesomeIcon
+                                icon={faCalendar}
+                                size="xl"
+                                className='c-[#387DE4]'
+                            />
+                        </div>
                         <button className="flex items-center flex-row px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] h-auto ml-3">
                             <p className="justify-center font-bold p-3">Budget: </p>
                             <select
@@ -227,30 +251,53 @@ const Campaign = () => {
                                 <option value="desc">Decrease</option>
                             </select>
                         </button>
-                        <button className="flex items-center flex-row bg-[#387DE4] rounded-3xl px-6 py-3 font-bold text-white">
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                size="xl"
-                                // onClick={handleShowSreach}
-                                className="p-1 c-[#ffffff]"
-                            />
-                            Create
-                        </button>
+                        <Popup
+                            trigger={<button className="flex items-center flex-row bg-[#387DE4] rounded-3xl px-6 py-3 font-bold text-white">
+                                <FontAwesomeIcon
+                                    icon={faPlus}
+                                    size="xl"
+                                    // onClick={handleShowSreach}
+                                    className="p-1 c-[#ffffff]"
+                                />
+                                Create
+                            </button>}
+                            modal
+                            nested
+                            style='height: 80%, width: 85%'
+                            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                        >
+                            {close => (
+                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                    <button className="modal__close" onClick={close}>
+                                        &times;
+                                    </button>
+                                    <div className='h-[85%] w-[1200px]'>
+                                        <CreateCampaign />
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
                     </div>
                 </div>
 
-                <div>
-                    <Box sx={{ height: 670, width: '100%' }}>
-                        <DataGrid
-                            rows={dataCampaigns}
-                            columns={columns}
-                            hideFooter={true}
-                            className='flex items-center flex-row'
-                        />
-                    </Box>
+                <div style={{ height: '100vh', width: '100%' }}>
+                    {dataCampaigns ? (
+                        <Box style={{ height: '100%', width: '100%' }}>
+                            <DataGrid
+                                rows={dataCampaigns}
+                                columns={columns}
+                                hideFooter={true}
+                                className='flex items-center flex-row'
+                            />
+                        </Box>
+                    ) : (
+                        <Box style={{ height: '100%', width: '100%' }}>
+                            <Loading />
+                        </Box>
+                    )}
                 </div>
                 <div className='flex flex-row'>
-                    <p className='w-4/5 text-lg my-1 text-[#387DE4]'>Total: {filter.totalCampaign} row</p>
+                    <p className='w-4/5 text-lg my-1 text-[#387DE4] ml-6 p-4'>Total: {filter.totalCampaign} row</p>
                     <div className='w-1/5 flex items-center justify-end'>
                         <ReactPaginate
                             breakLabel="..."

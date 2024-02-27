@@ -28,4 +28,9 @@ class AdvertisementService
     {
         return $this->adsRepository->getTopAdsByUsers($userId, $limit);
     }
+
+    public function getTotalAdsByPlatform($userId)
+    {
+        return $this->adsRepository->getTotalAdsByPlatform($userId);
+    }
 }
