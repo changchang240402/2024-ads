@@ -32,7 +32,7 @@ class GroupService
         int $page,
         string $title = null,
         string $biddingStrategy = null,
-        string $status = null,
+        int $status = null,
         string $sort = null
     ) {
         $groups = $this->groupRepository->getGroupsByUserId($userId);
@@ -43,7 +43,7 @@ class GroupService
             if ($biddingStrategy) {
                 $groups = $this->filterByBidding($groups, $biddingStrategy);
             }
-            if ($status) {
+            if ($status !== null) {
                 $groups = $this->filterByStatus($groups, $status);
             }
             if ($sort) {
@@ -108,7 +108,7 @@ class GroupService
 
     private function filterByStatus($groups, $status)
     {
-        return $status ? $groups = $groups->filter(function ($group) use ($status) {
+        return $status !== null ? $groups = $groups->filter(function ($group) use ($status) {
             return $group['status'] === $status;
         }) : $groups;
     }

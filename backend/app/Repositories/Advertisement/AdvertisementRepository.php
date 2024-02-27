@@ -71,7 +71,7 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
         });
         $total_ads = $ads_month->count(); //total number of ads from that month forward
         $ads_paused = $ads_month->where('status', '=', config('constants.STATUS.paused'))->count(); //Total number of ads that stopped working from that month forward
-        $ads_active_month = $total_ads - $ads_paused;// Ads are still active that month
+        $ads_active_month = $total_ads - $ads_paused; // Ads are still active that month
         return [
             'month' => date('F', mktime(0, 0, 0, $month, 1)),
             'year' => $year,
@@ -110,5 +110,36 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
                 unset($ad->advertisementDetails);
                 return $ad;
             });
+    }
+
+    public function getAllAds($userId, $page, $per_page)
+    {
+        $ads = $this->model->with('advertisementType')->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate($per_page, ['*'], 'page', $page);
+
+        $totalPage = ceil($ads->total() / $per_page);
+        $pagination = [
+            'per_page' => $ads->perPage(),
+            'current_page' => $ads->currentPage(),
+            'total_pages' => $totalPage,
+        ];
+
+        return [
+            'ads' => $ads->items(),
+            'pagination' => $pagination,
+            'total_result' => $ads->total(),
+        ];
+    }
+
+    public function getTopAdsByUsers($userId, $limit)
+    {
+        $ads = $this->model->join('advertisement_details', 'advertisements.id', '=', 'advertisement_details.ad_id')
+            ->select('advertisements.id', 'advertisements.ad_name', 'advertisements.ad_content', 'advertisements.destination_url', 'advertisements.kpi', 'advertisement_details.conversion_rate')
+            ->where('advertisements.user_id', $userId)
+            ->orderByDesc('advertisement_details.conversion_rate')
+            ->distinct('advertisements.id')
+            ->take($limit)
+            ->get();
+
+        return $ads->unique('id');
     }
 }

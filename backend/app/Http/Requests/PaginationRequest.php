@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Advertisement;
+namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateAdvertisementRequest extends FormRequest
+class PaginationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,17 @@ class UpdateAdvertisementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ad_name' => 'required|string|max:255',
-            'adgroup_id' => 'required|exists:groups,id',
-            'ad_type_id' => 'required|exists:advertisement_types,id',
-            'ad_content' => 'required|string|max:255',
-            'destination_url' => 'required|url',
-            'kpi' => 'required|numeric|between:0.00,99.99',
-            'status' => 'required|integer|in:0,1'
+            'page' => 'integer|min:1',
+            'per_page' => 'integer|min:1',
         ];
     }
 
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param Validator $validator
+     * @return void
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
