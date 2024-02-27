@@ -4,7 +4,8 @@ namespace App\Http\Requests\Campaign;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateCampaignRequest extends FormRequest
 {
@@ -27,10 +28,10 @@ class UpdateCampaignRequest extends FormRequest
             'campaign_name' => 'required|string|max:255',
             'campaign_goal'=> 'required|string|max:255',
             'budget' => 'required|numeric|between:0.00,99999999.99',
-            'start_date' => 'required|date_format:Y-m-d',
+            'start_date' => 'required|date_format:d-m-Y',
             'end_date' => [
                 'required',
-                'date_format:Y-m-d',
+                'date_format:d-m-Y',
                 'gte:start_date'
             ],
             'ad_message' => 'required|string|max:255',
@@ -44,5 +45,14 @@ class UpdateCampaignRequest extends FormRequest
         return [
             'end_date.gte' => 'End date must be some time after start date.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 400));
     }
 }

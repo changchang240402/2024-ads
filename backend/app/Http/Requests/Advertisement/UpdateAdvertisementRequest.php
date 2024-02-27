@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Advertisement;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateAdvertisementRequest extends FormRequest
 {
@@ -30,5 +32,14 @@ class UpdateAdvertisementRequest extends FormRequest
             'kpi' => 'required|numeric|between:0.00,99.99',
             'status' => 'required|integer|in:0,1'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 400));
     }
 }

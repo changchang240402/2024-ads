@@ -174,4 +174,22 @@ class CampaignService
         ];
 
     }
+
+    /**
+     * Create new campign 
+     *
+     * @param mixed $campaign
+     * @return mixed
+     */
+
+    public function createCampaign($campaign)
+    {
+        $campaign['user_id'] = auth()->id();
+        try {
+            $data = $this->campaignRepository->create($campaign);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return $data;
+    }
 }
