@@ -8,7 +8,7 @@ use App\Models\Group;
 interface GroupRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param int $userId id of user login
+     * @param int $userId
      * @return mixed
      */
     public function getGroupsByUserId($userId);
@@ -24,8 +24,16 @@ interface GroupRepositoryInterface extends RepositoryInterface
 
     /**
      * array group by campaign id
-     * @param int $campaign_id
+     * @param int $campignId
      * @return mixed
      */
-    public function getGroupByCampaignId($campaign_id);
+    public function getGroupByCampaignId($campignId);
+
+    /**
+     * get detail group by id
+     * @param int $userId
+     * @param int $groupId
+     * @return mixed
+     */
+    public function getGroupsById($userId, $groupId);
 }

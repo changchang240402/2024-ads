@@ -53,11 +53,30 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 
     /**
      * array group by campaign id
-     * @param int $campaign_id
+     * @param int $campignId
      * @return mixed
      */
-    public function getGroupByCampaignId($campaign_id)
+    public function getGroupByCampaignId($campignId)
     {
-        return $this->model->where('campaign_id', '=', $campaign_id)->get('id');
+        return $this->model->where('campaign_id', '=', $campignId)->get('id');
+    }
+
+    /**
+     * get detail group by id
+     * @param int $userId
+     * @param int $groupId
+     * @return mixed
+     */
+    public function getGroupsById($userId, $groupId)
+    {
+        return $this->model->where('id', '=', $groupId)
+            ->withCount(['advertisements as total_advertisement'])
+            ->whereHas('campaign', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->with(['campaign' => function ($query) {
+                $query->select('id', 'campaign_name');
+            }])
+            ->get();
     }
 }

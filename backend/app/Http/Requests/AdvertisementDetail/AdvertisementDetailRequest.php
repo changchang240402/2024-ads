@@ -3,6 +3,8 @@
 namespace App\Http\Requests\AdvertisementDetail;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AdvertisementDetailRequest extends FormRequest
 {
@@ -40,5 +42,14 @@ class AdvertisementDetailRequest extends FormRequest
             'clicks.lte' => 'The number of clicks cannot be greater than impressions .',
             'conversions.lte' => 'The number of conversions cannot be greater than clicks .',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 400));
     }
 }
