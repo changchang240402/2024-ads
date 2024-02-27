@@ -37,8 +37,9 @@ Route::group([
         'prefix' => 'campaigns'
     ], function () {
         Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
-        Route::get("fefw", [CampaignController::class, "showCampaignsById"]);
+        Route::get("/{id}", [CampaignController::class, "showCampaignsById"]);
         Route::post("", [CampaignController::class, "createCampaign"]);
+        Route::put("/{id}", [CampaignController::class, "updateCampaign"]);
     });
     Route::group([
         'prefix' => 'groups'
