@@ -42,6 +42,6 @@ class GroupRequest extends FormRequest
             'success' => false,
             'message' => 'Validation errors',
             'data' => $validator->errors()
-        ], 400));
+        ], 422));
     }
 }

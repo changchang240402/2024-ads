@@ -75,7 +75,7 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
                 $query->where('user_id', $userId);
             })
             ->with(['campaign' => function ($query) {
-                $query->select('id', 'campaign_name');
+                $query->select('id', 'campaign_name', 'budget', 'start_date', 'end_date', 'target_audience');
             }])
             ->get();
     }
