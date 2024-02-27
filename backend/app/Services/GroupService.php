@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\Advertisement\AdvertisementRepository;
 use App\Repositories\Group\GroupRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,11 +12,17 @@ use DateTime;
 class GroupService
 {
     private const PAGINATE_PER_PAGE = 15;
+
     protected GroupRepository $groupRepository;
 
-    public function __construct(GroupRepository $groupRepository)
-    {
+    protected AdvertisementRepository $advertisementRepository;
+
+    public function __construct(
+        GroupRepository $groupRepository,
+        AdvertisementRepository $advertisementRepository
+    ) {
         $this->groupRepository = $groupRepository;
+        $this->advertisementRepository = $advertisementRepository;
     }
 
     /**
@@ -166,6 +173,13 @@ class GroupService
         if ($group->isEmpty()) {
             throw new Exception('Group not found');
         }
-        return $group;
+        $groupIdArray = [$groupId];
+        $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIdArray);
+        $totalAds = $ads->count();
+        return [
+            'group' => $group,
+            'total_ads' => $totalAds,
+            'ads' => $ads,
+        ];
     }
 }

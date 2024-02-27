@@ -157,7 +157,7 @@ class CampaignService
         $totalGroups = $groups->count();
         if ($groups) {
             $groupIds = $groups->toArray();
-            $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+            $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIds);
             $totalAds = $ads->count();
             return [
                 'campaign' => $campaign,
