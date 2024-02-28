@@ -1,10 +1,11 @@
 import React, { Suspense } from "react";
-import Sidebar from "../Sidebar/Sidebar";
 import { Route, Routes } from 'react-router-dom';
-import { MenuItems } from "../../models/MenuItems";
-import Navbar from "../Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar/Sidebar";
+import { MenuItems } from "../../models/MenuItems";
 
 const Home = React.lazy(() => import("../Home/Home"));
 const Campaign = React.lazy(() => import("../Camaigns/Campaign"));
@@ -12,7 +13,7 @@ const Groups = React.lazy(() => import("../Groups/Groups"));
 const Ads = React.lazy(() => import("../Ads/Ads"));
 const Reports = React.lazy(() => import("../Reports/Reports"));
 
-const Navigation = () => {
+const UserNavigation = () => {
     return (
         <div className="flex w-full h-screen">
             <Sidebar MenuItems={MenuItems} />
@@ -32,4 +33,4 @@ const Navigation = () => {
     );
 }
 
-export default Navigation;
+export default UserNavigation;

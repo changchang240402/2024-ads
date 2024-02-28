@@ -17,32 +17,41 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $validated = $request->validated();
+        try {
+            $validated = $request->validated();
 
-        $user = $this->authRepository->findUserByEmail($validated['email']);
+            $user = $this->authRepository->findUserByEmail($validated['email']);
 
-        if (!$user) {
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email does not exist in the system'
+                ], 401);
+            }
+
+            $this->authRepository->checkUserStatus($user);
+
+            $token = $this->authRepository->createAccesstoken($validated);
+            if (!$token) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password incorrect'
+                ], 401);
+            }
+
+            $refreshToken = $this->authRepository->createRefreshToken($user);
+
+            $response =  $this->authRepository->login($token, $refreshToken);
+            return response()->json(
+                $response,
+                200
+            );
+        } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email does not exist in the system'
-            ], 401);
+                'message' => $th->getMessage()
+            ], $th->getCode());
         }
-
-        $token = $this->authRepository->createAccesstoken($validated);
-        if (!$token) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Password incorrect'
-            ], 401);
-        }
-
-        $refreshToken = $this->authRepository->createRefreshToken($user);
-
-        $response =  $this->authRepository->login($token, $refreshToken);
-        return response()->json(
-            $response,
-            200
-        );
     }
 
     public function logout(Request $request)
