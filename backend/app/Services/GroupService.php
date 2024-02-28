@@ -11,7 +11,7 @@ use DateTime;
 
 class GroupService
 {
-    private const PAGINATE_PER_PAGE = 15;
+    private const PAGINATE_PER_PAGE = 10;
 
     protected GroupRepository $groupRepository;
 

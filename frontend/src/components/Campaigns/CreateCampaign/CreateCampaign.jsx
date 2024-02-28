@@ -1,35 +1,23 @@
-// import React from 'react'
-
-// const Group = () => {
-//     return (
-//         <div>Group</div>
-//     )
-// }
-
-// export default Group
 import { useForm } from "react-hook-form";
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { yupResolver } from "@hookform/resolvers/yup";
 import logo from "../../../assets/ggads.png";
 import { faMoneyBill, faCalendar } from '@fortawesome/free-solid-svg-icons'
-import DatePicker from "react-datepicker";
+import DatePicker from "../DatePicker/DatePicker";
 import { HUMAN_OBJECT } from '../../../const/config';
 import CampaignService from '../../../services/CampaignService';
 import { formatdatetime } from '../../../utility/formatdate';
 
 const CreateCampaign = () => {
-    const [start_date, setStartDate] = useState(new Date());
-    const [status, setStatus] = useState(null);
-    const [end_date, setEndDate] = useState(start_date);
     const { schema, createCampaign } = CampaignService();
-    const { handleSubmit,
-        register,
-        formState: { errors },
-        // trigger
-    } = useForm({
+    const [status, setStatus] = useState(null);
+    // const [start_date, setStartDate] = useState(new Date());
+    // const [end_date, setEndDate] = useState(start_date);
+    const { control, register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: { fromDate: null },
         resolver: yupResolver(schema),
-        // mode: 'onBlur'
+        reValidateMode: "onChange"
     });
 
     const objectData = HUMAN_OBJECT;
@@ -43,11 +31,12 @@ const CreateCampaign = () => {
     // };
 
     const formSubmit = (data) => {
-        // const { campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy } = data;
-        // const startDate = formatdatetime(start_date);
-        // const endDate = formatdatetime(end_date);
-        // await createCampaign(campaign_name, campaign_goal, budget, startDate, endDate, ad_message, human, start_age, end_age, activities, distribution_strategy);
-        console.log('data');
+        const { campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy } = data;
+        const startDate = formatdatetime(start_date);
+        const endDate = formatdatetime(end_date);
+        createCampaign(campaign_name, campaign_goal, budget, startDate, endDate, ad_message, human, start_age, end_age, activities, distribution_strategy);
+        console.log('data', startDate);
+        console.log('data', endDate);
     };
 
     return (
@@ -60,8 +49,8 @@ const CreateCampaign = () => {
                     </span>
                 </div>
                 <form
-                    className="form flex flex-col" onSubmit={handleSubmit(formSubmit)}
-
+                    className="form flex flex-col"
+                    onSubmit={handleSubmit(formSubmit)}
                 >
                     <p className="text-[#387DE4] text-3xl mb-6 font-semibold">
                         Create your campaign
@@ -128,53 +117,32 @@ const CreateCampaign = () => {
                             <label className="font-medium text-lg mb-2" htmlFor="start_date">
                                 Campaign start time :
                             </label>
-                            <div className="flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none focus:border-[#387DE4] bg-white h-auto">
-                                <DatePicker
-                                    type="start_date"
-                                    id="start_date"
-                                    name="start_date"
-                                    selected={start_date}
-                                    onChange={(date) => setStartDate(date)}
-                                    className="focus:outline-none focus:border-none"
-                                    placeholderText="24/02/2023"
-                                // helperText={register.start_date ? errors.start_date : ""}
-                                // error={register.start_date && Boolean(errors.start_date)}
-                                />
-                                <FontAwesomeIcon
-                                    icon={faCalendar}
-                                    size="lg"
-                                    color='#387DE4'
-                                />
-                            </div>
-                            {/* {errors?.start_date && (
+                            <DatePicker
+                                name="start_date"
+                                control={control}
+                                // className="focus:outline-none focus:border-none"
+                                placeholderText="24/02/2023"
+                                format="DD/MM/YYYY"
+                                error={errors?.start_date?.message}
+                            />
+                            {errors?.start_date && (
                                 <label className="ml-2 mt-2 px-2 text-sm text-red-600" htmlFor="start_date">{errors.start_date?.message}</label>
-                            )} */}
+                            )}
                         </div>
                         <div className="flex flex-col">
                             <label className="font-medium text-lg mb-2" htmlFor="end_date">
                                 Campaign end time :
                             </label>
-                            <div className="flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none focus:border-[#387DE4] bg-white h-auto">
-                                <DatePicker
-                                    type="end_date"
-                                    id="end_date"
-                                    name="end_date"
-                                    selected={end_date}
-                                    onChange={(date) => setEndDate(date)}
-                                    className="focus:outline-none focus:border-none"
-                                    placeholderText="24/02/2023"
-                                // helperText={register.end_date ? errors.end_date : ""}
-                                // error={register.end_date && Boolean(errors.end_date)}
-                                />
-                                <FontAwesomeIcon
-                                    icon={faCalendar}
-                                    size="lg"
-                                    color='#387DE4'
-                                />
-                            </div>
-                            {/* {errors?.end_date && (
+                            <DatePicker
+                                name="end_date"
+                                control={control}
+                                placeholderText="24/02/2023"
+                                format="DD/MM/YYYY"
+                                error={errors?.start_date?.message}
+                            />
+                            {errors?.end_date && (
                                 <label className="ml-2 mt-2 px-2 text-sm text-red-600" htmlFor="end_date">{errors.end_date?.message}</label>
-                            )} */}
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-col">
@@ -184,8 +152,7 @@ const CreateCampaign = () => {
                         <input
                             className="px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none focus:border-[#387DE4] bg-white"
                             type="ad_message"
-                            placeholder="Enter your message"
-                            id="ad_message"
+                            placeholder="Enter your distribution strategy"
                             name="ad_message"
                             {...register("ad_message")}
                         />
@@ -210,7 +177,7 @@ const CreateCampaign = () => {
                                     }}
                                     {...register("human")}
                                 >
-                                    <option value='null'>Select Object</option>
+                                    <option value=''>Select Object</option>
                                     {objectData?.map((item, index) => (
                                         <option key={index} value={item}>{item}</option>
                                     ))}

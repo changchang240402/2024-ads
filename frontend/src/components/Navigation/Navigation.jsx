@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Home = React.lazy(() => import("../Home/Home"));
-const Campaign = React.lazy(() => import("../Camaigns/Campaign"));
+const Campaign = React.lazy(() => import("../Campaigns/Campaign"));
 const Groups = React.lazy(() => import("../Groups/Groups"));
 const Ads = React.lazy(() => import("../Ads/Ads"));
 const Reports = React.lazy(() => import("../Reports/Reports"));
+const CreateCampaign = React.lazy(() => import("../Campaigns/CreateCampaign/CreateCampaign.jsx"));
 
 const Navigation = () => {
     return (
@@ -22,7 +23,7 @@ const Navigation = () => {
                     <Routes>
                         <Route path="" element={<Home />} />
                         <Route path="campaigns" element={<Campaign />} />
-                        <Route path="groups" element={<Groups />} />
+                        <Route path="groups" element={<CreateCampaign />} />
                         <Route path="ads" element={<Ads />} />
                         <Route path="reports" element={<Reports />} />
                     </Routes>

@@ -12,7 +12,7 @@ use DateTime;
 
 class CampaignService
 {
-    private const PAGINATE_PER_PAGE = 15;
+    private const PAGINATE_PER_PAGE = 10;
     protected CampaignRepository $campaignRepository;
 
     protected GroupRepository $groupRepository;
