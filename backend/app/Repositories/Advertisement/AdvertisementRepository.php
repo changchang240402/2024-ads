@@ -81,12 +81,12 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
     }
 
     /**
-     * show list ads by campaign id
+     * show list ads by group ids
      * @param int $userId
      * @param array $groupIds
      * @return mixed
      */
-    public function getAdsByCampaignId($userId, $groupIds)
+    public function getAdsByGroupIds($userId, $groupIds)
     {
         return $this->model->where('user_id', $userId)
             ->whereIn('adgroup_id', $groupIds)

@@ -61,13 +61,13 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     /**
      * get detail campaign by id
      * @param int $userId
-     * @param int $campaign_id
+     * @param int $campignId
      * @return mixed
      */
-    public function getCampaignsById($userId, $campaign_id)
+    public function getCampaignsById($userId, $campignId)
     {
         return $this->model->where('user_id', $userId)
-            ->where('id', '=', $campaign_id)
+            ->where('id', '=', $campignId)
             ->select('id', 'campaign_name', 'campaign_goal', 'budget', 'start_date', 'end_date', 'ad_message', 'target_audience', 'distribution_strategy')
             ->get();
     }

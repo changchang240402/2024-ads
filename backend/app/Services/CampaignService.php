@@ -144,20 +144,20 @@ class CampaignService
     /**
      * get detail campaign by id
      * @param int $userId
-     * @param int $campaign_id
+     * @param int $campignId
      * @return mixed
      */
-    public function getCampaignsById($userId, $campaign_id)
+    public function getCampaignsById($userId, $campignId)
     {
-        $campaign = $this->campaignRepository->getCampaignsById($userId, $campaign_id);
+        $campaign = $this->campaignRepository->getCampaignsById($userId, $campignId);
         if ($campaign->isEmpty()) {
             throw new Exception('Campaign not found');
         }
-        $groups = $this->groupRepository->getGroupByCampaignId($campaign_id);
+        $groups = $this->groupRepository->getGroupByCampaignId($campignId);
         $totalGroups = $groups->count();
         if ($groups) {
             $groupIds = $groups->toArray();
-            $ads = $this->advertisementRepository->getAdsByCampaignId($userId, $groupIds);
+            $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIds);
             $totalAds = $ads->count();
             return [
                 'campaign' => $campaign,
@@ -172,7 +172,45 @@ class CampaignService
             'total_ads' => 0,
             'ads' => []
         ];
+    }
 
+    /**
+     * Create new campign
+     *
+     * @param mixed $campaign
+     * @return mixed
+     */
+
+    public function createCampaign($campaign)
+    {
+        $campaign['user_id'] = auth()->id();
+        try {
+            $data = $this->campaignRepository->create($campaign);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return $data;
+    }
+    /**
+     * Update new campign
+     *
+     * @param int $id
+     * @param mixed $campaign
+     * @return mixed
+     */
+    public function updateCampaign($id, $campaign)
+    {
+        $userId = auth()->id();
+        $campaignOld = $this->campaignRepository->getCampaignsById($userId, $id);
+        if ($campaignOld->isEmpty()) {
+            throw new Exception('This campaign does not exist');
+        }
+        try {
+            $data = $this->campaignRepository->update($id, $campaign);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return $data;
     }
 
     /**

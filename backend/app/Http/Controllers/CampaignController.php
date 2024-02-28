@@ -86,10 +86,10 @@ class CampaignController extends Controller
 
     /**
      * @param CampaignRequest $request
-     * @param $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateCampaign(CampaignRequest $request, $id)
+    public function updateCampaign($id, CampaignRequest $request)
     {
         $validated = $request->validated();
         $targetAudience = $validated['human'] . ' aged ' . $validated['start_age'] . '-' . $validated['end_age'] . ' ' . $validated['activities'] . ' activities';

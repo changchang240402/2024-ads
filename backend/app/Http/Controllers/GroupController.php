@@ -41,4 +41,19 @@ class GroupController extends Controller
 
         return response()->json($group, 200);
     }
+
+    public function showGroupById($id)
+    {
+        $userId = auth()->id();
+        try {
+            $group = $this->groupService->getGroupById($userId, $id);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+        return response()->json($group, 200);
+    }
 }

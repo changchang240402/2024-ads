@@ -45,6 +45,7 @@ Route::group([
         'prefix' => 'groups'
     ], function () {
         Route::get("", [GroupController::class, "getGroupsByUserId"]);
+        Route::get("/{id}", [GroupController::class, "showGroupById"]);
     });
     Route::group([
         'prefix' => 'statistics'
