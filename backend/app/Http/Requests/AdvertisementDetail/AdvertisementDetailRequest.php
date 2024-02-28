@@ -26,13 +26,11 @@ class AdvertisementDetailRequest extends FormRequest
         return [
             'ad_id' => 'required|exists:advertisements,id',
             'platform_id' => 'required|exists:platforms,id',
-        ,
             'impressions' => 'required|integer',
             'clicks' => 'required|integer|lte:impressions',
             'ctr' => 'required|numeric|between:0.00,99.99',
             'cpc' => 'required|numeric|between:0.00,99999999.99',
             'cpa' => 'required|numeric|between:0.00,99999999.99',
-        ,
             'conversions' => 'required|integer|lte:clicks',
             'conversion_rate' => 'required|numeric|between:0.00,99.99'
         ];

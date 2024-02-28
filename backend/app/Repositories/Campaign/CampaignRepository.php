@@ -4,6 +4,7 @@ namespace App\Repositories\Campaign;
 
 use App\Models\Campaign;
 use App\Repositories\BaseRepository;
+use Exception;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
 {
@@ -69,5 +70,27 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             ->where('id', '=', $campaign_id)
             ->select('id', 'campaign_name', 'campaign_goal', 'budget', 'start_date', 'end_date', 'ad_message', 'target_audience', 'distribution_strategy')
             ->get();
+    }
+
+    /**
+     * Overwrite update method.
+     *
+     * @param int $id
+     * @param array $attributes
+     * @return mixed
+     */
+    public function update($id, $attributes = [])
+    {
+        $campagn = $this->model::find($id);
+        if (!$campagn) {
+            throw new Exception('Issue not found');
+        }
+        $campagn->update($attributes);
+        if (!$campagn->wasChanged()) {
+            throw new Exception('No changes have been made');
+        }
+        $changes = ['new' => $campagn->getChanges()];
+
+        return $changes;
     }
 }
