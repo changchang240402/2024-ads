@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Notification;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class NotificationRequest extends FormRequest
 {
@@ -26,5 +28,13 @@ class NotificationRequest extends FormRequest
             'title' => 'required|string|max:100',
             'content' => 'required|string|max:255'
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 }

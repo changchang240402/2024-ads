@@ -38,6 +38,7 @@ Route::group([
     ], function () {
         Route::get("", [CampaignController::class, "getCampaignsByUserId"]);
         Route::get("/{id}", [CampaignController::class, "showCampaignsById"]);
+        Route::post("", [CampaignController::class, "createCampaign"]);
     });
     Route::group([
         'prefix' => 'groups'

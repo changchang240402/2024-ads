@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FilterGroupRequest extends FormRequest
 {
@@ -23,9 +26,21 @@ class FilterGroupRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'biddingStrategy' => 'nullable|in:CPC,CPA',
+            'biddingStrategy' => [
+                'nullable',
+                Rule::in(config('constants.BIDDING_STRATEGY'))
+            ],
             'status' => 'nullable|in:0,1',
             'sort' => 'nullable|in:asc,desc',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 }

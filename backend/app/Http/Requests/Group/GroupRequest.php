@@ -4,6 +4,8 @@ namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class GroupRequest extends FormRequest
 {
@@ -33,5 +35,14 @@ class GroupRequest extends FormRequest
             'ad_schedule' => 'required|string|max:100',
             'status' => 'required|integer|in:0,1'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 }

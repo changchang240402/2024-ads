@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\Advertisement;
 
-use App\Rules\CustomUserRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreAdvertisementRequest extends FormRequest
 {
@@ -26,10 +27,18 @@ class StoreAdvertisementRequest extends FormRequest
             'ad_name' => 'required|string|max:255',
             'adgroup_id' => 'required|exists:groups,id',
             'ad_type_id' => 'required|exists:advertisement_types,id',
-            'user_id' => ['required', new CustomUserRule],
             'ad_content' => 'required|string|max:255',
             'destination_url' => 'required|url',
             'kpi' => 'required|numeric|between:0.00,99.99',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 }

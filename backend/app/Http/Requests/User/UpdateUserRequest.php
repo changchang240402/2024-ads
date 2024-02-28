@@ -3,6 +3,8 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,12 +25,22 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
-            'email' => 'required|email|max:50|unique:users,email,' . $this->id,,
+            'email' => 'required|email|max:50|unique:users,email,' . $this->id,
+        ,
             'avatar' => [
                 'image',
                 'max:' . config('constants.LIMIT_SIZE_IMAGE')
             ],
             'status' => 'required|integer|in:0,1,2'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 }
