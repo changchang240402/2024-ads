@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Campaign;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateUserRequest extends FormRequest
+class UpdateCampaignRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +25,25 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|max:50|unique:users,email,' . $this->id,
-        ,
-            'avatar' => [
-                'image',
-                'max:' . config('constants.LIMIT_SIZE_IMAGE')
+            'campaign_name' => 'required|string|max:255',
+            'campaign_goal' => 'required|string|max:255',
+            'budget' => 'required|numeric|between:0.00,99999999.99',
+            'start_date' => 'required|date_format:d-m-Y',
+            'end_date' => [
+                'required',
+                'date_format:d-m-Y',
+                'gte:start_date'
             ],
-            'status' => 'required|integer|in:0,1,2'
+            'ad_message' => 'required|string|max:255',
+            'target_audience' => 'required|string|max:255',
+            'distribution_strategy' => 'required|string|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'end_date.gte' => 'End date must be some time after start date.',
         ];
     }
 
