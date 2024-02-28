@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartSimple, faDownload } from '@fortawesome/free-solid-svg-icons'
 
-import BasicLine from '../Chart/BasicLine/BasicLine'
 import BasicBar from '../Chart/BasicBar/BasicBar'
 import userDashboardService from '../../services/userDashboardService'
 import Loading from '../Loading/Loading'
+import basicChartConfig from '../Chart/BasicBar/BasicBarConfig';
+import PlatformBarConfig from '../Chart/BasicBar/PlatformBarConfig';
+
 
 const Home = () => {
     const { statistics } = userDashboardService();
@@ -19,6 +21,8 @@ const Home = () => {
 
         fetchData();
     }, [])
+
+    const xLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     return (
         <div className='flex flex-1 flex-col font-poppins'>
@@ -76,7 +80,7 @@ const Home = () => {
                     <div className='flex flex-1 flex-col bg-white w-1/2 m-2'>
                         <label className='text-base font-bold'>Total ads by years</label>
                         <div className="flex justify-center items-center">
-                            <BasicBar data={data?.dataTotalAds} />
+                            <BasicBar data={data?.dataTotalAds} config={basicChartConfig} xLabels={xLabels} />
                         </div>
                     </div>
                 ) : (
@@ -85,12 +89,11 @@ const Home = () => {
                         <Loading />
                     </div>
                 )}
-
                 {(data?.plasformXlables && data?.dataPlatforms) ? (
                     <div className='flex flex-1 flex-col bg-white w-1/2 m-2'>
                         <label className='text-base font-bold'>Ads by platform statistics</label>
                         <div className="flex flex-1 justify-center items-center">
-                            <BasicLine data={data?.dataPlatforms} xLabels={data?.plasformXlables} />
+                            <BasicBar data={data?.dataPlatforms} config={PlatformBarConfig} xLabels={data?.plasformXlables}  />
                         </div>
                     </div >
                 ) : (
