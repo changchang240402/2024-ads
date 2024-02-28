@@ -36,11 +36,12 @@ class AdsController extends Controller
         $limit = $request->input('limit' , 3);
 
         $ads = $this->adsService->getTopAdsByUsers($userId, $limit);
-
+        $adsByPlatforms = $this->adsService->getTotalAdsByPlatform($userId);
         return response()->json([
             'success' => true,
             'message' => 'Get top ads by user successfully',
             'ads' => $ads,
+            'totalAdsByPlatforms' => $adsByPlatforms,
         ], 200);
     }
 }

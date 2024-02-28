@@ -18,9 +18,9 @@ class AdvertisementDetailFactory extends Factory
      */
     public function definition(): array
     {
-        $impressions = random_int(1000, 100000);
-        $clicks = random_int(100, $impressions);
-        $conversions = random_int(10, $clicks);
+        $impressions = random_int(9999, 100000);
+        $clicks = random_int(1000, 9999);
+        $conversions = random_int(100, 1000);
         $ctr = $clicks / $impressions * 100;
         $ctr = round($ctr, 2);
         $conversionRate = $conversions / $clicks * 100;

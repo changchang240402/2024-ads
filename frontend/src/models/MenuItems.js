@@ -28,9 +28,4 @@ export const MenuItems = [
         icon: faPaperPlane,
         url: "reports",
     },
-    {
-        title: "Sign Out",
-        icon: faRightFromBracket,
-        url: "/logout",
-    },
 ];

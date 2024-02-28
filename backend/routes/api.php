@@ -36,6 +36,7 @@ Route::group([
     'prefix' => 'admin'
 ], function () {
     Route::put("users/{id}", [AdminController::class, "updateUserStatus"]);
+    Route::get("users", [AdminController::class, "getAllUser"]);
 });
 
 Route::group([
