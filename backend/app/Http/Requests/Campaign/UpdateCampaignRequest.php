@@ -26,7 +26,7 @@ class UpdateCampaignRequest extends FormRequest
     {
         return [
             'campaign_name' => 'required|string|max:255',
-            'campaign_goal'=> 'required|string|max:255',
+            'campaign_goal' => 'required|string|max:255',
             'budget' => 'required|numeric|between:0.00,99999999.99',
             'start_date' => 'required|date_format:d-m-Y',
             'end_date' => [
@@ -53,6 +53,6 @@ class UpdateCampaignRequest extends FormRequest
             'success' => false,
             'message' => 'Validation errors',
             'data' => $validator->errors()
-        ], 400));
+        ], 422));
     }
 }
