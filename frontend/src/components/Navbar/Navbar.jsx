@@ -7,6 +7,18 @@ import AuthService from '../../services/AuthService';
 
 const Navbar = () => {
 
+    const { getUserProfile } = AuthService();
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const userProfile = await getUserProfile();
+            setUser(userProfile);
+        }
+        fetchUserProfile();
+    }, []);
+
     const { logout } = AuthService();
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -47,8 +59,8 @@ const Navbar = () => {
                 <div className="profile flex flex-row relative" onClick={toggleDropdown} ref={dropdownRef}>
                     <img className='object-cover w-12 h-12 cursor-pointer' loading='lazy' src={avatar} alt="" />
                     <div className='flex justify-between flex-1 flex-col mx-5 font-semibold cursor-pointer'>
-                        <p className='font-semibold'>vantanhly</p>
-                        <p className='text-sm font-thin'>lyvantanh@gmail.com</p>
+                        <p className='font-semibold'>{user.name}</p>
+                        <p className='text-sm font-thin'>{user.email}</p>
                     </div>
                     {isDropdownOpen && (
                         <div className="absolute top-full right-4 mt-3 w-48 bg-white rounded-md rounded-t-none shadow-lg">

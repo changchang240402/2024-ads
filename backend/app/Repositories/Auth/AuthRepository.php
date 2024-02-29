@@ -67,4 +67,9 @@ class AuthRepository implements AuthInterface
             throw new Exception('User is inactive', 401);
         }
     }
+
+    public function getUserProfile($userId)
+    {
+        return $this->user->find($userId);
+    }
 }

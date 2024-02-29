@@ -25,10 +25,11 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group([
-    'middleware' => ['auth.user'],
+    'middleware' => ['checkLogin'],
     'prefix' => 'auth'
 ], function () {
     Route::post("logout", [AuthController::class, "logout"])->name('logout');
+    Route::get("me", [AuthController::class, "getUserProfile"]);
 });
 
 Route::group([

@@ -44,9 +44,23 @@ function AuthService() {
         }
     }
 
+    const getUserProfile = async() => {
+        try {
+            const response = await api.get("/auth/me");
+            if (response.status === 200) {
+                return response.data.user;
+            }
+        } catch (error) {
+            if (error.response) {
+                Toastify.error(error.response.data.message);
+            }
+        }
+    }
+
     return {
         login,
         logout,
+        getUserProfile
     };
 }
 
