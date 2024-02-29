@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
@@ -24,10 +25,18 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group([
-    'middleware' => ['auth', 'auth.user'],
+    'middleware' => ['auth.user'],
+    'prefix' => 'auth'
+], function () {
+    Route::post("logout", [AuthController::class, "logout"])->name('logout');
+});
+
+Route::group([
+    'middleware' => ['auth.admin'],
     'prefix' => 'admin'
 ], function () {
-    // route admin
+    Route::put("users/{id}", [AdminController::class, "updateUserStatus"]);
+    Route::get("users", [AdminController::class, "getAllUser"]);
 });
 
 Route::group([

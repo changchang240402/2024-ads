@@ -18,6 +18,12 @@ function formatDate() {
 
     return formatDate;
 }
+
+function formatDateCustom(date) {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
 const formatdateString = formatDateString();
 const formatdatetime = formatDate();
-export { formatdatetime, formatdateString };
+export { formatdatetime, formatdateString, formatDateCustom };

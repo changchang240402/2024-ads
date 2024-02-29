@@ -121,12 +121,12 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
             'per_page' => $ads->perPage(),
             'current_page' => $ads->currentPage(),
             'total_pages' => $totalPage,
+            'total_result' => $ads->total(),
         ];
 
         return [
             'ads' => $ads->items(),
             'pagination' => $pagination,
-            'total_result' => $ads->total(),
         ];
     }
 
@@ -141,5 +141,23 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
             ->get();
 
         return $ads->unique('id');
+    }
+
+    public function getTotalAdsByPlatform($userId)
+    {
+        $data = $this->model->join('advertisement_details', 'advertisements.id', '=', 'advertisement_details.ad_id')
+            ->join('platforms', 'advertisement_details.platform_id', '=', 'platforms.id')
+            ->select('platforms.platform_name')
+            ->where('advertisements.user_id', $userId)
+            ->groupBy('platforms.platform_name')
+            ->selectRaw('platforms.platform_name, count(*) as total_ads')
+            ->get();
+
+        $totals = [];
+        foreach ($data as $item) {
+            $totals[$item->platform_name] = $item->total_ads;
+        }
+
+        return $totals;
     }
 }

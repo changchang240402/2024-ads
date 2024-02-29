@@ -1,18 +1,18 @@
 import { BarChart } from '@mui/x-charts/BarChart';
-import basicChartConfig from './BasicBarConfig';
-export default function BasicBar({ data }) {
+export default function BasicBar({ data, config, xLabels, type }) {
     return (
         <BarChart
-            xAxis={[{ scaleType: 'band', data: basicChartConfig.xLabels }]}
+            xAxis={[{ scaleType: 'band', data: xLabels }]}
             series={
                 data.map(item => ({
                     data: item.data,
+                    stack: type,
                     label: item.label
                 }))
             }
-            width={basicChartConfig.width}
-            height={basicChartConfig.height}
-            colors={basicChartConfig.colors}
+            width={config.width}
+            height={config.height}
+            colors={config.colors}
         />
     );
 }
