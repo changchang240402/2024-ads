@@ -25,7 +25,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
-            'email' => 'required|email|max:50|unique:users,email,' . $this->id,,
+            'email' => 'required|email|max:50|unique:users,email,' . $this->id,
+        ,
             'avatar' => [
                 'image',
                 'max:' . config('constants.LIMIT_SIZE_IMAGE')

@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactPaginate from 'react-paginate';
 import '../../../src/pagination.css';
-import { formatdateString } from '../../utility/formatdate';
+import { formatDateString } from '../../utility/formatdate';
 import Popup from 'reactjs-popup';
 import CreateCampaign from '../Campaigns/CreateCampaign/CreateCampaign'
 import Loading from '../Loading/Loading'
@@ -97,7 +97,7 @@ const Campaign = () => {
             type: 'datetime',
             // editable: true,
             renderCell: (params) => {
-                const formattedDate = formatdateString(params.row.start_date);
+                const formattedDate = formatDateString(params.row.start_date);
                 return formattedDate;
             },
         },
@@ -107,7 +107,7 @@ const Campaign = () => {
             type: 'datetime',
             width: 160,
             renderCell: (params) => {
-                const formattedDate = formatdateString(params.row.end_date);
+                const formattedDate = formatDateString(params.row.end_date);
                 return formattedDate;
             },
             sortable: true,

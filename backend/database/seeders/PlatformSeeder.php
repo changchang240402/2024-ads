@@ -15,7 +15,7 @@ class PlatformSeeder extends Seeder
     {
         $flatform = config('constants.PLATFORM');
 
-        for ($i = 0; $i < count($flatform); $i++) {
+        for ($i = 0; $i < count($flatform) - 1; $i++) {
             Platform::factory()->create([
                 'platform_name' => $flatform[$i]
             ]);

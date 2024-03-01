@@ -9,4 +9,6 @@ interface AuthInterface
     public function createRefreshToken($user);
     public function login($token, $refreshToken);
     public function logout();
+    public function checkUserStatus($user);
+    public function getUserProfile($userId);
 }

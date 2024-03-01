@@ -175,7 +175,7 @@ class CampaignService
     }
 
     /**
-     * Create new campign
+     * Create new campign 
      *
      * @param mixed $campaign
      * @return mixed
@@ -192,7 +192,7 @@ class CampaignService
         return $data;
     }
     /**
-     * Update new campign
+     * Create new campign 
      *
      * @param int $id
      * @param mixed $campaign

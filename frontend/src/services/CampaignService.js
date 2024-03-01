@@ -1,6 +1,6 @@
 import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
-import { formatdatetime } from '../utility/formatdate';
+import { formatDate } from '../utility/formatdate';
 import * as yup from "yup";
 import { HUMAN_OBJECT } from '../const/config';
 
@@ -18,8 +18,10 @@ function campaignService() {
             .min(0)
             .max(99999999.99),
         start_date: yup.date()
+            .typeError('Start date must be a date')
             .required('Start date is required'),
         end_date: yup.date()
+            .typeError('End date must be a date')
             .required('End date is required')
             .min(yup.ref('start_date'), 'End date must be after start date'),
         ad_message: yup.string()
@@ -30,13 +32,13 @@ function campaignService() {
             .oneOf(HUMAN_OBJECT, 'Target object is required'),
         start_age: yup.number()
             .typeError('Start age must be a number')
-            .required()
+            .required('Start age is required')
             .integer('Start age must be an integer')
             .min(3, 'Start age must be greater than or equal to 3')
             .max(100, 'Start age must be less than or equal to 100'),
         end_age: yup.number()
             .typeError('End age age must be a number')
-            .required()
+            .required('End age is required')
             .integer('End age must be an integer')
             .min(3, 'End age must be greater than or equal to 3')
             .max(100, 'End age must be less than or equal to 100')
@@ -101,7 +103,7 @@ function campaignService() {
                 const queryParams = new URLSearchParams({
                     page: page + 1,
                     name: searchTerm,
-                    datetime: startDate ? formatdatetime(startDate) : '',
+                    datetime: startDate ? formatDate(startDate) : '',
                     sort: budgetSort
                 });
                 const response = await api.get(`/campaigns?${queryParams}`);
