@@ -46,13 +46,25 @@ function adminDashboardServvice() {
         }
     }
 
-    const getAllUsers = async (page, per_page) => {
+    const getAllUsers = async (page, per_page, sort, filter) => {
         try {
+            if (filter.date || filter.status || filter.search.value) {
+                page = 1;
+            }
+            
+            const params = {
+                page,
+                per_page,
+                sortBy: sort.sort || 'id',
+                order: sort.direction || 'asc',
+                searchBy: filter.search.key || 'name',
+                search: filter.search.value || '',
+                date: filter.date || '',
+                status: filter.status || '',
+            }
+
             const response = await api.get("/admin/users", {
-                params: {
-                    page,
-                    per_page,
-                },
+                params: params
             });
 
             if (response.status === 200) {
@@ -60,7 +72,7 @@ function adminDashboardServvice() {
                 return data;
             }
         } catch (error) {
-            if (error.response.status === 401) {
+            if (error.response && error.response.status === 401) {
                 navigate("/");
             }
 
@@ -72,7 +84,7 @@ function adminDashboardServvice() {
 
     return {
         updateUserStatus,
-        getAllUsers
+        getAllUsers,
     };
 }
 

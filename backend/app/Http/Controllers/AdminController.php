@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\Admin\GetFilterUserRequest;
 use App\Http\Requests\UpdateUserStatusRequest;
 use App\Services\AdminService;
 use Illuminate\Http\Request;
@@ -35,14 +35,12 @@ class AdminController extends Controller
         }
     }
 
-    public function getAllUser(PaginationRequest $request)
+    public function getAllUser(GetFilterUserRequest $request)
     {
         try {
             $validated = $request->validated();
-            $per_page = $validated['per_page'] ?? 10;
-            $page = $validated['page'] ?? 1;
 
-            $users = $this->adminService->getAllUser($per_page, $page);
+            $users = $this->adminService->getAllUser($validated);
 
             $total = $this->adminService->getTotalUser();
 
