@@ -4,7 +4,7 @@ import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
 import { formatDateCustom } from "../utility/formatdate";
 
-function adminDashboardServvice() {
+function AdminDashboardServvice() {
     const navigate = useNavigate();
 
     const extractAllUsers = (data) => {
@@ -88,4 +88,4 @@ function adminDashboardServvice() {
     };
 }
 
-export default adminDashboardServvice;
+export default AdminDashboardServvice;

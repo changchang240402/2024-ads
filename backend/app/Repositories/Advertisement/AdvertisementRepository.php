@@ -4,6 +4,7 @@ namespace App\Repositories\Advertisement;
 
 use App\Models\Advertisement;
 use App\Repositories\BaseRepository;
+use Exception;
 
 class AdvertisementRepository extends BaseRepository implements AdvertisementRepositoryInterface
 {
@@ -112,22 +113,63 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
             });
     }
 
-    public function getAllAds($userId, $page, $per_page)
+    public function getAllAds($userId, $validated)
     {
-        $ads = $this->model->with('advertisementType')->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate($per_page, ['*'], 'page', $page);
+        try {
+            $per_page = $validated['per_page'] ?? 5;
+            $page = $validated['page'] ?? 1;
+            $order = $validated['order'];
+            $sortBy = $validated['sortBy'];
+            $searchBy = $validated['searchBy'];
+            $search = $validated['search'];
+            $date = $validated['date'];
+            $status = $validated['status'];
 
-        $totalPage = ceil($ads->total() / $per_page);
-        $pagination = [
-            'per_page' => $ads->perPage(),
-            'current_page' => $ads->currentPage(),
-            'total_pages' => $totalPage,
-            'total_result' => $ads->total(),
-        ];
+            $ads = $this->model->with('advertisementType')
+                ->with(['advertisementDetails'])
+                ->where('user_id', $userId);
 
-        return [
-            'ads' => $ads->items(),
-            'pagination' => $pagination,
-        ];
+            if ($order && $sortBy) {
+                $ads = $ads->orderBy($sortBy, $order);
+            }
+
+            if ($searchBy && $search) {
+                $ads = $ads->where($searchBy, 'like', '%' . $search . '%');
+            }
+
+            if ($date) {
+                $ads = $ads->whereDate('created_at', $date);
+            }
+
+            if ($status) {
+                if ($status === 'active') {
+                    $status = config('constants.STATUS.active');
+                } else {
+                    $status = config('constants.STATUS.paused');
+                }
+                
+                $ads = $ads->where('status', $status);
+            }
+
+            $ads = $ads->paginate($per_page, ['*'], 'page', $page);
+
+
+            $totalPage = ceil($ads->total() / $per_page);
+
+            $pagination = [
+                'per_page' => $ads->perPage(),
+                'current_page' => $ads->currentPage(),
+                'total_pages' => $totalPage,
+                'total_result' => $ads->total(),
+            ];
+
+            return [
+                'ads' => $ads->items(),
+                'pagination' => $pagination,
+            ];
+        } catch (\Throwable $th) {
+            throw new Exception($th->getMessage(), 500);
+        }
     }
 
     public function getTopAdsByUsers($userId, $limit)
