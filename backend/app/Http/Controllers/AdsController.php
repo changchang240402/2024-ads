@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Advertisement\GetAdsWithPaginationRequest;
 use App\Http\Requests\PaginationRequest;
 use App\Services\AdvertisementService;
+use Exception;
 use Illuminate\Http\Request;
 
 class AdsController extends Controller
@@ -15,25 +17,32 @@ class AdsController extends Controller
         $this->adsService = $adsService;
     }
 
-    public function getAllAds(PaginationRequest $request)
+    public function getAllAds(GetAdsWithPaginationRequest $request)
     {
-        $validated = $request->validated();
-        $page = $validated['page'] ?? 1;
-        $per_page = $validated['per_page'] ?? 7;
+        try {
+            $validated = $request->validated();
+            $userId = auth()->user()->id;
+            $ads = $this->adsService->getAllAds($userId, $validated);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Get all ads successfully',
+                'ads' => $ads,
+            ], 200);
 
-        $userId = auth()->user()->id;
-        $ads = $this->adsService->getAllAds($userId, $page, $per_page);
-        return response()->json([
-            'success' => true,
-            'message' => 'Get all ads successfully',
-            'ads' => $ads,
-        ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Get all ads failed',
+                'error' => $e->getMessage(),
+            ], $e->getCode());
+        }
     }
 
     public function getTopAdsByUsers(Request $request)
     {
         $userId = auth()->user()->id;
-        $limit = $request->input('limit' , 3);
+        $limit = $request->input('limit', 3);
 
         $ads = $this->adsService->getTopAdsByUsers($userId, $limit);
         $adsByPlatforms = $this->adsService->getTotalAdsByPlatform($userId);

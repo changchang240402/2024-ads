@@ -18,9 +18,9 @@ class AdminService
         return $this->adminRepository->UpdateUserStatus($id, $status);
     }
 
-    public function getAllUser($per_page, $page)
+    public function getAllUser($validated)
     {
-        return $this->adminRepository->getAllUser($per_page, $page);
+        return $this->adminRepository->getAllUser($validated);
     }
 
     public function getTotalUser()

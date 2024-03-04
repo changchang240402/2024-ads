@@ -7,7 +7,7 @@ interface AdminRepositoryInterface
 {
     public function UpdateUserStatus($id, $status);
 
-    public function getAllUser($per_page, $page);
+    public function getAllUser($validated);
 
     public function getTotalUser();
 }

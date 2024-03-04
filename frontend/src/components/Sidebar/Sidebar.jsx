@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/ggads.png";
@@ -7,6 +7,19 @@ import logo from "../../assets/ggads.png";
 function SideBar({ MenuItems }) {
     const [isShow, setIsShow] = useState(true);
     const [active, setActive] = useState(MenuItems[0].title);
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 1400) {
+                setIsShow(false);
+            } else {
+                setIsShow(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleShowSidebar = () => {
         setIsShow(!isShow);

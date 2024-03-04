@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { FETCH_ADS_SUCCESS } from '../../const/config';
+import { FETCH_ADS_SUCCESS, USER_SORT_LABEL } from '../../const/config';
 
 const adsReducer = (state = [], action) => {
     switch (action.type) {

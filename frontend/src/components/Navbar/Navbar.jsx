@@ -63,7 +63,7 @@ const Navbar = () => {
                         <p className='text-sm font-thin'>{user.email}</p>
                     </div>
                     {isDropdownOpen && (
-                        <div className="absolute top-full right-4 mt-3 w-48 bg-white rounded-md rounded-t-none shadow-lg">
+                        <div className="absolute top-full right-4 mt-3 w-48 bg-white rounded-md rounded-t-none shadow-lg z-50">
                             <div className="py-1">
                                 <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" to={"profile"}>Profile</Link>
                                 <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={handleSubmit}>

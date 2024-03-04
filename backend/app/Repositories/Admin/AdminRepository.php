@@ -30,10 +30,37 @@ class AdminRepository implements AdminRepositoryInterface
         }
     }
 
-    public function getAllUser($per_page, $page)
+    public function getAllUser($validated)
     {
         try {
-            $users = $this->user->where('role', 'user')->paginate($per_page, ['*'], 'page', $page);
+            $per_page = $validated['per_page'] ?? 10;
+            $page = $validated['page'] ?? 1;
+            $order = $validated['order'];
+            $sortBy = $validated['sortBy'];
+            $searchBy = $validated['searchBy'];
+            $search = $validated['search'];
+            $date = $validated['date'];
+            $status = $validated['status'];
+
+            $users = $this->user->where('role', 'user');
+            
+            if($order && $sortBy) {
+                $users = $users->orderBy($sortBy, $order);
+            }
+
+            if ($searchBy && $search) {
+                $users = $users->where($searchBy, 'like', '%' . $search . '%');
+            }
+
+            if ($date) {
+                $users = $users->whereDate('created_at', $date);
+            }
+
+            if ($status) {
+                $users = $users->where('status', $status == 'active' ? 0 : 1);
+            }
+
+            $users = $users->paginate($per_page, ['*'], 'page', $page);
 
             $total_pages = ceil($users->total() / $per_page);
 

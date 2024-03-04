@@ -8,12 +8,10 @@ import Sidebar from "../Sidebar/Sidebar";
 import { MenuItems } from "../../models/MenuItems";
 
 const Home = React.lazy(() => import("../Home/Home"));
-const Campaign = React.lazy(() => import("../Campaigns/Campaign"));
+const Campaign = React.lazy(() => import("../Camaigns/Campaign"));
 const Groups = React.lazy(() => import("../Groups/Groups"));
 const Ads = React.lazy(() => import("../Ads/Ads"));
 const Reports = React.lazy(() => import("../Reports/Reports"));
-const EditCampaign = React.lazy(() => import("../Campaigns/EditCampaign/EditCampaign"));
-
 
 const UserNavigation = () => {
     return (
@@ -25,7 +23,7 @@ const UserNavigation = () => {
                     <Routes>
                         <Route path="" element={<Home />} />
                         <Route path="campaigns" element={<Campaign />} />
-                        <Route path="groups" element={<EditCampaign />} />
+                        <Route path="groups" element={<Groups />} />
                         <Route path="ads" element={<Ads />} />
                         <Route path="reports" element={<Reports />} />
                     </Routes>

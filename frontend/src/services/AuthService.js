@@ -44,7 +44,7 @@ function AuthService() {
         }
     }
 
-    const getUserProfile = async () => {
+    const getUserProfile = async() => {
         try {
             const response = await api.get("/auth/me");
             if (response.status === 200) {
