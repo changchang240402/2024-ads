@@ -86,7 +86,7 @@ const VizualizedTable = ({ filter, initSort }) => {
                             </td>
                             <td className='p-2 w-1/12 border-b'>{item.created_at}</td>
                             <td className='p-2 border-b'>{item.updated_at}</td>
-                            <td>{item.status === 0 ? 'Active' : 'Baned'}</td>
+                            <td>{item.status}</td>
                         </>
                     )}
                 />
