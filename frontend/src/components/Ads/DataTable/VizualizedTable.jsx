@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { faArrowUp, faArrowDown, faUnlock, faLock } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import { TableVirtuoso } from 'react-virtuoso'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
-import Loading from '../../Loading/Loading';
-import adminDashboardServvice from '../../../services/AdminDashboardServvice';
-import { USER_PER_PAGE, DEFAULT_USER_PER_PAGE } from '../../../const/config';
+import AdsDashboardService from '../../../services/AdsDashboardService';
+import { DEFAULT_ADS_PER_PAGE, PER_PAGE } from '../../../const/config';
 import NotFound from '../../Loading/NotFound';
 
-const CustomTable = ({ filter }) => {
-    const dispathch = useDispatch();
-
-    const titles = ['No', 'Email', 'Name', 'Created At', 'Updated At', 'Status', 'Action'];
+const VizualizedTable = ({ filter, initSort }) => {
+    const { getAllAds } = AdsDashboardService();
+    const titles = ['No', 'Name', 'Content', 'KPI', 'Created At', 'Updated At', 'Status'];
 
     const initialSortState = titles.map(title => ({ title, direction: null }));
 
@@ -19,42 +17,20 @@ const CustomTable = ({ filter }) => {
 
     const [data, setData] = useState({ users: [] });
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(DEFAULT_USER_PER_PAGE);
+    const [perPage, setPerPage] = useState(DEFAULT_ADS_PER_PAGE);
 
-    const sortLabel = ['id', 'email', 'name', 'created_at', 'updated_at', 'status'];
-    const [sort, setSort] = useState({
-        sort: 'id',
-        direction: 'asc',
-    });
+    const sortLabel = ['id', 'ad_name', 'ad_content', 'kpi', 'created_at', 'updated_at', 'status'];
 
-    const { getAllUsers, updateUserStatus } = adminDashboardServvice();
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await getAllUsers(page, perPage, sort, filter);
-            setData(response);
-        }
-        fetchData();
-    }, [page, perPage, sort, filter]);
+    const [sort, setSort] = useState(initSort);
 
     useEffect(() => {
         setPage(1);
     }, [filter]);
 
-    const handleUpdate = async (id, status) => {
-        const response = await updateUserStatus(id, status);
-        if (response) {
-            const updatedData = await getAllUsers(page, perPage, sort, filter);
-            setData(updatedData);
-        }
-    };
-
     const handleChangeRowsPerPage = (e) => {
         setPage(1);
         setPerPage(e.target.value);
-        dispathch()
     };
-
 
     const toggleSortDirection = (index) => {
         setSort({ sort: sortLabel[index], direction: sortState[index].direction === 'asc' ? 'desc' : 'asc' });
@@ -68,17 +44,27 @@ const CustomTable = ({ filter }) => {
         );
     };
 
+    useEffect(() => {
+        async function fetchData() {
+            const response = await getAllAds(page, perPage, sort, filter);
+            setData(response);
+        }
+        fetchData();
+    }, [page, perPage, sort, filter]);
+
     return (
-        <div className='flex flex-1 flex-col p-4 justify-center items-center w-full'>
-            {data?.users?.length > 0 ? (
-                <table className='border-b rounded-xl w-full text-base'>
-                    <thead>
-                        <tr>
+        <div className="flex flex-1 flex-col p-4 text-base justify-start items-start w-full">
+            {data?.ads?.length > 0 ? (
+                <TableVirtuoso className='flex w-full justify-start items-start'
+                    data={data.ads}
+                    style={{ height: '500px' }}
+                    fixedHeaderContent={() => (
+                        <tr className='m-2'>
                             {titles.map((item, index) => (
-                                <th className='border-b text-left py-2 text-[#758191]' key={index}>
+                                <th className='border-b text-left p-2 text-[#758191]' key={index}>
                                     {item}
                                     {item !== 'Action' && item !== "No" && (
-                                        <button className='mx-2' onClick={() => toggleSortDirection(index)}>
+                                        <button className='mx-3' onClick={() => toggleSortDirection(index)}>
                                             {sortState[index]?.direction === 'asc' ? (
                                                 <FontAwesomeIcon icon={faArrowUp} size='sm' />
                                             ) : (
@@ -89,50 +75,36 @@ const CustomTable = ({ filter }) => {
                                 </th>
                             ))}
                         </tr>
-                    </thead>
-                    <tbody>
-                        {data.users.map((item, index) => (
-                            <tr className='border-b items-start' key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.email}</td>
-                                <td>{item.name}</td>
-                                <td>{item.created_at}</td>
-                                <td>{item.updated_at}</td>
-                                <td>{item.status === 0 ? 'Active' : 'Baned'}</td>
-                                <td className='pl-3'>
-                                    <div className={`progress-bar text-xl flex items-center justify-start mr-4 my-2 rounded-2xl`}>
-                                        <div className={`progress rounded-2xl flex justify-center
-                                                        ${item.status === 1 ? "bg-[#0095FF]" : "bg-red-600"} `}>
-                                            <button className='px-2 text-white' onClick={() => handleUpdate(item.id, item.status === 0 ? 1 : 0)}>
-                                                {item.status === 1 ? (
-                                                    <FontAwesomeIcon icon={faUnlock} />
-                                                ) : (
-                                                    <FontAwesomeIcon icon={faLock} />
-                                                )}
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    )}
+                    itemContent={(index, item) => (
+                        <>
+                            <td className='p-2 border-b'>{index + 1}</td>
+                            <td className='p-2 w-1/12 border-b'>{item.name}</td>
+                            <td className='p-2 border-b'>{item.content}</td>
+                            <td className='w-1/12 px-2 border-b'>
+                                <p className={`px-2 ${item.kpi > 50 ? "bg-[#0095FF]" : "bg-red-600"} rounded-2xl`}>{item.kpi}</p>
+                            </td>
+                            <td className='p-2 w-1/12 border-b'>{item.created_at}</td>
+                            <td className='p-2 border-b'>{item.updated_at}</td>
+                            <td>{item.status === 0 ? 'Active' : 'Baned'}</td>
+                        </>
+                    )}
+                />
             ) : (
                 <NotFound />
             )}
-
             <div className="flex justify-between items-center mt-4 w-full">
                 <div className='flex items-center justify-end w-full'>
                     <p className='mr-20 opacity-70'>Total result: {data?.pagination?.total_result}</p>
                     <div className="flex justify-center items-center mx-10">
                         <label className='opacity-80'>Rows per page</label>
                         <select
+                            value={perPage}
                             className='border rounded-xl p-2 px-4 mx-2 bg-slate-100'
                             onChange={handleChangeRowsPerPage}
                         >
                             {
-                                USER_PER_PAGE.map((item, index) => (
+                                PER_PAGE.map((item, index) => (
                                     <option key={index} value={item}>{item}</option>
                                 ))
                             }
@@ -154,9 +126,8 @@ const CustomTable = ({ filter }) => {
                                 Previous
                             </button>
                         )}
-
                         <p className='opacity-70 text-base'>
-                            {page} of {data?.pagination?.total_pages}
+                            {page} of {data?.pagination?.total_pages ? data?.pagination?.total_pages : 1}
                         </p>
 
                         {(page + 1) <= data?.pagination?.total_pages ? (
@@ -178,8 +149,9 @@ const CustomTable = ({ filter }) => {
                     </div>
                 </div>
             </div>
-        </div >
-    );
-};
+        </div>
 
-export default CustomTable;
+    )
+}
+
+export default VizualizedTable

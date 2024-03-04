@@ -19,9 +19,9 @@ class AdvertisementService
         $this->adsRepository = $adsRepository;
     }
 
-    public function getAllAds($userId, $page, $per_page)
+    public function getAllAds($userId, $validated)
     {
-        return $this->adsRepository->getAllAds($userId, $page, $per_page);
+        return $this->adsRepository->getAllAds($userId, $validated);
     }
 
     public function getTopAdsByUsers($userId, $limit)

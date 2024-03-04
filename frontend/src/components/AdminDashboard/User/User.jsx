@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { faCalendar, faChartSimple, faFilterCircleXmark, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
 import CustomTable from '../Table/CustomTable'
-import adminDashboardServvice from '../../../services/adminDashboardServvice'
+import adminDashboardServvice from '../../../services/AdminDashboardServvice'
 import { DEFAULT_USER_PER_PAGE, USER_STATUS } from '../../../const/config';
 import { formatDateCustom } from '../../../utility/formatdate';
 
@@ -118,7 +118,7 @@ const User = () => {
                             </div>
                             <div className=''>
                                 <select className='border rounded-2xl p-2 focus:border-[#0095FF]' value={status} onChange={handleChangeStatus}>
-                                    <option value="status">Status</option>
+                                    <option value="">Status</option>
                                     {statusData?.map((item, index) => (
                                         <option key={index} value={item}>{item}</option>
                                     ))}

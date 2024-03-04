@@ -33,7 +33,7 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
      */
     public function getAdsByGroupIds($userId, $groupIds);
 
-    public function getAllAds($userId, $page, $per_page);
+    public function getAllAds($userId, $validated);
 
     public function getTopAdsByUsers($userId, $limit);
 
