@@ -4,7 +4,7 @@ import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
 import { formatDateCustom } from "../utility/formatdate";
 
-function adsDashboardService() {
+function AdsDashboardService() {
     const navigate = useNavigate();
 
     const extractTopAdsData = (data) => {
@@ -33,18 +33,15 @@ function adsDashboardService() {
         }
     };
 
-    
-
     const extractAllAdsData = (data) => {
         const res = data.ads.map((item) => {
             return {
                 name: item.ad_name,
                 content: item.ad_content,
-                type: item.advertisement_type.ad_type_name,
                 created_at: formatDateCustom(item.created_at),
                 updated_at: formatDateCustom(item.updated_at),
                 kpi: item.kpi,
-                status: (item.status == 1) ? "Active" : "Paused",
+                status: (item.status === 0) ? "Active" : "Paused",
             };
         });
 
@@ -72,16 +69,21 @@ function adsDashboardService() {
         }
     };
 
-    const getAllAds = async (filter, date, status, page, per_page) => {
+    const getAllAds = async (page, per_page, sort, filter) => {
         try {
+            const params = {
+                page,
+                per_page,
+                sortBy: sort.sort || 'id',
+                order: sort.direction || 'asc',
+                searchBy: filter.search.key || 'name',
+                search: filter.search.value || '',
+                date: filter.date || '',
+                status: filter.status || '',
+            };
+
             const response = await api.get("/ads", {
-                params: {
-                    filter,
-                    date,
-                    status,
-                    page,
-                    per_page,
-                },
+                params,
             });
 
             if (response.status === 200) {
@@ -105,4 +107,4 @@ function adsDashboardService() {
     };
 }
 
-export default adsDashboardService;
+export default AdsDashboardService;

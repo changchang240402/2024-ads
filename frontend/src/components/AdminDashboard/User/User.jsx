@@ -1,26 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import { faCalendar, faChartSimple, faFilterCircleXmark, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
 
 import CustomTable from '../Table/CustomTable'
-import adminDashboardServvice from '../../../services/adminDashboardServvice'
+import adminDashboardServvice from '../../../services/AdminDashboardServvice'
+import { DEFAULT_USER_PER_PAGE, USER_STATUS } from '../../../const/config';
+import { formatDateCustom } from '../../../utility/formatdate';
 
 const User = () => {
-
     const { getAllUsers } = adminDashboardServvice();
-    const START_PAGE = 1;
-    const PER_PAGE = 5;
+    const [date, setDate] = useState(formatDateCustom(new Date()));
+    const [status, setStatus] = useState('');
+    const [filter, setFilter] = useState({
+        search: {
+            'key': 'name',
+            'value': ''
+        },
+        date: '',
+        status: ''
+    });
+
+    const statusData = [
+        USER_STATUS.active,
+        USER_STATUS.banned
+    ]
+
     const [data, setData] = useState(null);
+
+    const START_PAGE = 1;
+    const PER_PAGE = DEFAULT_USER_PER_PAGE;
+
+
+    const handleClearFilter = () => {
+        setFilter({ search: { key: 'name', value: '' }, date: '', status: '' });
+        setDate(formatDateCustom(new Date()));
+    };
+
+    const handleDateChange = (date) => {
+        setDate(formatDateCustom(date));
+        setFilter({ ...filter, date: formatDateCustom(date) });
+    };
+
+    const handleChangeStatus = (e) => {
+        setFilter({ ...filter, status: e.target.value })
+        setStatus(e.target.value);
+    };
 
     useEffect(() => {
         async function fetchData() {
-            const response = await getAllUsers(START_PAGE, PER_PAGE);
-            console.log(response);
-            setData(response.total);
+            const response = await getAllUsers(START_PAGE, PER_PAGE, '', '');
+            setData(response?.total);
         }
         fetchData();
 
-    }, []);
+    }, [filter]);
 
     return (
         <div className='flex flex-1 flex-col font-poppins'>
@@ -59,9 +94,42 @@ const User = () => {
             <div className="flex flex-col px-10 bg-white mx-6 mb-3 p-2 m-2 rounded-xl shadow-lg">
                 <div className="flex flex-1 flex-col rounded-lg justify-between ">
                     <div className="flex">
-                        <p className='text-lg font-bold'>Top Adsverstisements</p>
+                        <p className='text-lg font-bold'>Users management</p>
                     </div>
-                    <CustomTable />
+                    <div className="flex">
+                        <div className='flex flex-1 items-center justify-center'>
+                            <div className="flex justify-center items-center p-2 m-2 mx-4 shadow-sm rounded-3xl border-2 focus:outline-none border-[#0095FF] bg-white    ">
+                                <FontAwesomeIcon icon={faSearch} size='lg' color='#387DE4' />
+                                <input className=' px-2 focus:outline-none focus:border-[#0095FF] outline-none bg-white' type="text" placeholder='Search here'
+                                    value={filter.search.value}
+                                    onChange={(e) => setFilter({ ...filter, search: { ...filter.search, value: e.target.value } })}
+                                />
+                            </div>
+                            <div className='mx-4'>
+                                <span className='opacity-85 mx-2'>Filter by</span>
+                                <select className='border p-2 focus:border-[#0095FF]' value={filter.search.key} onChange={(e) => setFilter({ ...filter, search: { ...filter.search, key: e.target.value } })}>
+                                    <option value="name">Name</option>
+                                    <option value="email">Email</option>
+                                </select>
+                            </div>
+                            <div className='flex items-center py-2 border px-2 mx-10 '>
+                                <DatePicker className="focus:outline-none focus:border-none" selected={date} onChange={handleDateChange} />
+                                <FontAwesomeIcon icon={faCalendar} color={'#0095FF'} size='lg' />
+                            </div>
+                            <div className=''>
+                                <select className='border rounded-2xl p-2 focus:border-[#0095FF]' value={status} onChange={handleChangeStatus}>
+                                    <option value="">Status</option>
+                                    {statusData?.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button className="mx-4 mr-20" onClick={handleClearFilter}>
+                                <FontAwesomeIcon icon={faFilterCircleXmark} color={'#0095FF'} size='xl' />
+                            </button>
+                        </div>
+                    </div>
+                    <CustomTable filter={filter} />
                 </div>
             </div>
         </div>
