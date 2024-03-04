@@ -8,6 +8,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\SendMessageToSlackController;
+use App\Http\Controllers\TestNoti;
+use App\Notifications\SendSlackNotification;
+use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +73,8 @@ Route::group([
         Route::get("", [AdsController::class, "getAllAds"]);
         Route::get("top", [AdsController::class, "getTopAdsByUsers"]);
     });
+});
+
+Route::group(['prefix' => 'test'], function () {
+    Route::get("", [SendMessageToSlackController::class, "sendMultipleMessage"]);
 });
