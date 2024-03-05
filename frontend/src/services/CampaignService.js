@@ -87,7 +87,6 @@ function campaignService() {
             }
         }
     };
-
     const editCampaign = async (
         id, campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy
     ) => {

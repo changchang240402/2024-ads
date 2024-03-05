@@ -60,6 +60,7 @@ const Label = React.forwardRef(function Label(props, ref) {
         </label>
     );
 });
+
 const Component = React.forwardRef(function Component(props, ref) {
     const { className, name, title, placeholder, register, error } = props;
     return (
@@ -75,4 +76,3 @@ const Component = React.forwardRef(function Component(props, ref) {
 });
 
 export { DatePicker, Label, Input, LabelError, Component };
-
