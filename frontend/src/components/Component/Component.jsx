@@ -75,4 +75,25 @@ const Component = React.forwardRef(function Component(props, ref) {
     );
 });
 
-export { DatePicker, Label, Input, LabelError, Component };
+const Button = React.forwardRef(function Button(props, ref) {
+    const { name, title, value, onChange, title1, data, className1, className2 } = props;
+    return (
+        <button className={`flex items-center flex-row px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] h-auto ${className1}`}>
+            <p className="justify-center font-bold">{title} </p>
+            <select
+                className={`selectpicker focus:outline-none focus:border-none bg-white ${className2}`}
+                data-width="2px"
+                aria-label="None"
+                id={name}
+                name={name}
+                value={value}
+                onChange={onChange}
+            >
+                <option value=''>{title1}</option>
+                {data}
+            </select>
+        </button>
+    );
+});
+
+export { DatePicker, Label, Input, LabelError, Component, Button };

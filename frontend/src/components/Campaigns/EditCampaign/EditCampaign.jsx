@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { yupResolver } from "@hookform/resolvers/yup";
 import logo from "../../../assets/ggads.png";
-import { faMoneyBill, faCalendar } from '@fortawesome/free-solid-svg-icons'
-import { DatePicker, Label, Input, LabelError, Component } from "../Component/Component";
+import { faMoneyBill} from '@fortawesome/free-solid-svg-icons'
+import { DatePicker, Label, Input, LabelError, Component } from "../../Component/Component";
 import { HUMAN_OBJECT } from '../../../const/config';
 import CampaignService from '../../../services/CampaignService';
 import { formatDate } from '../../../utility/formatdate';
