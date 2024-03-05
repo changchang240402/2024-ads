@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Advertisement;
+use App\Models\AdvertisementDetail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,15 +18,16 @@ class NotificationFactory extends Factory
      */
     public function definition(): array
     {
-        $ads = Advertisement::all()->random();
-        $date = fake()->dateTimeBetween('-3 year', 'now');
-        $time = $date->format('F Y');
+        $ads_details = AdvertisementDetail::all()->random();
+        $fakeTimestapm = fake()->dateTimeBetween('-3 year', 'now');
+        $time = $fakeTimestapm->format('F Y');
+
         return [
-            'ad_id' => $ads->id,
-            'title' => 'Warning for ads system " ' . $ads->ad_name . ' " in ' . $time . '.',
+            'ad_detail_id' => $ads_details->id,
+            'title' => 'Warning for ads system " ' . $ads_details->id . ' " in ' . $time . '.',
             'content' => fake('en_US')->text(100),
-            'created_at' => $date,
-            'updated_at' => $date,
+            'created_at' => $fakeTimestapm,
+            'updated_at' => $fakeTimestapm,
         ];
     }
 }
