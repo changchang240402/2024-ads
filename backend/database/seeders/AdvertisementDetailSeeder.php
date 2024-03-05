@@ -13,6 +13,6 @@ class AdvertisementDetailSeeder extends Seeder
      */
     public function run(): void
     {
-        AdvertisementDetail::factory()->count(1000)->create();
+        AdvertisementDetail::factory()->count(400)->create();
     }
 }

@@ -43,9 +43,4 @@ class Advertisement extends Model
     {
         return $this->hasMany(AdvertisementDetail::class, 'ad_id', 'id');
     }
-
-    public function notifications(): HasMany
-    {
-        return $this->hasMany(Notification::class, 'ad_id', 'id');
-    }
 }

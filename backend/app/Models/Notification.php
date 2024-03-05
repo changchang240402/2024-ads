@@ -13,13 +13,13 @@ class Notification extends Model
     protected $table = 'notifications';
 
     protected $fillable = [
-        'ad_id',
+        'ad_detail_id',
         'title',
         'content'
     ];
 
     public function advertisement(): BelongsTo
     {
-        return $this->belongsTo(Advertisement::class, 'ad_id', 'id');
+        return $this->belongsTo(AdvertisementDetail::class, 'ad_detail_id', 'id');
     }
 }

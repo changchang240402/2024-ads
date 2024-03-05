@@ -33,4 +33,9 @@ class AdvertisementService
     {
         return $this->adsRepository->getTotalAdsByPlatform($userId);
     }
+
+    public function getWarningBadKpiAdsNotifications($userId)
+    {
+        return $this->adsRepository->getWarningBadKpiAdsNotifications($userId);
+    }
 }
