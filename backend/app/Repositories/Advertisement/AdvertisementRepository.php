@@ -147,7 +147,7 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
                 } else {
                     $status = config('constants.STATUS.paused');
                 }
-                
+
                 $ads = $ads->where('status', $status);
             }
 
@@ -174,15 +174,19 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
 
     public function getTopAdsByUsers($userId, $limit)
     {
-        $ads = $this->model->join('advertisement_details', 'advertisements.id', '=', 'advertisement_details.ad_id')
-            ->select('advertisements.id', 'advertisements.ad_name', 'advertisements.ad_content', 'advertisements.destination_url', 'advertisements.kpi', 'advertisement_details.conversion_rate')
-            ->where('advertisements.user_id', $userId)
-            ->orderByDesc('advertisement_details.conversion_rate')
-            ->distinct('advertisements.id')
-            ->take($limit)
-            ->get();
+        try {
+            $ads = $this->model->join('advertisement_details', 'advertisements.id', '=', 'advertisement_details.ad_id')
+                ->select('advertisements.id', 'advertisements.ad_name', 'advertisements.ad_content', 'advertisements.destination_url', 'advertisements.kpi', 'advertisement_details.conversion_rate')
+                ->where('advertisements.user_id', $userId)
+                ->orderByDesc('advertisement_details.conversion_rate')
+                ->distinct()
+                ->take($limit)
+                ->get();
 
-        return $ads->unique('id');
+            return $ads;
+        } catch (\Throwable $th) {
+            throw new Exception($th->getMessage(), 500);
+        }
     }
 
     public function getTotalAdsByPlatform($userId)
@@ -201,5 +205,30 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
         }
 
         return $totals;
+    }
+
+    public function getWarningBadKpiAdsNotifications($userId)
+    {
+        try {
+            $ads = $this->model->join('advertisement_details', 'advertisements.id', '=', 'advertisement_details.ad_id')
+                ->join('platforms', 'advertisement_details.platform_id', '=', 'platforms.id')
+                ->select(
+                    'advertisement_details.id',
+                    'advertisements.ad_name',
+                    'advertisements.kpi',
+                    'advertisement_details.conversion_rate',
+                    'platforms.platform_name as platform_name'
+                )
+                ->where('advertisements.user_id', $userId)
+                ->where('advertisements.status', config('constants.STATUS.active'))
+                ->whereColumn('advertisements.kpi', '>', 'advertisement_details.conversion_rate')
+                ->distinct()
+                ->get();
+
+
+            return $ads;
+        } catch (\Throwable $th) {
+            throw new Exception($th->getMessage(), 500);
+        }
     }
 }
