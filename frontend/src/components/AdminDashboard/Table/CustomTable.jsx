@@ -20,8 +20,7 @@ const CustomTable = ({ filter }) => {
     const [data, setData] = useState({ users: [] });
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(DEFAULT_USER_PER_PAGE);
-
-    const sortLabel = ['id', 'email', 'name', 'created_at', 'updated_at', 'status'];
+    const sortLabel = ['id', 'email', 'name', 'created_at', 'updated_at', 'status' ];
     const [sort, setSort] = useState({
         sort: 'id',
         direction: 'asc',

@@ -66,7 +66,7 @@ class CampaignController extends Controller
     public function createCampaign(CampaignRequest $request)
     {
         $validated = $request->validated();
-        $targetAudience = $validated['human'] . ' aged ' . $validated['start_age'] . '-' . $validated['end_age'] . ' ' . $validated['activities'] . ' activities';
+        $targetAudience = $validated['human'] . ' aged ' . $validated['start_age'] . '-' . $validated['end_age'] . ' ' . $validated['activities'] . ' activities.';
         try {
             $validated['target_audience'] = $targetAudience;
             $create = $this->campaignService->createCampaign($validated);
@@ -92,7 +92,7 @@ class CampaignController extends Controller
     public function updateCampaign($id, CampaignRequest $request)
     {
         $validated = $request->validated();
-        $targetAudience = $validated['human'] . ' aged ' . $validated['start_age'] . '-' . $validated['end_age'] . ' ' . $validated['activities'] . ' activities';
+        $targetAudience = $validated['human'] . ' aged ' . $validated['start_age'] . '-' . $validated['end_age'] . ' ' . $validated['activities'] . ' activities.';
         try {
             $validated['target_audience'] = $targetAudience;
             $update = $this->campaignService->updateCampaign($id, $validated);

@@ -150,7 +150,7 @@ class CampaignService
     public function getCampaignsById($userId, $campignId)
     {
         $campaign = $this->campaignRepository->getCampaignsById($userId, $campignId);
-        if ($campaign->isEmpty()) {
+        if (!$campaign) {
             throw new Exception('Campaign not found');
         }
         $groups = $this->groupRepository->getGroupByCampaignId($campignId);
@@ -202,7 +202,7 @@ class CampaignService
     {
         $userId = auth()->id();
         $campaignOld = $this->campaignRepository->getCampaignsById($userId, $id);
-        if ($campaignOld->isEmpty()) {
+        if (!$campaignOld) {
             throw new Exception('This campaign does not exist');
         }
         try {

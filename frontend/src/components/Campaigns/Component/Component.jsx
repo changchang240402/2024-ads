@@ -4,16 +4,19 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from 'dayjs';
 
 const DatePicker = React.forwardRef(function DatePicker(props, ref) {
-    const { error, format, name, control } = props;
-    const { field } = useController({ name, control });
 
+    const { error, format, name, control, defaultValue } = props;
+    const { field } = useController({ name, control });
+    const formatted = defaultValue ? dayjs(defaultValue) : null;
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MuiDatePicker
-                inputFormat={format}
                 {...field}
+                inputFormat={format}
+                value={formatted}
                 textField={({ error: inputError, ...params }) => {
                     return <TextField
                         error={error}
@@ -25,6 +28,7 @@ const DatePicker = React.forwardRef(function DatePicker(props, ref) {
         </LocalizationProvider>
     );
 });
+
 const Input = React.forwardRef(function Input(props, ref) {
     const { className, name, placeholder, register } = props;
     return (

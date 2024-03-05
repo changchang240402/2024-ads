@@ -22,7 +22,7 @@ class CampaignFactory extends Factory
         $humans = config('constants.HUMAN_OBJECT');
         $human = array_rand($humans);
         $grap_age = random_int(20, 40);
-        $target = $humans[$human] . ' aged ' . $grap_age . ' ' . fake('en_US')->text(50) . ' activities.';
+        $target = $humans[$human] . ' aged ' . $grap_age . '-50 ' . fake('en_US')->text(50) . ' activities.';
         $userId = User::where('role', config('constants.ROLE')[1])->inRandomOrder()->get()->random()->id;
         return [
             'campaign_name' => fake('en_US')->text(25),

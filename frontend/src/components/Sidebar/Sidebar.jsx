@@ -7,7 +7,6 @@ import logo from "../../assets/ggads.png";
 function SideBar({ MenuItems }) {
     const [isShow, setIsShow] = useState(true);
     const [active, setActive] = useState(MenuItems[0].title);
-
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 1400) {

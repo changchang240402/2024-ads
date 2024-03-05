@@ -11,6 +11,8 @@ import '../../../src/pagination.css';
 import { formatDateString } from '../../utility/formatdate';
 import Popup from 'reactjs-popup';
 import CreateCampaign from '../Campaigns/CreateCampaign/CreateCampaign'
+import EditCampaign from '../Campaigns/EditCampaign/EditCampaign'
+
 import Loading from '../Loading/Loading'
 
 const Campaign = () => {
@@ -164,15 +166,32 @@ const Campaign = () => {
                             />
                             View
                         </button>
-                        <button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] mr-10 h-[18px] w-[80px]">
-                            <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                size="xl"
-                                // onClick={() => handleShowSearch(params.row.id)}
-                                className='p-2'
-                            />
-                            <p>Edit</p>
-                        </button>
+                        <Popup
+                            trigger={<button className="flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] mr-10 h-[18px] w-[80px]">
+                                <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    size="xl"
+                                    className='p-2'
+                                />
+                                <p>Edit</p>
+                            </button>}
+                            modal
+                            nested
+                            style='height: 80%, width: 85%'
+                            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                        >
+                            {close => (
+                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                    <button className="modal__close" onClick={close}>
+                                        &times;
+                                    </button>
+                                    <div className='h-[85%] w-[1200px]'>
+                                        <EditCampaign
+                                            id={params.row.id} />
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
                     </Box>
                 );
             }

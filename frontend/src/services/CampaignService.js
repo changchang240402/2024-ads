@@ -50,9 +50,6 @@ function campaignService() {
             .required('Distribution strategy is a required field')
             .max(255, 'Distribution strategy must be at most 255 characters'),
     })
-    function parseDateString(value, originalValue) {
-        return originalValue ? new Date(originalValue) : value;
-    }
     const createCampaign = async (
         campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy
     ) => {
@@ -90,6 +87,44 @@ function campaignService() {
             }
         }
     };
+    const editCampaign = async (
+        id, campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy
+    ) => {
+        try {
+            const response = await api.put(`/campaigns/${id}`, {
+                campaign_name,
+                campaign_goal,
+                budget,
+                start_date,
+                end_date,
+                ad_message,
+                human,
+                start_age,
+                end_age,
+                activities,
+                distribution_strategy
+            });
+            if (response.status === 200) {
+
+                Toastify.success("Edit Successful");
+                // return response.data;
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+
+            }
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    handleUnauthorized();
+                }
+                Toastify.error(error.response.data.message);
+            } else {
+                Toastify.error("An unexpected error occurred.");
+            }
+        }
+    };
+
     const handleUnauthorized = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
@@ -132,11 +167,38 @@ function campaignService() {
             }
         }
     };
+    const campaignDetail = {
+        async getCampaignData(id) {
+            try {
+                const response = await api.get(`/campaigns/${id}`);
+                if (response.status === 200) {
+                    return {
+                        campaign: response.data.campaign,
+                        total_pages: response.data.total_group,
+                        total: response.data.total_ads,
+                        ads: response.data.ads,
+                    };
+                }
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        handleUnauthorized();
+                    }
+                    Toastify.error(error.response.data.message);
+                } else {
+                    Toastify.error("An unexpected error occurred.");
+                }
+            }
+        }
+    };
+
 
     return {
         campaigns,
         schema,
         createCampaign,
+        editCampaign,
+        campaignDetail,
     };
 }
 
