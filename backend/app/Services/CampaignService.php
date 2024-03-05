@@ -12,7 +12,7 @@ use DateTime;
 
 class CampaignService
 {
-    private const PAGINATE_PER_PAGE = 15;
+    private const PAGINATE_PER_PAGE = 10;
     protected CampaignRepository $campaignRepository;
 
     protected GroupRepository $groupRepository;
@@ -175,7 +175,7 @@ class CampaignService
     }
 
     /**
-     * Create new campign
+     * Create new campign 
      *
      * @param mixed $campaign
      * @return mixed
@@ -192,7 +192,7 @@ class CampaignService
         return $data;
     }
     /**
-     * Update new campign
+     * Create new campign 
      *
      * @param int $id
      * @param mixed $campaign
@@ -202,45 +202,6 @@ class CampaignService
     {
         $userId = auth()->id();
         $campaignOld = $this->campaignRepository->getCampaignsById($userId, $id);
-        if ($campaignOld->isEmpty()) {
-            throw new Exception('This campaign does not exist');
-        }
-        try {
-            $data = $this->campaignRepository->update($id, $campaign);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-        return $data;
-    }
-
-    /**
-     * Create new campign 
-     *
-     * @param mixed $campaign
-     * @return mixed
-     */
-
-    public function createCampaign($campaign)
-    {
-        $campaign['user_id'] = auth()->id();
-        try {
-            $data = $this->campaignRepository->create($campaign);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-        return $data;
-    }
-    /**
-     * Create new campign 
-     *
-     * @param int $id
-     * @param mixed $campaign
-     * @return mixed
-     */
-    public function updateCampaign($id, $campaign)
-    {
-        $userId = auth()->id();
-        $campaignOld = $this->campaignRepository->getCampaignsById($userId,$id);
         if ($campaignOld->isEmpty()) {
             throw new Exception('This campaign does not exist');
         }

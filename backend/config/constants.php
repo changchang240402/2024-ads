@@ -26,9 +26,9 @@ return [
     ],
 
     'HUMAN_OBJECT' => [
-        'male',
-        'female',
-        'everyone',
+        'Male',
+        'Female',
+        'Everyone',
     ],
 
     'WEEKDAYS' => [
