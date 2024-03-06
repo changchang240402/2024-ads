@@ -12,7 +12,6 @@ const Campaign = React.lazy(() => import("../Campaigns/Campaign"));
 const Groups = React.lazy(() => import("../Groups/Groups"));
 const Ads = React.lazy(() => import("../Ads/Ads"));
 const Reports = React.lazy(() => import("../Reports/Reports"));
-const CampaignDetail = React.lazy(() => import("../Campaigns/ShowCampaign/CampaignDetail"))
 
 const UserNavigation = () => {
     return (
@@ -26,7 +25,7 @@ const UserNavigation = () => {
                         <Route path="campaigns" element={<Campaign />} />
                         <Route path="groups" element={<Groups />} />
                         <Route path="ads" element={<Ads />} />
-                        <Route path="reports" element={<CampaignDetail />} />
+                        <Route path="reports" element={<Reports />} />
                     </Routes>
                 </Suspense>
             </div>

@@ -6,8 +6,6 @@ import Box from '@mui/material/Box';
 import { faMagnifyingGlass, faPlus, faEye, faPenToSquare, faCalendar, faFilterCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ReactPaginate from 'react-paginate';
-import '../../../src/pagination.css';
 import { formatDateString } from '../../utility/formatdate';
 import Popup from 'reactjs-popup';
 import CreateCampaign from '../Campaigns/CreateCampaign/CreateCampaign'
@@ -15,7 +13,7 @@ import EditCampaign from '../Campaigns/EditCampaign/EditCampaign'
 import CampaignDetail from './ShowCampaign/CampaignDetail';
 import { SORT } from '../../const/config';
 import Loading from '../Loading/Loading'
-import { Button } from "../Component/Component";
+import { Button, Paginate } from "../Component/Component";
 
 const Campaign = () => {
     const sortData = Object.keys(SORT);
@@ -181,15 +179,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <CampaignDetail
                                             id={params.row.id} />
                                     </div>
@@ -207,15 +205,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <EditCampaign
                                             id={params.row.id} />
                                     </div>
@@ -291,15 +289,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <CreateCampaign />
                                     </div>
                                 </div>
@@ -324,24 +322,7 @@ const Campaign = () => {
                 </div>
                 <div className='flex flex-row'>
                     <p className='w-4/5 text-lg my-1 text-[#387DE4] ml-6 p-4'>Total: {filter.totalCampaign} row</p>
-                    <div className='w-1/5 flex items-center justify-end'>
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel=" > "
-                            onPageChange={handlePageClick}
-                            Displayed Page Range={5}
-                            pageCount={filter.pageCount}
-                            previousLabel=" < "
-                            renderOnZeroPageCount={null}
-                            containerClassName="pagination"
-                            pageClassName="page-item"
-                            activeClassName="active"
-                            previousClassName="page-item"
-                            nextClassName="page-item"
-                            breakClassName="page-item"
-                            className='flex items-center flex-row h-[50px]'
-                        />
-                    </div>
+                    <Paginate className='w-1/5' handlePageClick={handlePageClick} pageCount={filter.pageCount} />
                 </div>
             </div>
         </div>
