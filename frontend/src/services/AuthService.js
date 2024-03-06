@@ -51,6 +51,10 @@ function AuthService() {
                 return response.data.user;
             }
         } catch (error) {
+            if (error.response && error.response.status === 401) {
+                navigate("/");
+            }
+
             if (error.response) {
                 Toastify.error(error.response.data.message);
             }

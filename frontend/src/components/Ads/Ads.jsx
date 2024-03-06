@@ -95,12 +95,12 @@ const Ads = () => {
                                                 <td>{item.name}</td>
                                                 <td>{item.kpi}</td>
                                                 <td>
-                                                    <div className={`progress-bar text-base flex items-center justify-start 
+                                                    <div className={`progress-bar text-sm flex items-center justify-start 
                                                     ${item.kpi < item.conversion_rate ? "bg-[#CDE7FF]" : "bg-red-200"}  mr-4 my-2 rounded-2xl`}>
                                                         <div className={`progress rounded-2xl flex justify-center 
                                                         ${item.kpi < item.conversion_rate ? "bg-[#0095FF]" : "bg-red-600"} `}
                                                             style={{ width: `${item.conversion_rate}%` }}>
-                                                            <p className='px-2 text-white'>{item.conversion_rate}%</p>
+                                                            <p className='mx-2 px-4 text-white'>{item.conversion_rate}%</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -147,7 +147,7 @@ const Ads = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='flex items-center z-50 py-2 border px-2 mx-10'>
+                    <div className='flex items-center z-10 py-2 border px-2 mx-10'>
                         <DatePicker className='outline-none' selected={date} onChange={handleDateChange} />
                         <FontAwesomeIcon icon={faCalendar} color={'#387DE4'} size='lg' />
                     </div>
