@@ -57,4 +57,5 @@ class AdvertisementService
         );
         return $paginatedAds;
     }
+
 }
