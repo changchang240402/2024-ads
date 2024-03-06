@@ -43,9 +43,6 @@ class AdvertisementService
     public function getAdsByGroupIds($userId, $groupIds, $page)
     {
         $ads = $this->adsRepository->getAdsByGroupIds($userId, $groupIds);
-        if ($ads->isEmpty()) {
-            throw new Exception('Ads not found');
-        }
         $perPage = self::PAGINATE_PER_PAGE;
         $adsPerPage = $ads->forPage($page, $perPage);
         $paginatedAds = new LengthAwarePaginator(

@@ -98,11 +98,11 @@ const Button = React.forwardRef(function Button(props, ref) {
 });
 
 const Detail = React.forwardRef(function Detail(props, ref) {
-    const { title, value, className1, className2 } = props;
+    const { title, value, className1, className2, className3 } = props;
     return (
         <div className={`flex ${className1}`}>
             <p className={`font-bold text-[17px] text-[#6E9CE0] mb-2 ${className2}`}>{title}</p>
-            <p className="text-[17px] mb-2 text-[#696A75]">{value}</p>
+            <p className={`text-[17px] mb-2 text-[#696A75] ${className3} `}>{value}</p>
         </div>
     );
 });

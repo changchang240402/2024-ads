@@ -7,7 +7,7 @@ import { faMagnifyingGlass, faFilterCircleXmark, faEye } from '@fortawesome/free
 import ReactPaginate from 'react-paginate';
 import '../../../src/pagination.css';
 import { ADS_STATUS, BIDDING_STRATEGY, SORT } from '../../const/config';
-import { Button } from "../Component/Component";
+import { Button, Paginate } from "../Component/Component";
 
 import Loading from '../Loading/Loading'
 
@@ -278,24 +278,7 @@ const Group = () => {
                 </div>
                 <div className='flex flex-row'>
                     <p className='w-4/5 text-lg my-1 text-[#387DE4] ml-6 p-4'>Total: {filter.totalGroup} row</p>
-                    <div className='w-1/5 flex items-center justify-end'>
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel=" > "
-                            onPageChange={handlePageClick}
-                            Displayed Page Range={5}
-                            pageCount={filter.pageCount}
-                            previousLabel=" < "
-                            renderOnZeroPageCount={null}
-                            containerClassName="pagination"
-                            pageClassName="page-item"
-                            activeClassName="active"
-                            previousClassName="page-item"
-                            nextClassName="page-item"
-                            breakClassName="page-item"
-                            className='flex items-center flex-row h-[50px]'
-                        />
-                    </div>
+                    <Paginate className='w-1/5' handlePageClick={handlePageClick} pageCount={filter.pageCount} />
                 </div>
             </div>
         </div>

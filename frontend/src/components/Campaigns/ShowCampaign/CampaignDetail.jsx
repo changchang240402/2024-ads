@@ -163,7 +163,8 @@ const CampaignDetail = ({ id }) => {
                                     className1={`${isShow ? "w-1/2" : "w-2/5"}`} className2='mr-10' />
                             </div>
                             <Detail title='Campaign goal:' value={campaign.detail.campaign_goal}
-                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-12' />
+                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-12'
+                                className3 = {`${isShow ? "" : "ml-10"}`} />
                             <div className={`flex flex-row ${isShow ? "mt-3" : "mt-1"}`}>
                                 <Detail title='Campaign start:' value={formatDate(new Date(campaign.detail.start_date))}
                                     className1={`flex-row ${isShow ? "w-1/2" : "w-2/3"}`} className2='mr-12' />
@@ -171,11 +172,14 @@ const CampaignDetail = ({ id }) => {
                                     className1={`flex-row ${isShow ? "w-1/2" : "w-2/5"}`} className2='mr-6' />
                             </div>
                             <Detail title='Campaign message:' value={campaign.detail.ad_message}
-                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-3' />
+                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-3'
+                                className3 = {`${isShow ? "" : "ml-10"}`} />
                             <Detail title='Target audience:' value={campaign.detail.target_audience}
-                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-11' />
+                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-11' 
+                                className3 = {`${isShow ? "" : "ml-10"}`} />
                             <Detail title='Distribution strategy:' value={campaign.detail.distribution_strategy}
-                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-1' />
+                                className1={`${isShow ? "flex-row mt-3" : "flex-col mt-1"}`} className2='mr-1' 
+                                className3 = {`${isShow ? "" : "ml-10"}`} />
                             <div className={`flex flex-row ${isShow ? "mt-3" : "mt-1"}`}>
                                 <Detail title='Total groups:' value={campaign.total_group}
                                     className1={`flex-row ${isShow ? "w-1/2" : "w-2/3"}`} className2='mr-6' />

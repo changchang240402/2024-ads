@@ -17,8 +17,8 @@ const CreateCampaign = () => {
         resolver: yupResolver(schema),
         reValidateMode: "onChange"
     });
-
     const objectData = HUMAN_OBJECT;
+    const [isShow, setIsShow] = useState(true);
 
     const handleCancel = () => {
         reset();
@@ -30,6 +30,20 @@ const CreateCampaign = () => {
         const endDate = formatDate(end_date);
         createCampaign(campaign_name, campaign_goal, budget, startDate, endDate, ad_message, human, start_age, end_age, activities, distribution_strategy);
     };
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 1400) {
+                setIsShow(false);
+            } else {
+                setIsShow(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
         <div className="container rounded-3xl m-10 shadow-xl bg-white border-2">
@@ -48,10 +62,10 @@ const CreateCampaign = () => {
                         Create your campaign
                     </p>
                     <div className="flex flex-row">
-                        <Component className="w-1/3" name='campaign_name' title='What is your campaign name?' placeholder='Enter your campaign name'
+                        <Component className={`${isShow ? "w-1/3" : "w-2/5"}`} name='campaign_name' title='What is your campaign name?' placeholder='Enter your campaign name'
                             register={register("campaign_name")}
                             error={errors?.campaign_name} />
-                        <Component className="w-2/3 ml-6" name='campaign_goal' title='What is your campaign goal?' placeholder='Enter your campaign goal'
+                        <Component className={`${isShow ? "w-2/3" : "w-3/5"} ml-6`} name='campaign_goal' title='What is your campaign goal?' placeholder='Enter your campaign goal'
                             register={register("campaign_goal")}
                             error={errors?.campaign_goal} />
                     </div>
@@ -129,7 +143,7 @@ const CreateCampaign = () => {
                                 <LabelError name='human' error={errors.human?.message} />
                             )}
                         </div>
-                        <div className='flex flex-col w-1/3'>
+                        <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"}`}>
                             <div className="flex flex-row items-center">
                                 <Label name='start_age' title='Age : from' className='p-3' />
                                 <Input className='text-center h-[45px] w-[60%] p-3' name='start_age' placeholder='3'
@@ -139,7 +153,7 @@ const CreateCampaign = () => {
                                 <LabelError name='start_age' error={errors.start_age?.message} />
                             )}
                         </div>
-                        <div className='flex flex-col w-1/3'>
+                        <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"} justify-center`}>
                             <div className="flex flex-row items-center">
                                 <Label name='end_age' title='to' className='p-3 mr-[24px]' />
                                 <Input className='text-center h-[45px] w-[60%]' name='end_age' placeholder='100'
