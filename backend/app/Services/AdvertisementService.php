@@ -12,6 +12,7 @@ use DateTime;
 
 class AdvertisementService
 {
+    private const PAGINATE_PER_PAGE = 5;
     protected $adsRepository;
 
     public function __construct(AdvertisementRepository $adsRepository)
@@ -37,5 +38,23 @@ class AdvertisementService
     public function getWarningBadKpiAdsNotifications($userId)
     {
         return $this->adsRepository->getWarningBadKpiAdsNotifications($userId);
+    }
+
+    public function getAdsByGroupIds($userId, $groupIds, $page)
+    {
+        $ads = $this->adsRepository->getAdsByGroupIds($userId, $groupIds);
+        if ($ads->isEmpty()) {
+            throw new Exception('Ads not found');
+        }
+        $perPage = self::PAGINATE_PER_PAGE;
+        $adsPerPage = $ads->forPage($page, $perPage);
+        $paginatedAds = new LengthAwarePaginator(
+            $adsPerPage->values()->all(),
+            $ads->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+        return $paginatedAds;
     }
 }

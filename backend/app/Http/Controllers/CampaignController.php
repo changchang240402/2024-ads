@@ -47,8 +47,9 @@ class CampaignController extends Controller
     public function showCampaignsById($id)
     {
         $userId = auth()->id();
+        $page = request()->get('page', 1);
         try {
-            $campaign = $this->campaignService->getCampaignsById($userId, $id);
+            $campaign = $this->campaignService->getCampaignsById($userId, $id, $page);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

@@ -35,7 +35,7 @@ class AdvertisementFactory extends Factory
             'user_id' => $userId,
             'ad_content' => fake('en_US')->text(100),
             'destination_url' => fake()->unique()->url(),
-            'kpi' => fake()->randomFloat(2, 0, 99.99),
+            'kpi' => fake()->randomFloat(2, 20.00, 99.99),
             'status' => $statusList[$status],
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,

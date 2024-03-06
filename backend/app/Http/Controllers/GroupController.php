@@ -45,8 +45,9 @@ class GroupController extends Controller
     public function showGroupById($id)
     {
         $userId = auth()->id();
+        $page = request()->get('page', 1);
         try {
-            $group = $this->groupService->getGroupById($userId, $id);
+            $group = $this->groupService->getGroupById($userId, $id, $page);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

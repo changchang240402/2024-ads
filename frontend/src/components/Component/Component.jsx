@@ -4,10 +4,11 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import ReactPaginate from 'react-paginate';
+import '../../../src/pagination.css'
 
 const DatePicker = React.forwardRef(function DatePicker(props, ref) {
-
     const { error, format, name, control, defaultValue } = props;
     const { field } = useController({ name, control });
     const formatted = defaultValue ? dayjs(defaultValue) : null;
@@ -96,4 +97,37 @@ const Button = React.forwardRef(function Button(props, ref) {
     );
 });
 
-export { DatePicker, Label, Input, LabelError, Component, Button };
+const Detail = React.forwardRef(function Detail(props, ref) {
+    const { title, value, className1, className2 } = props;
+    return (
+        <div className={`flex ${className1}`}>
+            <p className={`font-bold text-[17px] text-[#6E9CE0] mb-2 ${className2}`}>{title}</p>
+            <p className="text-[17px] mb-2 text-[#696A75]">{value}</p>
+        </div>
+    );
+});
+
+const Paginate = React.forwardRef(function Paginate(props, ref) {
+    const { className, handlePageClick, pageCount } = props;
+    return (
+        <div className={`flex items-center justify-end ${className}`}>
+            <ReactPaginate
+                breakLabel="..."
+                nextLabel=" > "
+                onPageChange={handlePageClick}
+                Displayed Page Range={5}
+                pageCount={pageCount}
+                previousLabel=" < "
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageClassName="page-item"
+                activeClassName="active"
+                previousClassName="page-item"
+                nextClassName="page-item"
+                breakClassName="page-item"
+                className='flex items-center flex-row h-[50px]'
+            />
+        </div>
+    );
+});
+export { DatePicker, Label, Input, LabelError, Component, Button, Detail, Paginate };

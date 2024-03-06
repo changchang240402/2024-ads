@@ -168,8 +168,8 @@ function campaignService() {
                 if (response.status === 200) {
                     return {
                         campaign: response.data.campaign,
-                        total_pages: response.data.total_group,
-                        total: response.data.total_ads,
+                        total_group: response.data.total_group,
+                        total_ads: response.data.total_ads,
                         ads: response.data.ads,
                     };
                 }

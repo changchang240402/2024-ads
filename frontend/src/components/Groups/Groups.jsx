@@ -261,15 +261,13 @@ const Group = () => {
                         </button>
                     </div>
                 </div>
-                <div sx={{ width: '100%' }}>
+                <div>
                     {dataGroups ? (
-                        <Box sx={{ height: '100%', width: '100%' }}>
+                        <Box sx={{ height: '598px', width: '100%', padding: '10px', marginRight: '10px' }}>
                             <DataGrid
                                 rows={dataGroups}
                                 columns={columns}
                                 hideFooter={true}
-                                autoHeight
-                                className='flex items-center flex-row'
                             />
                         </Box>
                     ) : (

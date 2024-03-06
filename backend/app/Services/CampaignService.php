@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Advertisement\AdvertisementRepository;
+use App\Services\AdvertisementService;
 use App\Repositories\Campaign\CampaignRepository;
 use App\Repositories\Group\GroupRepository;
 use Exception;
@@ -17,16 +17,16 @@ class CampaignService
 
     protected GroupRepository $groupRepository;
 
-    protected AdvertisementRepository $advertisementRepository;
+    protected AdvertisementService $advertisementService;
 
     public function __construct(
         CampaignRepository $campaignRepository,
         GroupRepository $groupRepository,
-        AdvertisementRepository $advertisementRepository
+        AdvertisementService $advertisementService
     ) {
         $this->campaignRepository = $campaignRepository;
         $this->groupRepository = $groupRepository;
-        $this->advertisementRepository = $advertisementRepository;
+        $this->advertisementService = $advertisementService;
     }
 
     /**
@@ -147,9 +147,10 @@ class CampaignService
      * get detail campaign by id
      * @param int $userId
      * @param int $campignId
+     * @param int $page
      * @return mixed
      */
-    public function getCampaignsById($userId, $campignId)
+    public function getCampaignsById($userId, $campignId, $page)
     {
         $campaign = $this->campaignRepository->getCampaignsById($userId, $campignId);
         if (!$campaign) {
@@ -157,14 +158,12 @@ class CampaignService
         }
         $groups = $this->groupRepository->getGroupByCampaignId($campignId);
         $totalGroups = $groups->count();
-        if ($groups) {
+        if ($totalGroups > 0) {
             $groupIds = $groups->toArray();
-            $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIds);
-            $totalAds = $ads->count();
+            $ads = $this->advertisementService->getAdsByGroupIds($userId, $groupIds, $page);
             return [
                 'campaign' => $campaign,
                 'total_group' => $totalGroups,
-                'total_ads' => $totalAds,
                 'ads' => $ads
             ];
         }
@@ -177,7 +176,7 @@ class CampaignService
     }
 
     /**
-     * Create new campign 
+     * Create new campign
      *
      * @param mixed $campaign
      * @return mixed
@@ -194,7 +193,7 @@ class CampaignService
         return $data;
     }
     /**
-     * Create new campign 
+     * Update new campign
      *
      * @param int $id
      * @param mixed $campaign
