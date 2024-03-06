@@ -4,17 +4,25 @@ import { Virtuoso } from 'react-virtuoso'
 
 import slack from '../../assets/slack.png';
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import AdsDetailsPopup from "../AdsDetails.jsx/AdsDetailsPopup";
+import { SLACK_TEST_NOTI_URL } from "../../const/config";
 
 const NotificationDropdown = ({ notifications }) => {
     const [activeMenu, setActiveMenu] = useState('All');
+
+    const [isShowPopup, setIsShowPopup] = useState(false);
 
     const Menu = [
         'All',
         'Unread'
     ];
 
+    const handleNavigateToSlack = () => {
+        window.open(SLACK_TEST_NOTI_URL, '_blank');
+    }
+
     return (
-        <div className="absolute top-full z-[999] right-[-160px] rounded-2xl p-3 px-1 shadow-lg border bg-slate-50 w-96 h-96">
+        <div className="absolute top-full z-[999] right-[-160px] rounded-2xl p-3 px-1 shadow-lg border bg-slate-50 w-96 h-auto">
             <div className="flex flex-col w-full p-2">
                 <div className="flex justify-center items-center">
                     <p className="text-xl font-poppins font-bold">Notifications</p>
@@ -36,24 +44,37 @@ const NotificationDropdown = ({ notifications }) => {
                     style={{ height: '300px' }}
                     itemContent={(index, item) => {
                         return (
-                        <div
-                            className="flex flex-row my-1 cursor-pointer p-2 hover:bg-slate-300 justify-start items-center rounded-xl"
-                            key={item.id}
-                            value={item.id}
-                        >
-                            <div className="flex p-2">
-                                <img className="object-cover w-12 h-12 rounded-full" src={slack} alt="" />
+                            <div
+                                className="flex flex-row my-1 cursor-pointer p-2 hover:bg-slate-300 justify-start items-center rounded-xl"
+                                key={item.id}
+                                value={item.id}
+                                onClick={() => setIsShowPopup(!isShowPopup)}
+                            >
+                                <div className="flex p-2">
+                                    <img className="object-cover w-12 h-12 rounded-full" src={slack} alt="" />
+                                </div>
+                                <div className="flex flex-col mx-4">
+                                    <p className="max-w-52">{item.content}</p>
+                                    <p className="mt-2 text-xs font-bold text-blue-500">{item.time}</p>
+                                </div>
+                                <div className="flex flex-1 justify-end items-end">
+                                    <FontAwesomeIcon icon={faCircle} className="text-blue-500" />
+                                </div>
+                                {
+                                    isShowPopup && (
+                                        <AdsDetailsPopup />
+                                    )
+                                }
                             </div>
-                            <div className="flex flex-col mx-4">
-                                <p className="max-w-52">{item.content}</p>
-                                <p className="mt-2 text-xs font-bold text-blue-500">{item.time}</p>
-                            </div>
-                            <div className="flex flex-1 justify-end items-end">
-                                <FontAwesomeIcon icon={faCircle} className="text-blue-500" />
-                            </div>
-                        </div>
-                    )}}
+                        )
+                    }}
                 />
+                <div className="flex mt-5 justify-center">
+                    <button className="cursor-pointer hover:text-blue-600"
+                        onClick={handleNavigateToSlack}>
+                        View all on slack
+                    </button>
+                </div>
             </div>
         </div>
     );
