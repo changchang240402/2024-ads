@@ -3,6 +3,7 @@ import api from "../utility/api";
 import { formatDate } from '../utility/formatdate';
 import * as yup from "yup";
 import { HUMAN_OBJECT } from '../const/config';
+import { handleUnauthorized } from "./userDashboardService";
 
 function campaignService() {
     const schema = yup.object({
@@ -125,19 +126,12 @@ function campaignService() {
         }
     };
 
-    const handleUnauthorized = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("userName");
-        window.location.href = "/";
-    };
-
     const campaigns = {
-        async getCampaignData(page, searchTerm, startDate, budgetSort) {
+        async getCampaignData(page, search, startDate, budgetSort) {
             try {
                 const queryParams = new URLSearchParams({
                     page: page + 1,
-                    name: searchTerm,
+                    name: search,
                     datetime: startDate ? formatDate(startDate) : '',
                     sort: budgetSort
                 });

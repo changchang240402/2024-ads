@@ -1,13 +1,14 @@
 import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
 
+export const handleUnauthorized = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userName");
+    window.location.href = "/";
+};
+
 function userDashboardService() {
-    const handleUnauthorized = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("userName");
-        window.location.href = "/";
-    };
 
     const extractStatisticsData = (response) => {
         const { ads, group, campaign, ads_paused, platform_ads, statistic_ads } = response.data;

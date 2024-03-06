@@ -81,7 +81,7 @@ class GroupService
 
     private function filterByTittle($groups, $title)
     {
-        $names = ['adgroup_name', 'campaign_name', 'target_keywords'];
+        $names = ['adgroup_name', 'target_keywords'];
         return $title ? $groups->filter(function ($group) use ($title, $names) {
             $searchKeyword = strtolower($title);
             foreach ($names as $name) {
@@ -89,6 +89,10 @@ class GroupService
                 if (Str::contains($groupTitle, $searchKeyword)) {
                     return true;
                 }
+            }
+            $campaignName = strtolower($group['campaign']['campaign_name']);
+            if (Str::contains($campaignName, $searchKeyword)) {
+                return true;
             }
             return false;
         }) : $groups;

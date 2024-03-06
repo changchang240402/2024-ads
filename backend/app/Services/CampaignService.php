@@ -81,7 +81,9 @@ class CampaignService
     private function filterByName($campaigns, $name)
     {
         return $name ? $campaigns->filter(function ($campaign) use ($name) {
-            return Str::contains($campaign['campaign_name'], $name);
+            $campaignName = strtolower($campaign['campaign_name']);
+            $searchKeyword = strtolower($name);
+            return Str::contains($campaignName, $searchKeyword);
         }) : $campaigns;
     }
 

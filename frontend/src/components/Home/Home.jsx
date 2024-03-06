@@ -93,7 +93,7 @@ const Home = () => {
                     <div className='flex flex-1 flex-col bg-white w-1/2 m-2'>
                         <label className='text-base font-bold'>Ads by platform statistics</label>
                         <div className="flex flex-1 justify-center items-center">
-                            <BasicBar data={data?.dataPlatforms} config={PlatformBarConfig} xLabels={data?.plasformXlables}  />
+                            <BasicBar data={data?.dataPlatforms} config={PlatformBarConfig} xLabels={data?.plasformXlables} />
                         </div>
                     </div >
                 ) : (
