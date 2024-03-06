@@ -39,11 +39,7 @@ const Campaign = () => {
         }
 
         const handleResize = () => {
-            if (window.innerWidth <= 1400) {
-                setIsShow(false);
-            } else {
-                setIsShow(true);
-            }
+            setIsShow(window.innerWidth > 1400);
         };
 
         window.addEventListener('resize', handleResize);
@@ -181,15 +177,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <CampaignDetail
                                             id={params.row.id} />
                                     </div>
@@ -207,15 +203,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <EditCampaign
                                             id={params.row.id} />
                                     </div>

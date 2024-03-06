@@ -35,11 +35,7 @@ const Group = () => {
             setIsSearchClicked(false);
         }
         const handleResize = () => {
-            if (window.innerWidth <= 1400) {
-                setIsShow(false);
-            } else {
-                setIsShow(true);
-            }
+            setIsShow(window.innerWidth > 1400);
         };
 
         window.addEventListener('resize', handleResize);
@@ -158,18 +154,12 @@ const Group = () => {
             align: isShow ? 'right' : 'left',
             headerAlign: 'center',
             renderCell: (params) => {
-                const isPaused = params.value === 0;
+                const status = params.value === 0 ? "Active" : "Paused";
                 return (
                     <Box display="flex" justifyContent="center" borderRadius="2px" >
-                        {isPaused ? (
-                            <p className="flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00E096] bg-[#DCFCE7] mr-10 h-[18px] w-[80px]">
-                                Active
-                            </p>
-                        ) : (
-                            <p className="flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] mr-10 h-[18px] w-[80px]">
-                                Paused
-                            </p>
-                        )}
+                        <p className={`flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none ${status === 'Active' ? 'border-[#00E096] bg-[#DCFCE7]' : 'border-[#FFA800] bg-[#FFF4DE]'} mr-10 h-[17px] w-[80px]`}>
+                            {status}
+                        </p>
                     </Box>
                 );
             }

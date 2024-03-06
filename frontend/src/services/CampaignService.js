@@ -162,15 +162,19 @@ function campaignService() {
         }
     };
     const campaignDetail = {
-        async getCampaignData(id) {
+        async getCampaignData(id, currentPage) {
             try {
-                const response = await api.get(`/campaigns/${id}`);
+                const queryPage = new URLSearchParams({
+                    page: currentPage + 1
+                });
+                const response = await api.get(`/campaigns/${id}?${queryPage}`);
                 if (response.status === 200) {
                     return {
                         campaign: response.data.campaign,
                         total_group: response.data.total_group,
-                        total_ads: response.data.total_ads,
-                        ads: response.data.ads,
+                        total_ads: response.data.ads.total,
+                        ads: response.data.ads.data,
+                        total_pages: response.data.ads.last_page,
                     };
                 }
             } catch (error) {
@@ -185,7 +189,6 @@ function campaignService() {
             }
         }
     };
-
 
     return {
         campaigns,
