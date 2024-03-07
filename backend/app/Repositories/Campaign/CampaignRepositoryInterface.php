@@ -31,4 +31,12 @@ interface CampaignRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getCampaignsById($userId, $campignId);
+
+    /**
+     * Check the campaign to update the status
+     * @param int $campignId
+     * @param string $now
+     * @return mixed
+     */
+    public function checkCampaignUpdateStatus($campignId, $now);
 }

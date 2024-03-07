@@ -259,9 +259,19 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
                 ->update([
                     'kpi' => $kpi
                 ]);
-            
         } catch (\Throwable $th) {
             throw new Exception($th->getMessage(), 500);
         }
+    }
+
+    /**
+     * update Status Ads Of Campaign
+     * @param array $groupIds
+     * @param int $status
+     * @return mixed
+     */
+    public function updateStatusAdsOfCampaign($groupIds, $status)
+    {
+        return $this->model->whereIn('adgroup_id', $groupIds)->update(['status' => $status]);
     }
 }

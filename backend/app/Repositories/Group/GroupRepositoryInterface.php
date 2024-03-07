@@ -36,4 +36,12 @@ interface GroupRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getGroupsById($userId, $groupId);
+
+    /**
+     * update Status Group Of Campaign
+     * @param array $groupIds
+     * @param int $status
+     * @return mixed
+     */
+    public function updateStatusGroupOfCampaign($groupIds, $status);
 }

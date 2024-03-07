@@ -83,4 +83,15 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             ])
             ->firstOrFail();
     }
+
+    /**
+     * update Status Group Of Campaign
+     * @param array $groupIds
+     * @param int $status
+     * @return mixed
+     */
+    public function updateStatusGroupOfCampaign($groupIds, $status)
+    {
+        return $this->model->whereIn('id', $groupIds)->update(['status' => $status]);
+    }
 }

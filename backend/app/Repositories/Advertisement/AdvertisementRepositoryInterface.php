@@ -44,4 +44,12 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
     public function getAdsById($userId, $id);
 
     public function updateAdsKpi($userId, $id, $kpi);
+
+    /**
+     * update Status Ads Of Campaign
+     * @param array $groupIds
+     * @param int $status
+     * @return mixed
+     */
+    public function updateStatusAdsOfCampaign($groupIds, $status);
 }

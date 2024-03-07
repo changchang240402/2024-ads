@@ -64,4 +64,9 @@ class AdvertisementService
     {
         return $this->adsRepository->updateAdsKpi($userId, $id, $validated);
     }
+
+    public function updateStatusAdsByCampaign($groupIds, $status)
+    {
+        return $this->adsRepository->updateStatusAdsOfCampaign($groupIds, $status);
+    }
 }
