@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Advertisement\AdvertisementRepository;
+use App\Services\AdvertisementService;
 use App\Repositories\Group\GroupRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -15,14 +15,14 @@ class GroupService
 
     protected GroupRepository $groupRepository;
 
-    protected AdvertisementRepository $advertisementRepository;
+    protected AdvertisementService $advertisementService;
 
     public function __construct(
         GroupRepository $groupRepository,
-        AdvertisementRepository $advertisementRepository
+        AdvertisementService $advertisementService
     ) {
         $this->groupRepository = $groupRepository;
-        $this->advertisementRepository = $advertisementRepository;
+        $this->advertisementService = $advertisementService;
     }
 
     /**
@@ -169,20 +169,19 @@ class GroupService
      * get detail group by id
      * @param int $userId
      * @param int $groupId
+     * @param int $page
      * @return mixed
      */
-    public function getGroupById($userId, $groupId)
+    public function getGroupById($userId, $groupId, $page)
     {
         $group = $this->groupRepository->getGroupsById($userId, $groupId);
         if ($group->isEmpty()) {
             throw new Exception('Group not found');
         }
         $groupIdArray = [$groupId];
-        $ads = $this->advertisementRepository->getAdsByGroupIds($userId, $groupIdArray);
-        $totalAds = $ads->count();
+        $ads = $this->advertisementService->getAdsByGroupIds($userId, $groupIdArray, $page);
         return [
             'group' => $group,
-            'total_ads' => $totalAds,
             'ads' => $ads,
         ];
     }

@@ -12,6 +12,7 @@ import { formatDateString } from '../../utility/formatdate';
 import Popup from 'reactjs-popup';
 import CreateCampaign from '../Campaigns/CreateCampaign/CreateCampaign'
 import EditCampaign from '../Campaigns/EditCampaign/EditCampaign'
+import CampaignDetail from './ShowCampaign/CampaignDetail';
 import { SORT } from '../../const/config';
 import Loading from '../Loading/Loading'
 import { Button } from "../Component/Component";
@@ -38,11 +39,7 @@ const Campaign = () => {
         }
 
         const handleResize = () => {
-            if (window.innerWidth <= 1400) {
-                setIsShow(false);
-            } else {
-                setIsShow(true);
-            }
+            setIsShow(window.innerWidth > 1400);
         };
 
         window.addEventListener('resize', handleResize);
@@ -168,14 +165,33 @@ const Campaign = () => {
             renderCell: (params) => {
                 return (
                     <Box display="flex" borderRadius="2px" className='items-center'>
-                        <button className={`flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00E096] bg-[#DCFCE7] ${isShow ? "mr-10" : "mr-4"} h-[18px] w-[82px]`}>
-                            <FontAwesomeIcon
-                                icon={faEye}
-                                size="xl"
-                                className='p-2'
-                            />
-                            View
-                        </button>
+
+                        <Popup
+                            trigger={<button className={`flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00E096] bg-[#DCFCE7] ${isShow ? "mr-10" : "mr-4"} h-[18px] w-[82px]`}>
+                                <FontAwesomeIcon
+                                    icon={faEye}
+                                    size="xl"
+                                    className='p-2'
+                                />
+                                View
+                            </button>}
+                            modal
+                            nested
+                            style='height: 100%, width: 100%'
+                            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                        >
+                            {close => (
+                                <div className="modal flex flex-row">
+                                    <button className="modal__close" onClick={close}>
+                                        &times;
+                                    </button>
+                                    <div className='h-[100%] w-[100%]'>
+                                        <CampaignDetail
+                                            id={params.row.id} />
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
                         <Popup
                             trigger={<button className={`flex items-center flex-row justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] ${isShow ? "mr-10" : "mr-4"} h-[18px] w-[80px]`}>
                                 <FontAwesomeIcon
@@ -187,15 +203,15 @@ const Campaign = () => {
                             </button>}
                             modal
                             nested
-                            style='height: 80%, width: 85%'
+                            style='height: 100%, width: 100%'
                             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             {close => (
-                                <div className="modal flex flex-row  ml-[120px] p-[20px]">
+                                <div className="modal flex flex-row">
                                     <button className="modal__close" onClick={close}>
                                         &times;
                                     </button>
-                                    <div className='h-[85%] w-[1200px]'>
+                                    <div className='h-[100%] w-[100%]'>
                                         <EditCampaign
                                             id={params.row.id} />
                                     </div>
@@ -287,16 +303,13 @@ const Campaign = () => {
                         </Popup>
                     </div>
                 </div>
-
-                <div sx={{ width: '100%', height: '100vh' }}>
+                <div>
                     {dataCampaigns ? (
-                        <Box style={{ height: '100%', width: '100%' }}>
+                        <Box sx={{ height: '598px', width: '100%', padding: '10px', marginRight: '10px' }}>
                             <DataGrid
                                 rows={dataCampaigns}
                                 columns={columns}
                                 hideFooter={true}
-                                autoHeight
-                                className='flex items-center flex-row'
                             />
                         </Box>
                     ) : (
