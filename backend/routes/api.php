@@ -73,6 +73,8 @@ Route::group([
     ], function () {
         Route::get("", [AdsController::class, "getAllAds"]);
         Route::get("top", [AdsController::class, "getTopAdsByUsers"]);
+        Route::get("/{id}", [AdsController::class, "getAdsDetails"]);
+        Route::patch("/{id}", [AdsController::class, "updateAdsKpi"]);
     });
 
     Route::group([

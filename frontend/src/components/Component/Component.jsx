@@ -7,7 +7,6 @@ import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
 import ReactPaginate from 'react-paginate';
 import Box from '@mui/material/Box';
-
 import '../../../src/pagination.css'
 
 const DatePicker = React.forwardRef(function DatePicker(props, ref) {

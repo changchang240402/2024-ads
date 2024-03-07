@@ -8,7 +8,7 @@ import { openViewPopup, openEditPopup } from '../../../redux/actions/showPopup';
 import AdsDashboardService from '../../../services/AdsDashboardService';
 import { ADS_ITEM_ACTION, DEFAULT_ADS_PER_PAGE, PER_PAGE } from '../../../const/config';
 import NotFound from '../../Loading/NotFound';
-import AdsDetailsPopup from '../../AdsDetails.jsx/AdsDetailsPopup';
+import AdsDetailsPopup from '../../AdsDetails/AdsDetailsPopup';
 
 const VizualizedTable = ({ filter, initSort }) => {
     const dispatch = useDispatch();
@@ -128,16 +128,6 @@ const VizualizedTable = ({ filter, initSort }) => {
                                     </div>
                                 )}
                             </td>
-                            <td>
-
-                                {isViewPopupOpen && (
-                                    <AdsDetailsPopup selectedItem={selectedItem} action={ADS_ITEM_ACTION.view} />
-                                )}
-
-                                {isEditPopupOpen && (
-                                    <AdsDetailsPopup selectedItem={selectedItem} action={ADS_ITEM_ACTION.edit}/>
-                                )}
-                            </td>
                         </>
                     )}
                 />
@@ -200,7 +190,13 @@ const VizualizedTable = ({ filter, initSort }) => {
                     </div>
                 </div>
             </div>
+            <div>
+                {(isViewPopupOpen || isEditPopupOpen) && selectedItem?.id && (
+                    <AdsDetailsPopup selectedItem={selectedItem?.id} action={isViewPopupOpen ? ADS_ITEM_ACTION.view : ADS_ITEM_ACTION.edit} />
+                )}
+            </div>
         </div>
+
 
     )
 }

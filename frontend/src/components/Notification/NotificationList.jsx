@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Virtuoso } from 'react-virtuoso'
+import { useDispatch, useSelector } from "react-redux";
 
 import slack from '../../assets/slack.png';
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import AdsDetailsPopup from "../AdsDetails.jsx/AdsDetailsPopup";
-import { SLACK_TEST_NOTI_URL } from "../../const/config";
+import AdsDetailsPopup from "../AdsDetails/AdsDetailsPopup";
+import { ADS_ITEM_ACTION, SLACK_TEST_NOTI_URL } from "../../const/config";
+import { openEditPopup } from "../../redux/actions/showPopup";
 
 const NotificationDropdown = ({ notifications }) => {
+    const dispatch = useDispatch();
     const [activeMenu, setActiveMenu] = useState('All');
 
-    const [isShowPopup, setIsShowPopup] = useState(false);
+    const isEditPopupOpen = useSelector(state => state.popup.isShowEditPopup);
+
+    const handleShowPopup = () => {
+        dispatch(openEditPopup(true));
+    }
 
     const Menu = [
         'All',
@@ -48,7 +55,7 @@ const NotificationDropdown = ({ notifications }) => {
                                 className="flex flex-row my-1 cursor-pointer p-2 hover:bg-slate-300 justify-start items-center rounded-xl"
                                 key={item.id}
                                 value={item.id}
-                                onClick={() => setIsShowPopup(!isShowPopup)}
+                                onClick={handleShowPopup}
                             >
                                 <div className="flex p-2">
                                     <img className="object-cover w-12 h-12 rounded-full" src={slack} alt="" />
@@ -76,6 +83,11 @@ const NotificationDropdown = ({ notifications }) => {
                     </button>
                 </div>
             </div>
+            {
+                isEditPopupOpen && (
+                    <AdsDetailsPopup selectedItem={1} action={ADS_ITEM_ACTION.edit} />
+                )
+            }
         </div>
     );
 };

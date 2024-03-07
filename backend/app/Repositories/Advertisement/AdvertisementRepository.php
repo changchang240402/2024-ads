@@ -6,6 +6,8 @@ use App\Models\Advertisement;
 use App\Repositories\BaseRepository;
 use Exception;
 
+use function Laravel\Prompts\select;
+
 class AdvertisementRepository extends BaseRepository implements AdvertisementRepositoryInterface
 {
     public function getModel()
@@ -227,6 +229,37 @@ class AdvertisementRepository extends BaseRepository implements AdvertisementRep
 
 
             return $ads;
+        } catch (\Throwable $th) {
+            throw new Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function getAdsById($userId, $id)
+    {
+        try {
+            $ads = $this->model->with(
+                ['advertisementType:id,ad_type_name', 'group:id,adgroup_name,campaign_id', 'group.campaign:id,campaign_name', 'advertisementDetails.platform']
+            )
+                ->where('user_id', $userId)
+                ->where('id', $id)
+                ->first();
+
+            return $ads;
+        } catch (\Throwable $th) {
+            throw new Exception($th->getMessage(), 500);
+        }
+    }
+
+    public function updateAdsKpi($userId, $id, $validated)
+    {
+        try {
+            $kpi = $validated['kpi'];
+            $this->model->where('user_id', $userId)
+                ->where('id', $id)
+                ->update([
+                    'kpi' => $kpi
+                ]);
+            
         } catch (\Throwable $th) {
             throw new Exception($th->getMessage(), 500);
         }
