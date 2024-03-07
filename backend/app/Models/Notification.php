@@ -18,7 +18,7 @@ class Notification extends Model
         'content'
     ];
 
-    public function advertisement(): BelongsTo
+    public function advertisementDetail(): BelongsTo
     {
         return $this->belongsTo(AdvertisementDetail::class, 'ad_detail_id', 'id');
     }
