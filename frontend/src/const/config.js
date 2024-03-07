@@ -17,4 +17,13 @@ export const BIDDING_STRATEGY = ['CPA', 'CPC'];
 export const SORT = {
     Ascending: 'asc',
     Decrease: 'desc'
+};
+export const OPEN_VIEW_POPUP = 'OPEN_VIEW_POPUP';
+export const CLOSE_VIEW_POPUP = 'CLOSE_VIEW_POPUP';
+export const OPEN_EDIT_POPUP = 'OPEN_EDIT_POPUP';
+export const CLOSE_EDIT_POPUP = 'CLOSE_EDIT_POPUP';
+export const SLACK_TEST_NOTI_URL = 'https://test-notiworld.slack.com/archives/C06N63GFZCZ';
+export const ADS_ITEM_ACTION = {
+    view: 'view',
+    edit: 'edit',
 }
