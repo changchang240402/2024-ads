@@ -55,4 +55,13 @@ class AdvertisementService
         return $paginatedAds;
     }
 
+    public function getAdsById($userId, $id)
+    {
+        return $this->adsRepository->getAdsById($userId, $id);
+    }
+
+    public function updateAdsKpi($userId, $id, $validated)
+    {
+        return $this->adsRepository->updateAdsKpi($userId, $id, $validated);
+    }
 }

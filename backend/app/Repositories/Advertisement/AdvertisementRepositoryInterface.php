@@ -40,4 +40,8 @@ interface AdvertisementRepositoryInterface extends RepositoryInterface
     public function getTotalAdsByPlatform($userId);
 
     public function getWarningBadKpiAdsNotifications($userId);
+
+    public function getAdsById($userId, $id);
+
+    public function updateAdsKpi($userId, $id, $kpi);
 }

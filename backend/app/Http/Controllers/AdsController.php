@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Advertisement\GetAdsWithPaginationRequest;
+use App\Http\Requests\Advertisement\UpdateKpiAdsRequest;
 use App\Http\Requests\PaginationRequest;
 use App\Services\AdvertisementService;
 use Exception;
@@ -23,13 +24,12 @@ class AdsController extends Controller
             $validated = $request->validated();
             $userId = auth()->user()->id;
             $ads = $this->adsService->getAllAds($userId, $validated);
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Get all ads successfully',
                 'ads' => $ads,
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -52,5 +52,39 @@ class AdsController extends Controller
             'ads' => $ads,
             'totalAdsByPlatforms' => $adsByPlatforms,
         ], 200);
+    }
+
+    public function getAdsDetails($id)
+    {
+        $userId = auth()->user()->id;
+
+        $adsInfor = $this->adsService->getAdsById($userId, $id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get ads infor by id successfully',
+            'ads' => $adsInfor,
+        ], 200);
+    }
+
+    public function updateAdsKpi(UpdateKpiAdsRequest $request, $id)
+    {
+        try {
+            $validated = $request->validated();
+            $userId = auth()->user()->id;
+
+            $this->adsService->updateAdsKpi($userId, $id, $validated);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Update ads kpi successfully',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Update ads kpi failed',
+                'error' => $e->getMessage(),
+            ], $e->getCode());
+        }
     }
 }

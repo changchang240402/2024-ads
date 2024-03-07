@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
 import { formatDateCustom } from "../utility/formatdate";
+import { extractStatus } from "../utility/extractStatus.js";
 
 function AdsDashboardService() {
     const navigate = useNavigate();
 
     const extractTopAdsData = (data) => {
-        const res = data.ads.map((item) => {
+        const topAds = data.ads.map((item) => {
             return {
                 name: item.ad_name,
                 kpi: item.kpi,
@@ -28,7 +29,7 @@ function AdsDashboardService() {
         }
 
         return {
-            topAds: res,
+            topAds: topAds,
             totalAdsByPlatforms: totals,
         }
     };
@@ -36,6 +37,7 @@ function AdsDashboardService() {
     const extractAllAdsData = (data) => {
         const res = data.ads.map((item) => {
             return {
+                id: item.id,
                 name: item.ad_name,
                 content: item.ad_content,
                 created_at: formatDateCustom(item.created_at),
@@ -101,9 +103,81 @@ function AdsDashboardService() {
         }
     };
 
+    const extractAdsDetailsData = (data) => {
+        const adsDetails = {
+            name: data.ad_name,
+            content: data.ad_content,
+            kpi: data.kpi,
+            type: data.advertisement_type.ad_type_name,
+            destinationUrl: data.destination_url,
+            status: extractStatus(data.status),
+            createdAt: formatDateCustom(data.created_at),
+            updatedAt: formatDateCustom(data.updated_at),
+            group: data.group.adgroup_name,
+            campaign: data.group.campaign.campaign_name,
+        };
+
+        const platforms = data.advertisement_details.map((item) => {
+            return {
+                platform: item.platform.platform_name,
+                impressions: item.impressions,
+                click: item.clicks,
+                ctr: item.ctr,
+                cpc: item.cpc,
+                cpa: item.cpa,
+                conversions: item.conversions,
+                conversionRate: item.conversion_rate,
+            };
+        });
+
+        return {
+            adsDetails: adsDetails,
+            platforms,
+        };
+    }
+
+    const getAdsDetails = async (id) => {
+        try {
+            const response = await api.get(`/ads/${id}`);
+            if (response.status === 200) {
+                return extractAdsDetailsData(response.data.ads);
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                navigate("/");
+            }
+
+            if (error.response) {
+                Toastify.error(error.response.data.message);
+            }
+        }
+    }
+
+    const updateKpiAds = async (id, kpi) => {
+        try {
+            const response = await api.patch(`/ads/${id}`, {
+                kpi,
+            });
+
+            if (response.status === 200) {
+                Toastify.success("KPI updated successfully");
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                navigate("/");
+            }
+
+            if (error.response) {
+                Toastify.error(error.response.data.message);
+            }
+        }
+    }
+
     return {
         getTopAds,
-        getAllAds
+        getAllAds,
+        getAdsDetails,
+        updateKpiAds,
     };
 }
 
