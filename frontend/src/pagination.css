@@ -29,7 +29,7 @@
 }
 @media (max-width: 1400px) {
   .modal__close {
-    right: 50px;
+    right: 45px;
     top: 50px;
   }
 }

@@ -71,7 +71,7 @@ function campaignService() {
             if (response.status === 200) {
 
                 Toastify.success("Campaign Successful");
-                
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -108,7 +108,7 @@ function campaignService() {
             if (response.status === 200) {
 
                 Toastify.success("Edit Successful");
-    
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -161,12 +161,13 @@ function campaignService() {
             }
         }
     };
+
     const campaignDetail = {
         async getCampaignData(id, currentPage) {
             try {
                 const queryPage = new URLSearchParams({
                     page: currentPage + 1
-            });
+                });
                 const response = await api.get(`/campaigns/${id}?${queryPage}`);
                 if (response.status === 200) {
                     return {
@@ -189,7 +190,6 @@ function campaignService() {
             }
         }
     };
-
 
     return {
         campaigns,

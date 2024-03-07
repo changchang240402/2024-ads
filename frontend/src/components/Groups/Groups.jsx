@@ -4,12 +4,11 @@ import GroupService from '../../services/GroupService';
 import { DataGrid } from "@mui/x-data-grid";
 import Box from '@mui/material/Box';
 import { faMagnifyingGlass, faFilterCircleXmark, faEye } from '@fortawesome/free-solid-svg-icons'
-import ReactPaginate from 'react-paginate';
-import '../../../src/pagination.css';
 import { ADS_STATUS, BIDDING_STRATEGY, SORT } from '../../const/config';
-import { Button, Paginate } from "../Component/Component";
-
-import Loading from '../Loading/Loading'
+import { Button, Paginate, Status } from "../Component/Component";
+import GroupDetail from './ShowGroup/GroupDetail';
+import Loading from '../Loading/Loading';
+import Popup from 'reactjs-popup';
 
 const Group = () => {
     const statusData = ADS_STATUS;
@@ -35,11 +34,7 @@ const Group = () => {
             setIsSearchClicked(false);
         }
         const handleResize = () => {
-            if (window.innerWidth <= 1400) {
-                setIsShow(false);
-            } else {
-                setIsShow(true);
-            }
+            setIsShow(window.innerWidth > 1400);
         };
 
         window.addEventListener('resize', handleResize);
@@ -158,19 +153,8 @@ const Group = () => {
             align: isShow ? 'right' : 'left',
             headerAlign: 'center',
             renderCell: (params) => {
-                const isPaused = params.value === 0;
                 return (
-                    <Box display="flex" justifyContent="center" borderRadius="2px" >
-                        {isPaused ? (
-                            <p className="flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#00E096] bg-[#DCFCE7] mr-10 h-[18px] w-[80px]">
-                                Active
-                            </p>
-                        ) : (
-                            <p className="flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none border-[#FFA800] bg-[#FFF4DE] mr-10 h-[18px] w-[80px]">
-                                Paused
-                            </p>
-                        )}
-                    </Box>
+                    <Status value={params.value} className="justify-center"/>
                 );
             }
         },
@@ -182,13 +166,31 @@ const Group = () => {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <Box display="flex" borderRadius="2px" className='items-center'>
-                        <FontAwesomeIcon
-                            icon={faEye}
-                            size="xl"
-                            color='#387DE4'
-                        />
-                    </Box>
+                    <Popup
+                        trigger={<Box display="flex" borderRadius="2px" className='items-center'>
+                            <FontAwesomeIcon
+                                icon={faEye}
+                                size="xl"
+                                color='#387DE4'
+                            />
+                        </Box>}
+                        modal
+                        nested
+                        style='height: 100%, width: 95%'
+                        overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                    >
+                        {close => (
+                            <div className="modal flex flex-row">
+                                <button className="modal__close" onClick={close}>
+                                    &times;
+                                </button>
+                                <div className={`h-[100%] ${isShow ? "w-[100%]" : ""}`}>
+                                    <GroupDetail
+                                        id={params.row.id} />
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 );
             }
         },

@@ -23,9 +23,11 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             ->whereHas('campaign', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
-            ->with(['campaign' => function ($query) {
-                $query->select('id', 'campaign_name');
-            }])
+            ->with([
+                'campaign' => function ($query) {
+                    $query->select('id', 'campaign_name');
+                }
+            ])
             ->get();
     }
 
@@ -74,9 +76,11 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             ->whereHas('campaign', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
-            ->with(['campaign' => function ($query) {
-                $query->select('id', 'campaign_name', 'budget', 'start_date', 'end_date', 'target_audience');
-            }])
-            ->get();
+            ->with([
+                'campaign' => function ($query) {
+                    $query->select('id', 'campaign_name', 'budget', 'start_date', 'end_date', 'target_audience');
+                }
+            ])
+            ->firstOrFail();
     }
 }

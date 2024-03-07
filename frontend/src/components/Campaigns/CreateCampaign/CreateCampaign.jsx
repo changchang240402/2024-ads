@@ -33,11 +33,7 @@ const CreateCampaign = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 1400) {
-                setIsShow(false);
-            } else {
-                setIsShow(true);
-            }
+            setIsShow(window.innerWidth > 1400);
         };
 
         window.addEventListener('resize', handleResize);
