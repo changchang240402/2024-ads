@@ -175,7 +175,7 @@ class GroupService
     public function getGroupById($userId, $groupId, $page)
     {
         $group = $this->groupRepository->getGroupsById($userId, $groupId);
-        if ($group->isEmpty()) {
+        if (!$group) {
             throw new Exception('Group not found');
         }
         $groupIdArray = [$groupId];

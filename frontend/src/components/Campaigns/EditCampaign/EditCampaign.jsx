@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { yupResolver } from "@hookform/resolvers/yup";
 import logo from "../../../assets/ggads.png";
-import { faMoneyBill} from '@fortawesome/free-solid-svg-icons'
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import { DatePicker, Label, Input, LabelError, Component } from "../../Component/Component";
 import { HUMAN_OBJECT } from '../../../const/config';
 import CampaignService from '../../../services/CampaignService';
@@ -11,7 +11,7 @@ import { formatDate } from '../../../utility/formatdate';
 import stringProcessing from "../../../utility/string";
 import Loading from '../../Loading/Loading';
 const EditCampaign = ({ id }) => {
-
+    const currentPage = 0;
     const { schema, campaignDetail, editCampaign } = CampaignService();
     const [campaign, setCampaign] = useState({});
     const { control, register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -24,6 +24,8 @@ const EditCampaign = ({ id }) => {
     const handleCancel = () => {
         reset(campaign);
     };
+    const [isShow, setIsShow] = useState(true);
+
     useEffect(() => {
         if (!isFormInitialized) {
             fetchData();
@@ -33,10 +35,18 @@ const EditCampaign = ({ id }) => {
             reset(campaign);
             setIsFormInitialized(true);
         }
+
+        const handleResize = () => {
+            setIsShow(window.innerWidth > 1400);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
     }, [id, campaign, reset, isFormInitialized]);
     const fetchData = async () => {
         try {
-            const data = await campaignDetail.getCampaignData(id);
+            const data = await campaignDetail.getCampaignData(id, currentPage);
             if (data && data.campaign) {
                 const action = stringProcessing(data.campaign.target_audience);
                 const dataCampaign = {
@@ -163,7 +173,7 @@ const EditCampaign = ({ id }) => {
                                     <LabelError name='human' error={errors.human?.message} />
                                 )}
                             </div>
-                            <div className='flex flex-col w-1/3'>
+                            <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"}`}>
                                 <div className="flex flex-row items-center">
                                     <Label name='start_age' title='Age : from' className='p-3' />
                                     <Input className='text-center h-[45px] w-[60%] p-3' name='start_age' placeholder='3'
@@ -173,7 +183,7 @@ const EditCampaign = ({ id }) => {
                                     <LabelError name='start_age' error={errors.start_age?.message} />
                                 )}
                             </div>
-                            <div className='flex flex-col w-1/3'>
+                            <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"} justify-center`}>
                                 <div className="flex flex-row items-center">
                                     <Label name='end_age' title='to' className='p-3 mr-[24px]' />
                                     <Input className='text-center h-[45px] w-[60%]' name='end_age' placeholder='100'

@@ -67,7 +67,11 @@ const NotificationDropdown = ({ notifications }) => {
                                 <div className="flex flex-1 justify-end items-end">
                                     <FontAwesomeIcon icon={faCircle} className="text-blue-500" />
                                 </div>
-
+                                {
+                                    isShowPopup && (
+                                        <AdsDetailsPopup />
+                                    )
+                                }
                             </div>
                         )
                     }}

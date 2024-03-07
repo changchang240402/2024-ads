@@ -4,12 +4,11 @@ import GroupService from '../../services/GroupService';
 import { DataGrid } from "@mui/x-data-grid";
 import Box from '@mui/material/Box';
 import { faMagnifyingGlass, faFilterCircleXmark, faEye } from '@fortawesome/free-solid-svg-icons'
-import ReactPaginate from 'react-paginate';
-import '../../../src/pagination.css';
 import { ADS_STATUS, BIDDING_STRATEGY, SORT } from '../../const/config';
-import { Button } from "../Component/Component";
-
-import Loading from '../Loading/Loading'
+import { Button, Paginate, Status } from "../Component/Component";
+import GroupDetail from './ShowGroup/GroupDetail';
+import Loading from '../Loading/Loading';
+import Popup from 'reactjs-popup';
 
 const Group = () => {
     const statusData = ADS_STATUS;
@@ -154,13 +153,8 @@ const Group = () => {
             align: isShow ? 'right' : 'left',
             headerAlign: 'center',
             renderCell: (params) => {
-                const status = params.value === 0 ? "Active" : "Paused";
                 return (
-                    <Box display="flex" justifyContent="center" borderRadius="2px" >
-                        <p className={`flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none ${status === 'Active' ? 'border-[#00E096] bg-[#DCFCE7]' : 'border-[#FFA800] bg-[#FFF4DE]'} mr-10 h-[17px] w-[80px]`}>
-                            {status}
-                        </p>
-                    </Box>
+                    <Status value={params.value} className="justify-center"/>
                 );
             }
         },
@@ -172,13 +166,31 @@ const Group = () => {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <Box display="flex" borderRadius="2px" className='items-center'>
-                        <FontAwesomeIcon
-                            icon={faEye}
-                            size="xl"
-                            color='#387DE4'
-                        />
-                    </Box>
+                    <Popup
+                        trigger={<Box display="flex" borderRadius="2px" className='items-center'>
+                            <FontAwesomeIcon
+                                icon={faEye}
+                                size="xl"
+                                color='#387DE4'
+                            />
+                        </Box>}
+                        modal
+                        nested
+                        style='height: 100%, width: 95%'
+                        overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                    >
+                        {close => (
+                            <div className="modal flex flex-row">
+                                <button className="modal__close" onClick={close}>
+                                    &times;
+                                </button>
+                                <div className={`h-[100%] ${isShow ? "w-[100%]" : ""}`}>
+                                    <GroupDetail
+                                        id={params.row.id} />
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 );
             }
         },
@@ -268,24 +280,7 @@ const Group = () => {
                 </div>
                 <div className='flex flex-row'>
                     <p className='w-4/5 text-lg my-1 text-[#387DE4] ml-6 p-4'>Total: {filter.totalGroup} row</p>
-                    <div className='w-1/5 flex items-center justify-end'>
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel=" > "
-                            onPageChange={handlePageClick}
-                            Displayed Page Range={5}
-                            pageCount={filter.pageCount}
-                            previousLabel=" < "
-                            renderOnZeroPageCount={null}
-                            containerClassName="pagination"
-                            pageClassName="page-item"
-                            activeClassName="active"
-                            previousClassName="page-item"
-                            nextClassName="page-item"
-                            breakClassName="page-item"
-                            className='flex items-center flex-row h-[50px]'
-                        />
-                    </div>
+                    <Paginate className='w-1/5' handlePageClick={handlePageClick} pageCount={filter.pageCount} />
                 </div>
             </div>
         </div>

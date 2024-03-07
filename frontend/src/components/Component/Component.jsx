@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
 import ReactPaginate from 'react-paginate';
+import Box from '@mui/material/Box';
 import '../../../src/pagination.css'
 
 const DatePicker = React.forwardRef(function DatePicker(props, ref) {
@@ -98,11 +99,11 @@ const Button = React.forwardRef(function Button(props, ref) {
 });
 
 const Detail = React.forwardRef(function Detail(props, ref) {
-    const { title, value, className1, className2 } = props;
+    const { title, value, className1, className2, className3 } = props;
     return (
         <div className={`flex ${className1}`}>
             <p className={`font-bold text-[17px] text-[#6E9CE0] mb-2 ${className2}`}>{title}</p>
-            <p className="text-[17px] mb-2 text-[#696A75]">{value}</p>
+            <p className={`text-[17px] mb-2 text-[#696A75] ${className3} `}>{value}</p>
         </div>
     );
 });
@@ -130,4 +131,30 @@ const Paginate = React.forwardRef(function Paginate(props, ref) {
         </div>
     );
 });
-export { DatePicker, Label, Input, LabelError, Component, Button, Detail, Paginate };
+
+const Status = React.forwardRef(function Status(props, ref) {
+    const { value, className } = props;
+    return (
+        <Box className ={`flex ${className}`} >
+            <p className={`flex items-center justify-around font-bold shadow-sm px-6 py-3 rounded-2xl border-2 focus:outline-none ${value === 0 ? 'border-[#00E096] bg-[#DCFCE7]' : 'border-[#FFA800] bg-[#FFF4DE]'} mr-10 h-[17px] w-[80px]`}>
+                {value === 0 ? "Active" : "Paused"}
+            </p>
+        </Box>
+    );
+});
+
+const Kpi = React.forwardRef(function Kpi(props, ref) {
+    const { value, className } = props;
+    return (
+        <div className={`progress-bar text-base flex items-center justify-start 
+        ${value > 50 ? "bg-[#CDE7FF]" : "bg-red-200"}  mr-4 my-2 rounded-2xl w-[100%]`}>
+            <div className={`progress rounded-2xl flex justify-center 
+            ${value > 50 ? "bg-[#0095FF]" : "bg-red-600"} `}
+                style={{ width: `${value}%` }}>
+                <p className={`px-2 ${className}`}>{value}%</p>
+            </div>
+        </div>
+    );
+});
+
+export { DatePicker, Label, Input, LabelError, Component, Button, Detail, Paginate, Status, Kpi };

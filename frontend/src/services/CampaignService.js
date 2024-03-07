@@ -71,7 +71,7 @@ function campaignService() {
             if (response.status === 200) {
 
                 Toastify.success("Campaign Successful");
-                // return response.data;
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -108,7 +108,7 @@ function campaignService() {
             if (response.status === 200) {
 
                 Toastify.success("Edit Successful");
-                // return response.data;
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -161,6 +161,7 @@ function campaignService() {
             }
         }
     };
+
     const campaignDetail = {
         async getCampaignData(id, currentPage) {
             try {

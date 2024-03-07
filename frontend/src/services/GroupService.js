@@ -41,8 +41,37 @@ function groupService() {
         }
     };
 
+    const groupDetail = {
+        async getGroupData(id, currentPage) {
+            try {
+                const queryPage = new URLSearchParams({
+                    page: currentPage + 1
+            });
+                const response = await api.get(`/groups/${id}?${queryPage}`);
+                if (response.status === 200) {
+                    return {
+                        group: response.data.group,
+                        total_ads: response.data.ads.total,
+                        ads: response.data.ads.data,
+                        total_pages: response.data.ads.last_page,
+                    };
+                }
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        handleUnauthorized();
+                    }
+                    Toastify.error(error.response.data.message);
+                } else {
+                    Toastify.error("An unexpected error occurred.");
+                }
+            }
+        }
+    };
+
     return {
         groups,
+        groupDetail
     };
 }
 
