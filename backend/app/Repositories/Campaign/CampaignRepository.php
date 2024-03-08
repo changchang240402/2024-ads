@@ -93,4 +93,18 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
 
         return $changes;
     }
+
+    /**
+     * Check the campaign to update the status
+     * @param int $campignId
+     * @param string $now
+     * @return mixed
+     */
+    public function checkCampaignUpdateStatus($campignId, $now)
+    {
+        return $this->model->where('id', '=', $campignId)
+        ->where('start_date', '<=', $now)
+        ->where('end_date', '>=', $now)
+        ->first();
+    }
 }

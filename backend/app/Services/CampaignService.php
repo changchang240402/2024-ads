@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use DateTime;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CampaignService
 {
@@ -201,16 +203,30 @@ class CampaignService
      */
     public function updateCampaign($id, $campaign)
     {
+        $time = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
         $userId = auth()->id();
         $campaignOld = $this->campaignRepository->getCampaignsById($userId, $id);
         if (!$campaignOld) {
             throw new Exception('This campaign does not exist');
         }
+        DB::beginTransaction();
         try {
             $data = $this->campaignRepository->update($id, $campaign);
+            if (is_array($data) && (isset($data['new']['start_date']) || isset($data['new']['end_date']))) {
+                $checkCampaign = $this->campaignRepository->checkCampaignUpdateStatus($id, $time);
+                $status = $checkCampaign ? config('constants.STATUS.active') : config('constants.STATUS.paused');
+                $groups = $this->groupRepository->getGroupByCampaignId($id);
+                if ($groups->count() > 0) {
+                    $groupIds = $groups->toArray();
+                    $this->groupRepository->updateStatusGroupOfCampaign($groupIds, $status);
+                    $this->advertisementService->updateStatusAdsByCampaign($groupIds, $status);
+                }
+            }
         } catch (Exception $e) {
+            DB::rollBack();
             throw new Exception($e->getMessage());
         }
+        DB::commit();
         return $data;
     }
 }
