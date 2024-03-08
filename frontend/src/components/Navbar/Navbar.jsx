@@ -5,8 +5,12 @@ import avatar from '../../assets/avatar.png';
 import AuthService from '../../services/AuthService';
 import Notification from '../Notification/Notification';
 import NotificationList from '../Notification/NotificationList';
+import NotificaitonService from '../../services/NotificationService';
 
 const Navbar = () => {
+    const { getNotifications } = NotificaitonService();
+
+    const [notiData, setNotiData] = useState([]);
 
     const count = 10;
 
@@ -17,7 +21,9 @@ const Navbar = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             const userProfile = await getUserProfile();
+            const notificationList = await getNotifications();
             setUser(userProfile);
+            setNotiData(notificationList);
         }
         fetchUserProfile();
     }, []);
@@ -64,15 +70,6 @@ const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const notifications = [
-        { id: 1, time: '10:00 AM', content: 'Notification 1 content' },
-        { id: 2, time: '11:30 AM', content: 'Notification 2 content' },
-        { id: 3, time: '11:30 AM', content: 'Notification 3 content' },
-        { id: 4, time: '11:30 AM', content: 'Notification 4 content' },
-        { id: 5, time: '11:30 AM', content: 'Notification 5 content' },
-        { id: 6, time: '11:30 AM', content: 'Notification 6 content' },
-    ];
-
     const toggleNoti = () => {
         setIsOpen(!isOpen);
     };
@@ -87,7 +84,7 @@ const Navbar = () => {
                     </div>
                     {isOpen && (
                         <div className='NotificationList'>
-                            <NotificationList className='NotificationList' notifications={notifications} />
+                            <NotificationList className='NotificationList' notifications={notiData?.notifications} />
                         </div>
                     )}
                 </div>

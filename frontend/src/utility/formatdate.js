@@ -19,4 +19,19 @@ function formatDateCustom(date) {
     return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
-export { formatDate, formatDateString, formatDateCustom };
+function formatDateToTime(date) {
+    const d = new Date(date);
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
+
+export {
+    formatDate,
+    formatDateString,
+    formatDateCustom,
+    formatDateToTime
+};
