@@ -10,6 +10,9 @@ import CampaignService from '../../../services/CampaignService';
 import { formatDate } from '../../../utility/formatdate';
 import stringProcessing from "../../../utility/string";
 import Loading from '../../Loading/Loading';
+import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
+
 const EditCampaign = ({ id }) => {
     const currentPage = 0;
     const { schema, campaignDetail, editCampaign } = CampaignService();
@@ -68,6 +71,13 @@ const EditCampaign = ({ id }) => {
             console.error('Error fetching data:', error);
         }
     };
+    const [value, setValue] = useState([campaign.start_age, campaign.end_age]);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    const start_age = value[0];
+    const end_age = value[1];
     const formSubmit = (data) => {
         const { campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy } = data;
         const startDate = formatDate(start_date);
@@ -88,7 +98,7 @@ const EditCampaign = ({ id }) => {
                         className="form flex flex-col"
                         onSubmit={handleSubmit(formSubmit)}
                     >
-                        <p className="text-[#387DE4] text-3xl mb-6 font-semibold">
+                        <p className="text-[#387DE4] text-3xl mb-4 font-semibold">
                             Edit your campaign
                         </p>
                         <div className="flex flex-row">
@@ -99,7 +109,7 @@ const EditCampaign = ({ id }) => {
                                 register={register("campaign_goal", { value: campaign.campaign_goal })}
                                 error={errors?.campaign_goal} />
                         </div>
-                        <div className="flex flex-row justify-between mt-4">
+                        <div className="flex flex-row justify-between mt-1">
                             <div className="flex flex-col">
                                 <Label name='budget' title='Budget:' />
                                 <div className="flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none focus:border-[#387DE4] bg-white h-auto">
@@ -173,42 +183,38 @@ const EditCampaign = ({ id }) => {
                                     <LabelError name='human' error={errors.human?.message} />
                                 )}
                             </div>
-                            <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"}`}>
-                                <div className="flex flex-row items-center">
-                                    <Label name='start_age' title='Age : from' className='p-3' />
-                                    <Input className='text-center h-[45px] w-[60%] p-3' name='start_age' placeholder='3'
-                                        register={register("start_age", { value: campaign.start_age })} />
+                            <Box className='w-1/2'>
+                                <div className="mb-2">
+                                    <Label name='start_age' title='Age from' />
+                                    <input className='w-14 outline-none px-3 border border-[#0095FF] rounded-lg ml-3 mr-3 text-center'
+                                        type="text" value={start_age}
+                                        onChange={handleChange}
+                                        {...register("start_age", { value: campaign.start_age })} />
+                                    <Label name='end_age' title='to' />
+                                    <input className='w-14 outline-none px-3 border border-[#0095FF] rounded-lg ml-3 text-center'
+                                        type="text" value={end_age}
+                                        onChange={handleChange}
+                                        {...register("end_age", { value: campaign.end_age })} />
                                 </div>
-                                {errors?.start_age && (
-                                    <LabelError name='start_age' error={errors.start_age?.message} />
-                                )}
-                            </div>
-                            <div className={`flex flex-col ${isShow ? "w-1/3" : "w-1/4"} justify-center`}>
-                                <div className="flex flex-row items-center">
-                                    <Label name='end_age' title='to' className='p-3 mr-[24px]' />
-                                    <Input className='text-center h-[45px] w-[60%]' name='end_age' placeholder='100'
-                                        register={register("end_age", { value: campaign.end_age })} />
-                                </div>
-                                {errors?.end_age && (
-                                    <LabelError name='end_age' error={errors.end_age?.message} />
-                                )}
-                            </div>
+                                <Slider
+                                    defaultValue={[campaign.start_age, campaign.end_age]}
+                                    getAriaLabel={() => 'Age range'}
+                                    value={value}
+                                    onChange={handleChange}
+                                    valueLabelDisplay="auto"
+                                    min={3}
+                                    max={100}
+                                />
+                            </Box>
                         </div>
-                        <div className='flex flex-col'>
-                            <div className="flex flex-row items-center">
-                                <Label name='activities' title='Activities:' className='p-3' />
-                                <Input className='w-[100%]' name='activities' placeholder='Enter your activities'
-                                    register={register("activities", { value: campaign.activities })} />
-                            </div>
-                            {errors?.activities && (
-                                <LabelError name='activities' error={errors.activities?.message} />
-                            )}
-                        </div>
+                        <Component name='activities' title='What activities is your campaign aimed at?' placeholder='Enter your activities'
+                            register={register("activities", { value: campaign.activities })}
+                            error={errors?.activities} />
                         <Component name='distribution_strategy' title='Distribution strategy:' placeholder='Enter your distribution strategy'
                             register={register("distribution_strategy", { value: campaign.distribution_strategy })}
                             error={errors?.distribution_strategy} />
-                        <div className="flex justify-center mt-6 text-center">
-                            <button className="bg-[#FFA800] rounded-3xl px-6 py-3 font-bold text-white p-15 mr-4" type="button" onClick={handleCancel}>
+                        <div className="flex justify-right mt-5 text-center">
+                            <button className="bg-[#F6C666] rounded-3xl px-6 py-3 font-bold text-white p-15 mr-4" type="button" onClick={handleCancel}>
                                 CANCEL
                             </button>
                             <button className="bg-[#00E096] rounded-3xl px-6 py-3 font-bold text-white" type="submit">

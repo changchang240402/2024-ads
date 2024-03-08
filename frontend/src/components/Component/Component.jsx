@@ -56,7 +56,7 @@ const Label = React.forwardRef(function Label(props, ref) {
     const { className, name, title } = props;
     return (
         <label
-            className={`font-medium text-lg mb-2 ${className}`}
+            className={`font-medium text-lg ${className}`}
             htmlFor={name}>
             {title}
         </label>
@@ -66,7 +66,7 @@ const Label = React.forwardRef(function Label(props, ref) {
 const Component = React.forwardRef(function Component(props, ref) {
     const { className, name, title, placeholder, register, error } = props;
     return (
-        <div className={`flex flex-col ${className}`}>
+        <div className={`flex flex-col mt-2 ${className}`}>
             <Label name={name} title={title} />
             <Input name={name} placeholder={placeholder}
                 register={register} />

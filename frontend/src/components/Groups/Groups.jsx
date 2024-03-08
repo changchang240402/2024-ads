@@ -154,7 +154,7 @@ const Group = () => {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <Status value={params.value} className="justify-center"/>
+                    <Status value={params.value} className="justify-center" />
                 );
             }
         },
@@ -200,12 +200,12 @@ const Group = () => {
         <div className='flex justify-center p-6 h-[90%]'>
             <div className='flex flex-col rounded-3xl border-2 border-white shadow-lg w-full'>
                 <div className="flex flex-row items-center justify-between p-4 h-[150px]">
-                    <div className={`${isShow ? "w-1/5" : "w-1/6"} flex flex-col`}>
+                    <div className={`${isShow ? "w-1/5" : "w-1/7"} flex flex-col`}>
                         <p className='text-lg font-bold'>All Groups</p>
                         <p style={{ color: '#16C098' }} className='text-black opacity-70 font-medium text-sm'>Your Groups</p>
                     </div>
-                    <div className={`${isShow ? "w-4/5" : "w-5/6"} flex flex-row justify-between h-[40px]`}>
-                        <button className={`flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] bg-white h-auto ${isShow ? "" : "w-[200px]"}`}>
+                    <div className={`${isShow ? "w-4/5" : "w-6/7"} flex flex-row justify-between h-[40px]`}>
+                        <button className={`flex flex-row items-center px-4 py-3 shadow-sm rounded-2xl border-2 focus:outline-none border-[#9FC4FC] bg-white h-auto ${isShow ? "" : "w-[180px]"}`}>
                             <input
                                 type="text"
                                 placeholder="Search here..."
@@ -213,7 +213,7 @@ const Group = () => {
                                 name="name_Group"
                                 value={filter.search}
                                 onChange={handleSearchChange}
-                                className={`focus:outline-none focus:border-none ${isShow ? "" : "w-[150px]"}`}
+                                className={`focus:outline-none focus:border-none ${isShow ? "" : "w-[130px]"}`}
                             />
                             <FontAwesomeIcon
                                 icon={faMagnifyingGlass}
@@ -222,6 +222,7 @@ const Group = () => {
                                 className='c-[#387DE4]'
                             />
                         </button>
+                        {isShow ? null : <div className="ml-4"></div>}
                         <Button
                             name='bidding'
                             title='Bidding Strategy:'
@@ -231,9 +232,10 @@ const Group = () => {
                             data={biddingData?.map((item, index) => (
                                 <option key={index} value={item}>{item}</option>
                             ))}
-                            className1={isShow ? "" : "w-[170px]"}
-                            className2={isShow ? "" : "w-[80px]"}
+                            className1={isShow ? "" : "w-[180px]"}
+                            className2={isShow ? "" : "w-[80px] ml-2"}
                         />
+                        {isShow ? null : <div className="ml-4"></div>}
                         <Button
                             name='status'
                             title='Status:'
@@ -244,8 +246,9 @@ const Group = () => {
                                 <option key={index} value={index}>{item}</option>
                             ))}
                             className1={isShow ? "" : "w-[150px]"}
-                            className2={isShow ? "" : "w-[60px]"}
+                            className2={isShow ? "" : "w-[60px] ml-2"}
                         />
+                        {isShow ? null : <div className="ml-4"></div>}
                         <Button
                             name='sort_total'
                             title='Total Ads:'
@@ -256,7 +259,7 @@ const Group = () => {
                                 <option key={index} value={SORT[key]}>{key}</option>
                             ))}
                             className1={isShow ? "" : "w-[150px]"}
-                            className2={isShow ? "" : "w-[60px]"}
+                            className2={isShow ? "" : "w-[60px] ml-2"}
                         />
                         <button className="mx-4 mr-20" onClick={handleClearFilter}>
                             <FontAwesomeIcon icon={faFilterCircleXmark} color={'#387DE4'} size='xl' />
@@ -283,7 +286,7 @@ const Group = () => {
                     <Paginate className='w-1/5' handlePageClick={handlePageClick} pageCount={filter.pageCount} />
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default Group
