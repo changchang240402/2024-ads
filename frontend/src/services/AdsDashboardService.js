@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-
 import { Toastify } from "../toastify/Toastify";
 import api from "../utility/api";
 import { formatDateCustom } from "../utility/formatdate";
 import { extractStatus } from "../utility/extractStatus.js";
+import HandleError from "../utility/HandleError.js";
+import { useNavigate } from "react-router-dom";
 
 function AdsDashboardService() {
     const navigate = useNavigate();
@@ -61,13 +61,7 @@ function AdsDashboardService() {
                 return data;
             }
         } catch (error) {
-            if (error.response.status === 401) {
-                navigate("/");
-            }
-
-            if (error.response) {
-                Toastify.error(error.response.data.message);
-            }
+            HandleError(error, navigate);
         }
     };
 
@@ -93,13 +87,7 @@ function AdsDashboardService() {
                 return data;
             }
         } catch (error) {
-            if (error.response.status === 401) {
-                navigate("/");
-            }
-
-            if (error.response) {
-                Toastify.error(error.response.data.message);
-            }
+            HandleError(error, navigate);
         }
     };
 
@@ -143,13 +131,7 @@ function AdsDashboardService() {
                 return extractAdsDetailsData(response.data.ads);
             }
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                navigate("/");
-            }
-
-            if (error.response) {
-                Toastify.error(error.response.data.message);
-            }
+            HandleError(error, navigate);
         }
     }
 
@@ -163,13 +145,7 @@ function AdsDashboardService() {
                 Toastify.success("KPI updated successfully");
             }
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                navigate("/");
-            }
-
-            if (error.response) {
-                Toastify.error(error.response.data.message);
-            }
+            HandleError(error, navigate);
         }
     }
 

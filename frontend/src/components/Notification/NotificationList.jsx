@@ -12,10 +12,12 @@ import { openEditPopup } from "../../redux/actions/showPopup";
 const NotificationDropdown = ({ notifications }) => {
     const dispatch = useDispatch();
     const [activeMenu, setActiveMenu] = useState('All');
+    const [selectedItem, setSelectedItem] = useState(null);
 
     const isEditPopupOpen = useSelector(state => state.popup.isShowEditPopup);
 
-    const handleShowPopup = () => {
+    const handleShowPopup = (item) => {
+        setSelectedItem(item.adId);
         dispatch(openEditPopup(true));
     }
 
@@ -52,10 +54,10 @@ const NotificationDropdown = ({ notifications }) => {
                     itemContent={(index, item) => {
                         return (
                             <div
-                                className="flex flex-row my-1 cursor-pointer p-2 hover:bg-slate-300 justify-start items-center rounded-xl"
+                                className={`flex flex-row my-1 cursor-pointer p-2 hover:bg-slate-300 justify-start items-center rounded-xl ${selectedItem === item.id ? 'bg-blue-100' : ''}`}
                                 key={item.id}
                                 value={item.id}
-                                onClick={handleShowPopup}
+                                onClick={() => handleShowPopup(item)}
                             >
                                 <div className="flex p-2">
                                     <img className="object-cover w-12 h-12 rounded-full" src={slack} alt="" />
@@ -67,11 +69,6 @@ const NotificationDropdown = ({ notifications }) => {
                                 <div className="flex flex-1 justify-end items-end">
                                     <FontAwesomeIcon icon={faCircle} className="text-blue-500" />
                                 </div>
-                                {
-                                    isShowPopup && (
-                                        <AdsDetailsPopup />
-                                    )
-                                }
                             </div>
                         )
                     }}
@@ -85,7 +82,7 @@ const NotificationDropdown = ({ notifications }) => {
             </div>
             {
                 isEditPopupOpen && (
-                    <AdsDetailsPopup selectedItem={1} action={ADS_ITEM_ACTION.edit} />
+                    <AdsDetailsPopup selectedItem={selectedItem} action={ADS_ITEM_ACTION.edit} />
                 )
             }
         </div>

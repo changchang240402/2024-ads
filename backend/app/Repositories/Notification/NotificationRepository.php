@@ -20,7 +20,9 @@ class NotificationRepository implements NotificationRepositoryInterface
         try {
             $page = $validated['page'] ?? 1;
             $per_page = $validated['per_page'] ?? config('constants.NOTI_PER_PAGE');
-            $notifications = $this->notification->paginate($per_page, ['*'], 'page', $page);
+
+            $notifications = $this->notification->with('advertisementDetail:id,ad_id')
+                ->paginate($per_page, ['*'], 'page', $page);
 
             $pagination = [
                 'total' => $notifications->total(),
