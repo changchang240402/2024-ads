@@ -132,7 +132,6 @@ const CreateCampaign = () => {
                                     type="human"
                                     id="human"
                                     name="human"
-                                    value={status}
                                     onChange={(e) => {
                                         setStatus(e.target.value);
                                     }}

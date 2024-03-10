@@ -17,7 +17,7 @@ const EditCampaign = ({ id }) => {
     const currentPage = 0;
     const { schema, campaignDetail, editCampaign } = CampaignService();
     const [campaign, setCampaign] = useState({});
-    const { control, register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { control, register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm({
         defaultValues: { fromDate: null },
         resolver: yupResolver(schema),
         reValidateMode: "onChange"
@@ -28,7 +28,13 @@ const EditCampaign = ({ id }) => {
         reset(campaign);
     };
     const [isShow, setIsShow] = useState(true);
+    const start_age = watch("start_age", campaign.start_age);
+    const end_age = watch("end_age", campaign.end_age);
 
+    const handleChange = (event, newValue) => {
+        setValue("start_age", newValue[0]);
+        setValue("end_age", newValue[1]);
+    };
     useEffect(() => {
         if (!isFormInitialized) {
             fetchData();
@@ -71,18 +77,13 @@ const EditCampaign = ({ id }) => {
             console.error('Error fetching data:', error);
         }
     };
-    const [value, setValue] = useState([campaign.start_age, campaign.end_age]);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    const start_age = value[0];
-    const end_age = value[1];
     const formSubmit = (data) => {
         const { campaign_name, campaign_goal, budget, start_date, end_date, ad_message, human, start_age, end_age, activities, distribution_strategy } = data;
         const startDate = formatDate(start_date);
         const endDate = formatDate(end_date);
         editCampaign(id, campaign_name, campaign_goal, budget, startDate, endDate, ad_message, human, start_age, end_age, activities, distribution_strategy);
+        console.log('a', start_age);
     };
     return (
         <div className="container rounded-3xl m-10 shadow-xl bg-white border-2">
@@ -163,14 +164,15 @@ const EditCampaign = ({ id }) => {
                             error={errors?.ad_message} />
                         <div className="flex flex-row justify-between mt-4">
                             <div className='flex flex-col w-1/3'>
-                                <div className='flex flex-row items-center'>
-                                    <Label name='human' title='Target object:' className='p-3' />
-                                    <select
-                                        className='border bg-white text-center rounded-2xl p-2 border-2 focus:border-[#387DE4] h-[45px] w-[180px] selectpicker'
+                                <div className='flex flex-col'>
+                                    <Label name='human' title='Target object:' />
+                                    <select className='border bg-white text-center rounded-2xl border-2 focus:border-[#387DE4] h-[45px] w-[180px] selectpicker'
                                         type="human"
                                         id="human"
                                         name="human"
-                                        onChange={(e) => setCampaign(prevFilter => ({ ...prevFilter, human: e.target.value }))}
+                                        onChange={(e) => {
+                                            setStatus(e.target.value);
+                                        }}
                                         {...register("human", { value: campaign.human })}
                                     >
                                         <option value=''>Select Object</option>
@@ -187,24 +189,31 @@ const EditCampaign = ({ id }) => {
                                 <div className="mb-2">
                                     <Label name='start_age' title='Age from' />
                                     <input className='w-14 outline-none px-3 border border-[#0095FF] rounded-lg ml-3 mr-3 text-center'
-                                        type="text" value={start_age}
-                                        onChange={handleChange}
-                                        {...register("start_age", { value: campaign.start_age })} />
+                                        type="text"
+                                        {...register("start_age")}
+                                        value={start_age}
+                                    />
                                     <Label name='end_age' title='to' />
                                     <input className='w-14 outline-none px-3 border border-[#0095FF] rounded-lg ml-3 text-center'
-                                        type="text" value={end_age}
-                                        onChange={handleChange}
-                                        {...register("end_age", { value: campaign.end_age })} />
+                                        type="text"
+                                        {...register("end_age")}
+                                        value={end_age}
+                                    />
                                 </div>
                                 <Slider
-                                    defaultValue={[campaign.start_age, campaign.end_age]}
                                     getAriaLabel={() => 'Age range'}
-                                    value={value}
+                                    value={[start_age, end_age]}
                                     onChange={handleChange}
                                     valueLabelDisplay="auto"
                                     min={3}
                                     max={100}
                                 />
+                                {errors?.start_age && (
+                                    <LabelError name='start_age' error={errors.start_age?.message} />
+                                )}
+                                {errors?.end_age && (
+                                    <LabelError name='end_age' error={errors.end_age?.message} />
+                                )}
                             </Box>
                         </div>
                         <Component name='activities' title='What activities is your campaign aimed at?' placeholder='Enter your activities'
